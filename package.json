@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "bootstrap": "^5.2.1",
-    "bootstrap-icons": "^1.9.1",
-    "mysql": "^2.18.1"
-  }
-}
