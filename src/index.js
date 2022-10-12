@@ -6,7 +6,7 @@ const path = require('path');
 //inicialization
 const app = express();
 
-//ocnfiguración
+//configuración
 app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname, 'vistas'));
 app.engine('.hbs', exphbs.engine({
@@ -17,20 +17,27 @@ app.engine('.hbs', exphbs.engine({
     helpers: require('./lib/handlebars')
 }))
 
-app.set('view engine', 'hbs');
+app.set('view engine', '.hbs');
 //Midelwares
 app.use(morgan('dev'));
+app.use(express.urlencoded({extended: false }));
+app.use(express.json());
 
 //variables globales
+app.use((req, res, next) => {
 
+    next();
+});
 
 //rutas
-app.use(require('./back/index.js'))
+app.use(require('./rutas'));
+app.use(require('./rutas/autenticar'));
+app.use('/links', require('./rutas/links'));
 
 //public
-
+app.use(express.static(path.join(__dirname, 'public')));
 
 //inicialization del servidor
 app.listen(app.get('port'),() => {
-    console.log('Servidor listening on port',app.get('port'));
+    console.log('Server listening on port',app.get('port'));
 });
