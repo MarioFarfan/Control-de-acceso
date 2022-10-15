@@ -1,0 +1,26 @@
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">Folio de inventario</th>
+            <th scope="col">Num. Serie</th>
+            <th scope="col">Marca</th>
+            <th scope="col" class="text-center">Tipo</th>
+            <th scope="col" class="text-right">Folio CPU</th>
+            <th scope="col" class="text-right">Area</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        {{#each equipos}}
+            <tr>
+                <td scope="row">{{FOLIOINV}}</td>
+                <td>{{NOSERIE}}</td>
+                <td>{{MARCA}}</td>
+                <td class="text-center">{{TIPO}}</td>
+                <td class="text-right">{{FOLIOCPU}}</td>
+                <td class="text-right">{{DESCRIPCION}}</td>
+            </tr>
+        {{/each}} 
+        
+    </tbody>
+</table> 

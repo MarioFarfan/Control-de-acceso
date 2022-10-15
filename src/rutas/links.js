@@ -29,4 +29,11 @@ router.post('/inventarios/agregar_dispositivo', async(req, res) => {
     console.log(newDispositivo);
     res.send('recived')
 });
+
+router.get('/inventarios', async (req, res) => {
+    const equipos = await pool.query('SELECT FOLIOINV,NOSERIE, MARCA, TIPO, FOLIOCPU, DESCRIPCION FROM EQUIPO INNER JOIN AREA ON EQUIPO.IDAREA = AREA.IDAREA');
+    console.log(equipos);
+    res.render('inventarios/listar_equipos', { equipos });
+});
+   
 module.exports = router;
