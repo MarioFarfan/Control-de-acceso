@@ -27,7 +27,7 @@ router.post('/inventarios/agregar_dispositivo', async(req, res) => {
     };
     await pool.query('INSERT INTO EQUIPO set ?', [newDispositivo]);
     console.log(newDispositivo);
-    res.send('recived')
+    //res.render('inventarios/listar_equipos', { equipos });
 });
 
 router.get('/inventarios', async (req, res) => {

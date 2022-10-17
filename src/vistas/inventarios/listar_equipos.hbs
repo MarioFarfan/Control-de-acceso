@@ -1,3 +1,33 @@
+<div class="container">
+    <div class="row g-5">
+        <div class="col-sm-6">
+            <label for="buscar" class="form-label">Buscar</label>
+            <input type="text" class="form-control" name="buscar" placeholder="" value="">
+        </div>
+
+        <div class="col-sm-4">
+            <label for="idarea" class="form-label">Area a la que pertenece</label>
+            <select class="form-select" name="idarea" required>
+              <option value="0">Todas</option>
+              <option value="1">Usuarios 1</option>
+              <option value="2">Usuarios 2</option>
+              <option value="3">Usuarios 3</option>
+              <option value="4">Usuarios 4</option>
+              <option value="5">Laboratorio de Bases de datos</option>
+              <option value="6">Laboratorio de redes</option>
+              <option value="7">Almacen</option>
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid area.
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <button class="w-10 btn btn-primary btn-lg">Buscar</button>
+        </div>
+    </div>
+</div>
+<br>
 <table class="table">
     <thead class="table-dark">
         <tr>
@@ -10,7 +40,6 @@
         </tr>
     </thead>
     <tbody>
-        
         {{#each equipos}}
             <tr>
                 <td scope="row">{{FOLIOINV}}</td>
