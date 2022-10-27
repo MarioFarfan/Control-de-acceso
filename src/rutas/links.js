@@ -1,3 +1,4 @@
+const { Router } = require('express');
 const express = require('express');
 const router = express.Router();
 
@@ -55,9 +56,26 @@ router.post('/inventarios/buscar', async (req, res) =>{
 //editar equipos
 router.get('/inventarios/editar/:id', async(req, res) => {
     const {id} = req.params;
-    const equipo = await pool.query('SELECT FOLIOINV, NOSERIE, MARCA, TIPO, FOLIOCPU, DESCRIPCION as AREA FROM EQUIPO INNER JOIN AREA ON EQUIPO.IDAREA = AREA.IDAREA WHERE FOLIOINV = ?', [id]);
-    console.log('encontrado ', equipo[0]);
-    res.render('inventarios/editar', {equipos: equipo[0]});
+    const equipos = await pool.query('SELECT FOLIOINV, NOSERIE, MARCA, TIPO, FOLIOCPU, DESCRIPCION as AREA FROM EQUIPO INNER JOIN AREA ON EQUIPO.IDAREA = AREA.IDAREA WHERE FOLIOINV = ?', [id]);
+    console.log('encontrado ', equipos[0]);
+    res.render('inventarios/editar', {equipo: equipos[0]});
+});
+
+router.post('/inventarios/editar/:id', async(req, res) => {
+    const {id} = req.params;
+    const{ folioinv, noserie, marca, tipo, foliocpu, idarea } = req.body;
+    const newDispositivo = {
+        folioinv, 
+        noserie, 
+        marca, 
+        tipo, 
+        foliocpu, 
+        idarea
+    };
+
+    console.log(newDispositivo);
+    await  pool.query('UPDATE EQUIPO SET ? WHERE FOLIOINV = ?', [newDispositivo, folioinv]);
+    res.redirect('/links/inventarios');
 });
 
 
