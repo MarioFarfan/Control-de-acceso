@@ -1,3 +1,12 @@
+<head>
+  <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+  <script type="text/javascript">
+      $("#idarea").val("{{equipo.AREA}}");
+  </script>
+  <script type="text/javascript">
+    document.getElementById("idarea").value = "{{equipo.AREA}}";
+  </script>
+</head>
 <body class="bg-light">
     
 <div class="container">
@@ -57,7 +66,7 @@
 
             <div class="col-md-5">
               <label for="idarea" class="form-label">Area a la que pertenece</label>
-              <select class="form-select" name="idarea" value="{{equipo.AREA}}" required>
+              <select class="form-select" name="idarea" value="" required>
                 <option value="1">Usuarios 1</option>
                 <option value="2">Usuarios 2</option>
                 <option value="3">Usuarios 3</option>
@@ -73,14 +82,14 @@
           </div>
           <hr class="my-4">
           </div>
-          <button class="w-100 btn btn-primary btn-lg">Registrar dispositivo</button>
+          <button class="w-100 btn btn-primary btn-lg">Actualizar datos</button>
         </form>
       </div>
     </div>
   </main>
 
   <footer class="my-5 pt-5 text-muted text-center text-small">
-    <p class="mb-1">2022 Control de acceso al laboratorio de computo ITO</p>
+    <p class="mb-1">2022 Control de acceso al laboratorio de computo ITO</p> 
     <ul class="list-inline">
       <li class="list-inline-item"><a href="#">Privacy</a></li>
       <li class="list-inline-item"><a href="#">Terms</a></li>

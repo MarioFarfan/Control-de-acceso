@@ -5,13 +5,13 @@ const router = express.Router();
 const pool = require('../database');
 
 router.get('/login', (req, res) => {
-    res.render('inventarios/login')
+    res.render('login')
 });
 router.post('/login', async(req, res) => {
     const { numcontrol, pass } = req.body;
     const user = {numcontrol, pass };
     usuario = await pool.query('SELECT * FROM USUARIO WHERE USUARIO = "?" AND CONTRASENIA = "?"', { numcontrol, pass});
-    console.log(user);
+    //console.log(user);
     console.log('encontrado: ', usuario);
     res.send('Logeando');
 });
@@ -29,9 +29,9 @@ router.post('/inventarios/agregar_dispositivo', async(req, res) => {
         tipo, 
         foliocpu, 
         idarea
-    };
+    };  //validar los datos
     await pool.query('INSERT INTO EQUIPO set ?', [newDispositivo]);
-    //console.log(newDispositivo);
+    req.flash('mensaje', 'Dispositivo agregado con exito');
     res.redirect('/links/inventarios');
 });
 
@@ -40,24 +40,39 @@ router.get('/inventarios', async (req, res) => {
     res.render('inventarios/listar_equipos', { equipos });
 });
 
-//Buscar equipos
-router.get('/inventarios/buscar', async (req, res) =>{
+router.post('/inventarios', async (req, res) =>{
     const {campo, idarea} = req.body;
     console.log('barra busqueda:',campo, 'area:', idarea);
     const equipos = await pool.query('SELECT FOLIOINV, NOSERIE, MARCA, TIPO, FOLIOCPU, DESCRIPCION as AREA FROM EQUIPO INNER JOIN AREA ON EQUIPO.IDAREA = AREA.IDAREA WHERE FOLIOINV LIKE "%set ?%" or NOSERIE LIKE "%set ?%"or MARCA LIKE "%set ?%" or TIPO LIKE "%set ?%" or FOLIOCPU like "%set ?%"', [campo, campo, campo, campo, campo]);
-    console.log(equipos);
+    //console.log(equipos);
     res.render('inventarios/listar_equipos', { equipos });
 });
-router.post('/inventarios/buscar', async (req, res) =>{
 
+//Buscar equipos
+router.get('/inventarios/buscar', async (req, res) =>{
+    //res.redirect('/links/inventarios/buscar');
+});
+router.post('/inventarios/buscar', async (req, res) =>{
+    console.log('hola');
+    const {campo, idarea} = req.body;
+    console.log('barra busqueda:',campo, 'area:', idarea);
+    const equipos = await pool.query('SELECT FOLIOINV, NOSERIE, MARCA, TIPO, FOLIOCPU, DESCRIPCION as AREA FROM EQUIPO INNER JOIN AREA ON EQUIPO.IDAREA = AREA.IDAREA WHERE FOLIOINV LIKE "%set ?%" or NOSERIE LIKE "%set ?%"or MARCA LIKE "%set ?%" or TIPO LIKE "%set ?%" or FOLIOCPU like "%set ?%"', [campo, campo, campo, campo, campo]);
+    //console.log(equipos);
+    res.render('inventarios/listar_equipos', { equipos });
 });
 
+//Eliminar registros
+router.get('/inventarios/eliminar/:id', async (req, res) => {
+    const {id} = req.params;
+    await pool.query('DELETE FROM EQUIPO WHERE FOLIOINV = ?', [id]);
+    req.flash('mensaje', 'Dispositivo eliminado con exito');
+    res.redirect('/links/inventarios');
+});
 
 //editar equipos
 router.get('/inventarios/editar/:id', async(req, res) => {
     const {id} = req.params;
-    const equipos = await pool.query('SELECT FOLIOINV, NOSERIE, MARCA, TIPO, FOLIOCPU, DESCRIPCION as AREA FROM EQUIPO INNER JOIN AREA ON EQUIPO.IDAREA = AREA.IDAREA WHERE FOLIOINV = ?', [id]);
-    console.log('encontrado ', equipos[0]);
+    const equipos = await pool.query('SELECT FOLIOINV, NOSERIE, MARCA, TIPO, FOLIOCPU, DESCRIPCION as AREA, AREA.IDAREA FROM EQUIPO INNER JOIN AREA ON EQUIPO.IDAREA = AREA.IDAREA WHERE FOLIOINV = ?', [id]);
     res.render('inventarios/editar', {equipo: equipos[0]});
 });
 
@@ -72,18 +87,10 @@ router.post('/inventarios/editar/:id', async(req, res) => {
         foliocpu, 
         idarea
     };
-
-    console.log(newDispositivo);
+    req.flash('mensaje', 'Dispositivo editado con exito');
     await  pool.query('UPDATE EQUIPO SET ? WHERE FOLIOINV = ?', [newDispositivo, folioinv]);
     res.redirect('/links/inventarios');
 });
 
-
-//Eliminar registros
-router.get('/inventarios/eliminar/:id', async (req, res) => {
-    const {id} = req.params;
-    await pool.query('DELETE FROM EQUIPO WHERE FOLIOINV = ?', [id]);
-    res.redirect('/links/inventarios');
-});
 
 module.exports = router;
