@@ -35,5 +35,53 @@ router.get('/inventarios', async (req, res) => {
     console.log(equipos);
     res.render('inventarios/listar_equipos', { equipos });
 });
+
+router.get('/usuarios/agregar_usuario', async (req, res) => {
+    const departamentos = await pool.query('SELECT IDDEPTO,ALIAS FROM DEPARTAMENTO');
+
+    res.render('usuarios/nvousuario',{departamentos});
+}); 
+
+router.post('/inventarios/agregar_dispositivo', async(req, res) => {
+    const{ notarjeta, password, nombrepersona, ap_p, ap_m, tipopersona, departamento, turno, puesto } = req.body;
+    if(tipopersona = 'Docente'){
+        const newUser ={
+            notarjeta,
+            password
+        };
+        const newDocente = {
+            notarjeta, 
+            nombrepersona, 
+            ap_p, 
+            ap_m, 
+            departamento
+        };
+        await pool.query('INSERT INTO USUARIO set ?', [newUser]);
+        await pool.query('INSERT INTO DOCENTE set ?', [newDocente]);
+
+        console.log(newDocente,newUser);
+    }
+    if(tipopersona = 'Auxiliar'){
+        const newUser ={
+            notarjeta,
+            password
+        };
+        const newPersonal = {
+            notarjeta, 
+            nombrepersona, 
+            ap_p, 
+            ap_m, 
+            puesto,
+            turno
+        };
+        await pool.query('INSERT INTO USUARIO set ?', [newUser]);
+        await pool.query('INSERT INTO PERSONAL set ?', [newPersonal]);
+
+        console.log(newPersonal,newUser);
+    }
+
+
+    res.send('recived')
+});
    
 module.exports = router;
