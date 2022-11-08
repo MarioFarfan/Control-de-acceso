@@ -1,13 +1,18 @@
+const { Router } = require('express');
 const express = require('express');
 const router = express.Router();
 
 const pool = require('../database');
 
 router.get('/login', (req, res) => {
-    res.render('inventarios/login')
+    res.render('login')
 });
-router.post('/login', (req, res) => {
-    console.log(req.body);
+router.post('/login', async(req, res) => {
+    const { numcontrol, pass } = req.body;
+    const user = {numcontrol, pass };
+    usuario = await pool.query('SELECT * FROM USUARIO WHERE USUARIO = "?" AND CONTRASENIA = "?"', { numcontrol, pass});
+    //console.log(user);
+    console.log('encontrado: ', usuario);
     res.send('Logeando');
 });
 
@@ -24,15 +29,14 @@ router.post('/inventarios/agregar_dispositivo', async(req, res) => {
         tipo, 
         foliocpu, 
         idarea
-    };
+    };  //validar los datos
     await pool.query('INSERT INTO EQUIPO set ?', [newDispositivo]);
-    console.log(newDispositivo);
-    res.send('recived')
+    req.flash('mensaje', 'Dispositivo agregado con exito');
+    res.redirect('/links/inventarios');
 });
 
 router.get('/inventarios', async (req, res) => {
     const equipos = await pool.query('SELECT FOLIOINV,NOSERIE, MARCA, TIPO, FOLIOCPU, DESCRIPCION FROM EQUIPO INNER JOIN AREA ON EQUIPO.IDAREA = AREA.IDAREA');
-    console.log(equipos);
     res.render('inventarios/listar_equipos', { equipos });
 });
 
