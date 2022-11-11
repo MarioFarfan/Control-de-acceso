@@ -4,18 +4,6 @@ const router = express.Router();
 
 const pool = require('../database');
 
-router.get('/login', (req, res) => {
-    res.render('login')
-});
-router.post('/login', async(req, res) => {
-    const { numcontrol, pass } = req.body;
-    const user = {numcontrol, pass };
-    usuario = await pool.query('SELECT * FROM USUARIO WHERE USUARIO = "?" AND CONTRASENIA = "?"', { numcontrol, pass});
-    //console.log(user);
-    console.log('encontrado: ', usuario);
-    res.send('Logeando');
-});
-
 router.get('/inventarios/agregar_dispositivo', (req, res) => {
     res.render('inventarios/agregar')
 });
