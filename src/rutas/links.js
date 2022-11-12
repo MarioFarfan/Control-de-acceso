@@ -34,7 +34,7 @@ router.get('/usuarios/agregar_usuario', async (req, res) => {
     res.render('usuarios/nvousuario',{departamentos});
 }); 
 
-router.post('/inventarios/agregar_dispositivo', async(req, res) => {
+router.post('/usuarios/agregar_usuario', async(req, res) => {
     const{ notarjeta, password, nombrepersona, ap_p, ap_m, tipopersona, departamento, turno, puesto } = req.body;
     if(tipopersona = 'Docente'){
         const newUser ={
@@ -76,4 +76,12 @@ router.post('/inventarios/agregar_dispositivo', async(req, res) => {
     res.send('recived')
 });
    
+router.get('/usuarios/agregar_alumno', async (req, res) => {
+    const carreras = await pool.query('SELECT IDCARRERA, CARRERA FROM CARRERA');
+
+    res.render('usuarios/agregar_alumno',{carreras});
+}); 
+
+
+
 module.exports = router;
