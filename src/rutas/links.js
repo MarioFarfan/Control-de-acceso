@@ -83,5 +83,11 @@ router.get('/usuarios/agregar_alumno', async (req, res) => {
 }); 
 
 
+router.get('/alumnos', async (req, res) => {
+    const alumnos = await pool.query('SELECT NOCONTROL, NOMBRE_AL, AP_PAT, AP_MAT, CARRERA, SEMESTRE, STATUS  FROM ALUMNO INNER JOIN CARRERA');
+    const carreras = await pool.query('SELECT IDCARRERA, CARRERA FROM CARRERA');
+    
+    res.render('usuarios/listar_alumnos', { alumnos, carreras });
+});
 
 module.exports = router;
