@@ -1,0 +1,62 @@
+<form method="POST" action="">
+    <div class="container">
+    <div class="row g-5">
+        <div class="col-sm-6">
+            <label for="campo" class="form-label">Buscar usuario</label>
+            <input type="text" class="form-control" name="campo" placeholder="" value="">
+        </div>
+
+        <div class="col-sm-4">
+            <label for="idarea" class="form-label">Tipo</label>
+            <select class="form-select" name="tipousuario" required>
+              <option value="Docentes">Docentes</option>
+              <option value="Personal">Personal del laboratorio</option>
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid area.
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <a class="w-10 btn btn-primary btn-lg" href="">Buscar</a>
+        </div>
+    </div>
+</div>
+</form>
+<br>
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col" class="text-center">Num. Control</th>
+            <th scope="col" class="text-center">Nombre(s)</th>
+            <th scope="col" class="text-center">Apellido Paterno</th>
+            <th scope="col" class="text-center">Apllido Materno</th>
+            <th scope="col" class="text-center">Carrera</th>
+            <th scope="col" class="text-center">Semestre</th>
+            <th scope="col" class="text-center">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each alumnos}}
+            <tr>
+                <td class="text-center" scope="row">{{NOCONTROL}}</td>
+                <td class="text-center" >{{NOMBRE_AL}}</td>
+                <td class="text-center" >{{AP_PAT}}</td>
+                <td class="text-center">{{AP_MAT}}</td>
+                <td class="text-center">{{CARRERA}}</td>
+                <td class="text-center">{{SEMESTRE}}</td>
+                <td class="text-center">{{STATUS}}</td>
+              </tr>
+
+            {{else}}
+            <br><br>
+            <div class="col-md-4 mx-auto"> 
+                <div class="card card-body text-center">
+                    <p>No se encontraron registros</p>
+                    <a href="">Agrega uno</a>
+                </div>
+            </div>
+        {{/each}} 
+        
+    </tbody>
+</table> 
