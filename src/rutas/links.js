@@ -29,7 +29,7 @@ router.get('/inventarios', async (req, res) => {
 });
 
 router.get('/usuarios/agregar_usuario', async (req, res) => {
-    const departamentos = await pool.query('SELECT IDDEPTO,ALIAS FROM DEPARTAMENTO');
+    const departamentos = await pool.query('SELECT IDDEPTO, NOMBRE FROM DEPARTAMENTO');
 
     res.render('usuarios/nvousuario',{departamentos});
 }); 
@@ -71,7 +71,6 @@ router.post('/usuarios/agregar_usuario', async(req, res) => {
 
         console.log(newPersonal,newUser);
     }
-
 
     res.send('recived')
 });
