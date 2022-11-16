@@ -89,4 +89,12 @@ router.get('/alumnos', async (req, res) => {
     res.render('usuarios/listar_alumnos', { alumnos, carreras });
 });
 
+router.get('/usuarios', async (req, res) => {
+ 
+    const docentes = await pool.query('SELECT NOTARJETA, NOMBRE_PR, APPAT_PR, APMAT_PR, DEPARTAMENTO, USUARIO.USER FROM DOCENTES INNER JOIN DEPARTAMENTO INNER JOIN USUARIO GROUP BY NOTARJETA');
+    const personal = await pool.query('SELECT NOTARJETAP, NOMBRE_PER, APPAT_PER, APMAT_PER, PUESTO, TURNO, USUARIO.USER FROM PERSONAL INNER JOIN USUARIO GROUP BY NOTARJETAP;');
+    
+    
+    res.render('usuarios/listar_usuarios',{ docentes, personal });
+});
 module.exports = router;
