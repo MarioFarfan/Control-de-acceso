@@ -12,7 +12,6 @@
         <h4 class="mb-3">Agregar nuevo usuario</h4>
         <form class="needs-validation" novalidate action="/signup" method="POST">
           <div class="row g-3">
-
             <div class="col-sm-6">
               <label for="notarjeta" class="form-label">No. Tarjeta: </label>
               <input type="text" class="form-control" name="numcontrol" placeholder="" value="" required>
@@ -56,8 +55,7 @@
 
             <div class="col-12">
               <label for=" " class="form-label">Tipo</label>
-              <select class="form-select" name="tipopersona" required>
-                <option value="">Choose...</option>
+              <select class="form-select" onchange="select()" name="tipopersona" id="tipopersona"required>
                 <option value="Docente"=>Docente</option>
                 <option value="Auxiliar">Auxiliar</option>
               </select>
@@ -66,10 +64,37 @@
               </div>
             </div>
 
+                <div class="d-none" id="auxiliar">
+                  <div class="col-sm-6">
+                    <label for=" " class="form-label">Turno</label>
+                    <select class="form-select" name="turno" required>
+                      <option value="">Elegir...</option>
+                      <option value="Matutino"> Matutino </option>
+                      <option value="vespertino"> Vespertino </option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Selecciona alguno de los tipos válidos. 
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label for=" " class="form-label">Puesto</label>
+                    <select class="form-select" name="puesto" required>
+                      <option value="">Elegir...</option>
+                      <option value="Encargado"> Encargado </option>
+                      <option Value="Auxiliar"> Auxiliar </option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Selecciona alguno de los tipos válidos. 
+                    </div>
+                  </div>
+                 </div>
+         
+
             <!-- opciones de docente -->
-            <div class="d-none">
+            <div class="" id="docente">
               <div class="col-sm-6">
-              <label for=" " class="form-label">Tipo</label>
+              <label for=" " class="form-label">Departamento</label>
               <select class="form-select" name="departamento" required>
                   {{#each departamentos}}
                     <option value="{{IDDEPTO}}">{{ALIAS}}</option>
@@ -79,44 +104,17 @@
                 Selecciona alguno de los tipos válidos. 
               </div>
             </div>
-            </div>
             
            <!-- opciones de personal -->
-           <div class="d-none">
-            <div>
-            <div class="col-sm-6">
-              <label for=" " class="form-label">Tipo</label>
-              <select class="" name="turno" required>
-                <option value="">Elegir...</option>
-                <option value="Matutino"> Matutino </option>
-                <option value="vespertino"> Vespertino </option>
-              </select>
-              <div class="invalid-feedback">
-                Selecciona alguno de los tipos válidos. 
-              </div>
-            </div>
+               
 
-             <div class="col-sm-6">
-              <label for=" " class="form-label">Tipo</label>
-              <select class="" name="puesto" required>
-                <option value="">Elegir...</option>
-                <option value="Encargado"> Encargado </option>
-                <option Value="Auxiliar"> Auxiliar </option>
-              </select>
-              <div class="invalid-feedback">
-                Selecciona alguno de los tipos válidos. 
-              </div>
+                <hr class="my-4">
+                </div>
+                <button class="w-100 btn btn-primary btn-lg">Registrar usuario</button>
+              </form>
             </div>
-           </div>
-           
-
-          <hr class="my-4">
-          </div>
-          <button class="w-100 btn btn-primary btn-lg">Registrar usuario</button>
-        </form>
       </div>
-    </div>
-  </main>
+   </main>
 
   <footer class="my-5 pt-5 text-muted text-center text-small">
     <p class="mb-1">2022 Control de acceso al laboratorio de computo ITO</p>
@@ -127,3 +125,17 @@
     </ul>
   </footer>
 </div>
+
+<script>
+    function select(){
+        var tipousuario = document.getElementById("tipopersona").value;
+
+        if(tipousuario == "Docente"){
+            document.getElementById("docente").className = "";
+            document.getElementById("auxiliar").className = "d-none";
+        }else if(tipousuario == "Auxiliar"){
+             document.getElementById("auxiliar").className = "";
+             document.getElementById("docente").className = "d-none";
+        }
+    } 
+</script>

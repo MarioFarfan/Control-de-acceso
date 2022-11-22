@@ -4,6 +4,7 @@ const router = express.Router();
 
 const pool = require('../database');
 
+
 router.get('/inventarios/agregar_dispositivo', (req, res) => {
     res.render('inventarios/agregar')
 });
@@ -29,7 +30,7 @@ router.get('/inventarios', async (req, res) => {
 });
 
 router.get('/usuarios/agregar_usuario', async (req, res) => {
-    const departamentos = await pool.query('SELECT IDDEPTO, NOMBRE FROM DEPARTAMENTO');
+    const departamentos = await pool.query('SELECT IDDEPTO, ALIAS FROM DEPARTAMENTO');
 
     res.render('usuarios/nvousuario',{departamentos});
 }); 
@@ -77,6 +78,9 @@ router.post('/usuarios/agregar_usuario', async(req, res) => {
    
 router.get('/usuarios/agregar_alumno', async (req, res) => {
     const carreras = await pool.query('SELECT IDCARRERA, CARRERA FROM CARRERA');
+
+    //const alumno = { nocontrol, nombrepersona, ap_p, ap_m, tipopersona, carrera, semestre } = req.body;
+    //await pool.query('INSERT INTO ALUMNO set ?', [alumno]);
 
     res.render('usuarios/agregar_alumno',{carreras});
 }); 

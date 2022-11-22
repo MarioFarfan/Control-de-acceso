@@ -9,7 +9,7 @@ passport.use('local.login', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, async (req, username, password, done) => {
-    const filas = await pool.query('SELECT * FROM USUARIO WHERE USUARIO = ?', [username]);
+    const filas = await pool.query('SELECT * FROM USUARIO WHERE USER = ?', [username]);
     if (filas.length > 0) {
         const user = filas[0];
         //const contravalida = await helpers.comparar(password, user.password); usar en caso de encriptar contraaaseñas al momento dde guardarlas
@@ -20,7 +20,7 @@ passport.use('local.login', new LocalStrategy({
             done(null, false, req.flash('danger', 'Contraseña incorrecta'));
         }
     } else {
-        return done(null, false, req.flash('danger', 'El nombre ded usuario no existe'));
+        return done(null, false, req.flash('danger', 'Usuario no existente'));
     }
 }));
 
