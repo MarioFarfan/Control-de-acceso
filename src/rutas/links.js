@@ -1,8 +1,8 @@
-const { Router } = require('express');
 const express = require('express');
 const router = express.Router();
 
 const pool = require('../database');
+
 
 router.get('/inventarios/agregar_dispositivo', (req, res) => {
     res.render('inventarios/agregar')
@@ -33,6 +33,59 @@ router.get('/inventarios/eliminar/:id', async (req, res) => {
     const {id} = req.params;
     await pool.query('DELETE FROM EQUIPO WHERE FOLIOINV = ?', [id]);
     res.redirect('/links/inventarios');
+router.get('/usuarios/agregar_usuario', async (req, res) => {
+    const departamentos = await pool.query('SELECT IDDEPTO, ALIAS FROM DEPARTAMENTO');
+
+//Editar registros 
+router.get('/inventarios/editar/:id', async(req, res) => {
+    const {id} = req.params;
+    const equipo = await pool.query('SELECT FOLIOINV, NOSERIE, MARCA, TIPO, FOLIOCPU, NOMBRE as AREA FROM EQUIPO INNER JOIN AREA ON EQUIPO.IDAREA = AREA.IDAREA WHERE FOLIOINV = ?', [id]);
+    console.log('encontrado ', equipo[0]);
+    res.render('inventarios/editar', {equipos: equipo[0]});
+    const equipos = await pool.query('SELECT FOLIOINV, NOSERIE, MARCA, TIPO, FOLIOCPU, NOMBRE as AREA FROM EQUIPO INNER JOIN AREA ON EQUIPO.IDAREA = AREA.IDAREA WHERE FOLIOINV = ?', [id]);
+    console.log('encontrado ', equipos[0]);
+    res.render('inventarios/editar', {equipo: equipos[0]});
+});
+
+router.post('/usuarios/agregar_usuario', async(req, res) => {
+    const{ notarjeta, password, nombrepersona, ap_p, ap_m, tipopersona, departamento, turno, puesto } = req.body;
+    if(tipopersona = 'Docente'){
+        const newUser ={
+            notarjeta,
+            password
+        };
+        const newDocente = {
+            notarjeta, 
+            nombrepersona, 
+            ap_p, 
+            ap_m, 
+            departamento
+        };
+        await pool.query('INSERT INTO USUARIO set ?', [newUser]);
+        await pool.query('INSERT INTO DOCENTE set ?', [newDocente]);
+
+        console.log(newDocente,newUser);
+    }
+    if(tipopersona = 'Auxiliar'){
+        const newUser ={
+            notarjeta,
+            password
+        };
+        const newPersonal = {
+            notarjeta, 
+            nombrepersona, 
+            ap_p, 
+            ap_m, 
+            puesto,
+            turno
+        };
+        await pool.query('INSERT INTO USUARIO set ?', [newUser]);
+        await pool.query('INSERT INTO PERSONAL set ?', [newPersonal]);
+
+        console.log(newPersonal,newUser);
+    }
+
+    res.send('recived')
 });
 
 //Editar registros 
@@ -66,6 +119,9 @@ router.post('/inventarios/editar/:id', async(req, res) => {
 router.get('/usuarios/agregar_alumno', async (req, res) => {
     const carreras = await pool.query('SELECT IDCARRERA, CARRERA FROM CARRERA');
 
+    //const alumno = { nocontrol, nombrepersona, ap_p, ap_m, tipopersona, carrera, semestre } = req.body;
+    //await pool.query('INSERT INTO ALUMNO set ?', [alumno]);
+
     res.render('usuarios/agregar_alumno',{carreras});
 }); 
 
@@ -84,7 +140,6 @@ router.post('/usuarios/agregar_alumno', async (req, res ) => {
     req.flash('mensaje', 'Alumno agregado con exito');
     res.redirect('/alumnos');
 });
-
 
 router.get('/alumnos', async (req, res) => {
     const alumnos = await pool.query('SELECT NOCONTROL, NOMBRE_AL, AP_PAT, AP_MAT, CARRERA, SEMESTRE, STATUS  FROM ALUMNO INNER JOIN CARRERA');
