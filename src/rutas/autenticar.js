@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+
+const pool = require('../database');
 const passport = require('passport');
 
 router.get('/signup', (req, res) => {
@@ -12,7 +14,6 @@ router.post('/signup', passport.authenticate('local.signup', {
     failureRedirect: '/signup',
     failureFlash: true
 }));
-
 
 
 router.get('/login', (req, res) => {
@@ -27,11 +28,21 @@ router.post('/login', async(req, res, next) => {
     })(req, res, next);
 });
 
-router.get('/agregar_alumno', (req, res) => {
-    res.render('usuarios/agregar_alumno');
+router.get('/usuarios', async (req, res) => {
+ 
+    const docentes = await pool.query('SELECT NOTARJETA, NOMBRE_PR, APPAT_PR, APMAT_PR, DEPARTAMENTO, USUARIO.USER FROM DOCENTES INNER JOIN DEPARTAMENTO INNER JOIN USUARIO GROUP BY NOTARJETA');
+    const personal = await pool.query('SELECT NOTARJETAP, NOMBRE_PER, APPAT_PER, APMAT_PER, PUESTO, TURNO, USUARIO.USER FROM PERSONAL INNER JOIN USUARIO GROUP BY NOTARJETAP;');
+    
+    
+    res.render('usuarios/listar_usuarios',{ docentes, personal });
 });
 
-router.post('/agregar_alumno', async(req, res) => {
+router.get('/usuarios/agregar_usuario', async(req, res) => {
+    const departamentos = await pool.query('SELECT IDDEPTO, DEPARTAMENTO FROM DEPARTAMENTO');
+    res.render('usuarios/nvousuario',{departamentos});
+});
+
+router.post('/usuarios/agregar_usuario', async(req, res) => {
     const { nocontrol, nombrepersona, ap_p, ap_m, carrera, semestre } = req.body;
     const hoy = formatoFecha(new Date(Date.now()), 'yyyy/mm/dd');
     const newpersona = {

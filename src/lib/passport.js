@@ -9,13 +9,13 @@ passport.use('local.login', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, async (req, username, password, done) => {
-    const filas = await pool.query('SELECT * FROM USUARIO WHERE USUARIO = ?', [username]);
+    const filas = await pool.query('SELECT * FROM USUARIO WHERE user = ?', [username]);
     if (filas.length > 0) {
         const user = filas[0];
         //const contravalida = await helpers.comparar(password, user.password); usar en caso de encriptar contraaaseñas al momento dde guardarlas
-        const contravalida = (user.CONTRASENIA == password);
+        const contravalida = (user.password == password);
         if (contravalida){
-            done(null, user, req.flash('mensaje', 'Hola ' + user.USUARIO));
+            done(null, user, req.flash('mensaje', 'Hola ' + user.user));
         } else {
             done(null, false, req.flash('danger', 'Contraseña incorrecta'));
         }
@@ -26,39 +26,36 @@ passport.use('local.login', new LocalStrategy({
 
 
 passport.use('local.signup', new LocalStrategy({
-    usernameField: 'numcontrol',
+    usernameField: 'user',
     passwordField: 'password',
     passReqToCallback: true
-}, async (req, numcontrol, password, done) => {
+}, async (req, user, password, done) => {
     const hoy = formatoFecha(new Date(Date.now()), 'yyyy/mm/dd');
-    const { nombrepersona, ap_p, ap_m, tipopersona } = req.body;
-    const newpersona = {
-        NOMBRE: nombrepersona,
-        AP_PA: ap_p,
-        AP_MA: ap_m,
-        ESTADO: 'ALTA',
-        FECHA_ALTA: hoy
-    }
-    const result = await pool.query('INSERT INTO PERSONA set ?', [newpersona]);
-    const idpersona = result.insertId;
+    //const { nombrepersona, ap_p, ap_m, tipopersona } = req.body;
+    //const newpersona = {
+    //    NOMBRE: nombrepersona,
+    //    AP_PA: ap_p,
+    //    AP_MA: ap_m,
+    //    ESTADO: 'ALTA',
+    //    FECHA_ALTA: hoy
+    //}
+    //const result = await pool.query('INSERT INTO PERSONA set ?', [newpersona]);
+    //const idpersona = result.insertId;
     const newUser = {
-        usuario: numcontrol,
-        contrasenia: password,
-        rol: tipopersona,
-        idpersona
+        user,
+        password
     }
-    //newUser.contrasenia = await helpers.cifrar(password);
+    //newUser.password = await helpers.cifrar(password);
     const estado = await pool.query('INSERT INTO usuario set ? ', [newUser]);
-    newUser.idusuario = estado.insertId;
     return done(null, newUser);
 }));
 
 passport.serializeUser((user, done) =>{
-    done(null, user.IDUSUARIO);
+    done(null, user.user);
 });
 
-passport.deserializeUser ( async (id, done) =>{
-    const filas = await pool.query('SELECT * FROM USUARIO WHERE IDUSUARIO = ?', [id]);
+passport.deserializeUser ( async (user, done) =>{
+    const filas = await pool.query('SELECT * FROM USUARIO WHERE user = ?', [user]);
     console.log(filas);
     done (null, filas[0]); 
 });

@@ -10,12 +10,12 @@
     <div class="row g-5">
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">Agregar nuevo usuario</h4>
-        <form class="needs-validation" novalidate action="/signup" method="POST">
+        <form class="needs-validation" novalidate action="/usuarios/agregar_usuario" method="POST">
           <div class="row g-3">
 
             <div class="col-sm-6">
-              <label for="notarjeta" class="form-label">No. Tarjeta: </label>
-              <input type="text" class="form-control" name="numcontrol" placeholder="" value="" required>
+              <label for="notarjeta" class="form-label">No. Control: </label>
+              <input type="text" class="form-control" name="user" placeholder="" value="" required>
               <div class="invalid-feedback">
                 Se requiere un número de tarjeta.
               </div>
@@ -72,7 +72,7 @@
               <label for=" " class="form-label">Tipo</label>
               <select class="form-select" name="departamento" required>
                   {{#each departamentos}}
-                    <option value="{{IDDEPTO}}">{{ALIAS}}</option>
+                    <option value="{{IDDEPTO}}">{{departamento}}</option>
                   {{/each}} 
               </select>
               <div class="invalid-feedback">
