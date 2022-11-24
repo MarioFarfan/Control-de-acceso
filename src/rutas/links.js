@@ -33,8 +33,12 @@ router.get('/inventarios/eliminar/:id', async (req, res) => {
     const {id} = req.params;
     await pool.query('DELETE FROM EQUIPO WHERE FOLIOINV = ?', [id]);
     res.redirect('/links/inventarios');
+});
 router.get('/usuarios/agregar_usuario', async (req, res) => {
     const departamentos = await pool.query('SELECT IDDEPTO, ALIAS FROM DEPARTAMENTO');
+    console.log(departamentos);
+    res.renderer('usuarios/nvousuario', departamentos);
+});
 
 //Editar registros 
 router.get('/inventarios/editar/:id', async(req, res) => {
@@ -47,46 +51,6 @@ router.get('/inventarios/editar/:id', async(req, res) => {
     res.render('inventarios/editar', {equipo: equipos[0]});
 });
 
-router.post('/usuarios/agregar_usuario', async(req, res) => {
-    const{ notarjeta, password, nombrepersona, ap_p, ap_m, tipopersona, departamento, turno, puesto } = req.body;
-    if(tipopersona = 'Docente'){
-        const newUser ={
-            notarjeta,
-            password
-        };
-        const newDocente = {
-            notarjeta, 
-            nombrepersona, 
-            ap_p, 
-            ap_m, 
-            departamento
-        };
-        await pool.query('INSERT INTO USUARIO set ?', [newUser]);
-        await pool.query('INSERT INTO DOCENTE set ?', [newDocente]);
-
-        console.log(newDocente,newUser);
-    }
-    if(tipopersona = 'Auxiliar'){
-        const newUser ={
-            notarjeta,
-            password
-        };
-        const newPersonal = {
-            notarjeta, 
-            nombrepersona, 
-            ap_p, 
-            ap_m, 
-            puesto,
-            turno
-        };
-        await pool.query('INSERT INTO USUARIO set ?', [newUser]);
-        await pool.query('INSERT INTO PERSONAL set ?', [newPersonal]);
-
-        console.log(newPersonal,newUser);
-    }
-
-    res.send('recived')
-});
 
 //Editar registros 
 router.get('/inventarios/editar/:id', async(req, res) => {
@@ -138,7 +102,7 @@ router.post('/usuarios/agregar_alumno', async (req, res ) => {
     }
     await pool.query('INSERT INTO alumno set ?', [newAlumno]);
     req.flash('mensaje', 'Alumno agregado con exito');
-    res.redirect('/alumnos');
+    res.redirect('/links/alumnos');
 });
 
 router.get('/alumnos', async (req, res) => {

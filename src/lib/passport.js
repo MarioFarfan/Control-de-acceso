@@ -31,22 +31,46 @@ passport.use('local.signup', new LocalStrategy({
     passReqToCallback: true
 }, async (req, user, password, done) => {
     const hoy = formatoFecha(new Date(Date.now()), 'yyyy/mm/dd');
-    //const { nombrepersona, ap_p, ap_m, tipopersona } = req.body;
-    //const newpersona = {
-    //    NOMBRE: nombrepersona,
-    //    AP_PA: ap_p,
-    //    AP_MA: ap_m,
-    //    ESTADO: 'ALTA',
-    //    FECHA_ALTA: hoy
-    //}
-    //const result = await pool.query('INSERT INTO PERSONA set ?', [newpersona]);
-    //const idpersona = result.insertId;
+    const{ notarjeta, nombrepersona, ap_p, ap_m, tipopersona, departamento, turno, puesto } = req.body;
     const newUser = {
         user,
         password
     }
+    if(tipopersona == 'Docente'){
+        
+        const newDocente = {
+            notarjeta: newUser.user, 
+            nombre_pr: nombrepersona, 
+            appat_pr: ap_p, 
+            apmat_pr: ap_m, 
+            iddepto: departamento, 
+            user
+        };
+        await pool.query('INSERT INTO USUARIO set ?', [newUser]);
+        await pool.query('INSERT INTO DOCENTES set ?', [newDocente]);
+
+        console.log(newDocente,newUser);
+    }
+    if(tipopersona == 'Auxiliar'){
+        
+        const newPersonal = {
+            notarjetap: newUser.user, 
+            nombre_per: nombrepersona, 
+            appat_per: ap_p, 
+            apmat_per: ap_m, 
+            puesto,
+            turno,
+            user
+        };
+        const  existe = await pool.query('Select * from usuario where user = ?', [newUser.user]);
+        await pool.query('INSERT INTO USUARIO set ?', [newUser]);
+        await pool.query('INSERT INTO PERSONAL set ?', [newPersonal]);
+
+        console.log(newPersonal,newUser);
+    }
+
     //newUser.password = await helpers.cifrar(password);
-    const estado = await pool.query('INSERT INTO usuario set ? ', [newUser]);
+    //const estado = await pool.query('INSERT INTO usuario set ? ', [newUser]);
     return done(null, newUser);
 }));
 
