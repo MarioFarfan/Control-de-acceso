@@ -9,13 +9,13 @@
 
     <div class="row g-5">
       <div class="col-md-7 col-lg-8">
-        <h4 class="mb-3">Agregar nuevo alumno</h4>
-        <form class="needs-validation" novalidate action="/inventarios/usuarios/agregar_alumno" method="POST">
+        <h4 class="mb-3">Editar alumno</h4>
+        <form class="needs-validation" novalidate action="/inventarios/alumnos/editar/{{alumno.nocontrol}}" method="POST">
           <div class="row g-3">
 
             <div class="col-sm-6">
               <label for="notarjeta" class="form-label">No. Control: </label>
-              <input type="text" class="form-control" name="nocontrol" placeholder="" value="" required>
+              <input type="text" class="form-control" name="nocontrol" placeholder="" value="{{alumno.nocontrol}}" required>
               <div class="invalid-feedback">
                 Se requiere un número de tarjeta.
               </div>
@@ -23,7 +23,7 @@
 
             <div class="col-sm-6">
               <label for="nombrepersona" class="form-label">Nombre(s) </label>
-              <input type="text" class="form-control" name="nombre_al" placeholder="" value="" required>
+              <input type="text" class="form-control" name="nombre_al" placeholder="" value="{{alumno.nombre_al}}" required>
               <div class="invalid-feedback">
                 Se requiere un nombre.
               </div>
@@ -31,7 +31,7 @@
 
             <div class="col-sm-6">
               <label for="ap_p" class="form-label">Apellido Paterno</label>
-              <input type="text" class="form-control" name="ap_pat" placeholder="" value="" required>
+              <input type="text" class="form-control" name="ap_pat" placeholder="" value="{{alumno.ap_pat}}" required>
               <div class="invalid-feedback">
                 Se requiere un apellido.
               </div>
@@ -39,7 +39,7 @@
 
             <div class="col-sm-6">
               <label for="ap_m" class="form-label">Apellido Materno</label>
-              <input type="text" class="form-control" name="ap_mat" placeholder="" value="" required>
+              <input type="text" class="form-control" name="ap_mat" placeholder="" value="{{alumno.ap_mat}}" required>
               </div>
               <div class="invalid-feedback">
                 Se requiere un apellido.
@@ -63,7 +63,7 @@
             <div class="">
               <div class="col-sm-6">
               <label for=" " class="form-label">Semestre: </label>
-              <select class="form-select" name="semestre" required>
+              <select class="form-select" name="semestre" aria-valuetext="{{alumno.semestre}}" required>
                  <option value="1">1°</option>
                  <option value="2">2°</option>
                  <option value="3">3°</option>
@@ -85,7 +85,7 @@
 
           <hr class="my-4">
           </div>
-          <button class="w-100 btn btn-primary btn-lg">Registrar alumno</button>
+          <button class="w-100 btn btn-primary btn-lg">Actualizar datos</button>
         </form>
       </div>
     </div>

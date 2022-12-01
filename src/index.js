@@ -45,13 +45,14 @@ app.use((req, res, next) => {
     app.locals.mensaje = req.flash('mensaje');
     app.locals.exito = req.flash('exito');
     app.locals.danger = req.flash('danger');
+    app.locals.user = req.user;
     next();
 });
 
 //rutas
 app.use(require('./rutas'));
 app.use(require('./rutas/autenticar'));
-app.use('/links', require('./rutas/links'));
+app.use('/inventarios', require('./rutas/links'));
 
 //public
 app.use(express.static(path.join(__dirname, 'public')));

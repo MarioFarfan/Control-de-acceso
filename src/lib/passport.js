@@ -12,8 +12,7 @@ passport.use('local.login', new LocalStrategy({
     const filas = await pool.query('SELECT * FROM USUARIO WHERE USER = ?', [username]);
     if (filas.length > 0) {
         const user = filas[0];
-        //const contravalida = await helpers.comparar(password, user.password); usar en caso de encriptar contraaaseñas al momento dde guardarlas
-        const contravalida = (user.password == password);
+        const contravalida = await helpers.comparar(password, user.password); 
         if (contravalida){
             done(null, user, req.flash('mensaje', 'Hola ' + user.user));
         } else {
@@ -36,6 +35,7 @@ passport.use('local.signup', new LocalStrategy({
         user,
         password
     }
+    newUser.password = await helpers.cifrar(password);
     if(tipopersona == 'Docente'){
         
         const newDocente = {
@@ -48,8 +48,6 @@ passport.use('local.signup', new LocalStrategy({
         };
         await pool.query('INSERT INTO USUARIO set ?', [newUser]);
         await pool.query('INSERT INTO DOCENTES set ?', [newDocente]);
-
-        console.log(newDocente,newUser);
     }
     if(tipopersona == 'Auxiliar'){
         
@@ -65,11 +63,9 @@ passport.use('local.signup', new LocalStrategy({
         const  existe = await pool.query('Select * from usuario where user = ?', [newUser.user]);
         await pool.query('INSERT INTO USUARIO set ?', [newUser]);
         await pool.query('INSERT INTO PERSONAL set ?', [newPersonal]);
-
-        console.log(newPersonal,newUser);
     }
 
-    //newUser.password = await helpers.cifrar(password);
+    
     //const estado = await pool.query('INSERT INTO usuario set ? ', [newUser]);
     return done(null, newUser);
 }));
@@ -80,7 +76,6 @@ passport.serializeUser((user, done) =>{
 
 passport.deserializeUser ( async (user, done) =>{
     const filas = await pool.query('SELECT * FROM USUARIO WHERE user = ?', [user]);
-    console.log(filas);
     done (null, filas[0]); 
 });
 

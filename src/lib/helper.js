@@ -1,18 +1,18 @@
-const bycript = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 
 const helpers = {};
 
 helpers.cifrar = async (contra) => {
-    const salt = await bycript.genSalt(10);
-    const hash = await bycript.hash(contra, salt);
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(contra, salt);
     return hash;
 };
 
 helpers.comparar = async (contra, contraguardada) => {
     try {
-        await bycript.compare(contra, contraguardada);
+        return await bcrypt.compare(contra, contraguardada);
     } catch (e){
-        console.log(e);
+        console.log('Error: ' + e);
     }
 };
 

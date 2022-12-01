@@ -35,6 +35,8 @@
             <th scope="col" class="text-center">Carrera</th>
             <th scope="col" class="text-center">Semestre</th>
             <th scope="col" class="text-center">Status</th>
+            <th scope="col" class="text-center">Editar</th>
+            <th scope="col" class="text-center">Eliminar</th>
         </tr>
     </thead>
     <tbody>
@@ -47,6 +49,8 @@
                 <td class="text-center">{{CARRERA}}</td>
                 <td class="text-center">{{SEMESTRE}}</td>
                 <td class="text-center">{{STATUS}}</td>
+                <td class="text-center"><a class="btn btn-secondary" href="/inventarios/alumnos/editar/{{NOCONTROL}}"><i class="bi bi-pencil"></i></a></td>
+                <td class="text-center"><a class="btn btn-danger" href="/inventarios/alumnos/eliminar/{{NOCONTROL}}"><i class="bi bi-trash3"></i></a></td>
               </tr>
 
             {{else}}
@@ -54,7 +58,7 @@
             <div class="col-md-4 mx-auto"> 
                 <div class="card card-body text-center">
                     <p>No se encontraron registros</p>
-                    <a href="">Agrega uno</a>
+                    <a href="/links/usuarios/agregar_alumno">Agrega uno</a>
                 </div>
             </div>
         {{/each}} 
