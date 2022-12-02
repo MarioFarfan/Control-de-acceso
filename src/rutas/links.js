@@ -33,12 +33,8 @@ router.get('/listar_equipos', isLoggedIn, async (req, res) => {
 router.get('/listar_equipos/eliminar/:id', isLoggedIn, async (req, res) => {
     const {id} = req.params;
     await pool.query('DELETE FROM EQUIPO WHERE FOLIOINV = ?', [id]);
+    req.flash('mensaje', 'Equipo editado con exito');
     res.redirect('/inventarios/listar_equipos');
-});
-
-router.get('/usuarios/agregar_usuario', isLoggedIn, async (req, res) => {
-    const departamentos = await pool.query('SELECT IDDEPTO, ALIAS FROM DEPARTAMENTO');
-    res.renderer('usuarios/nvousuario', departamentos);
 });
 
 //Editar registros 
@@ -61,6 +57,7 @@ router.post('/listar_equipos/editar/:id', isLoggedIn, async(req, res) => {
     };
 
     await  pool.query('UPDATE EQUIPO SET ? WHERE FOLIOINV = ?', [newDispositivo, folioinv]);
+    req.flash('mensaje', 'Dispositivo editado con exito');
     res.redirect('/listar_equipos');
 });
 
@@ -89,7 +86,6 @@ router.post('/usuarios/agregar_alumno', isLoggedIn, async (req, res ) => {
 router.get('/alumnos', isLoggedIn, async (req, res) => {
     const alumnos = await pool.query('SELECT NOCONTROL, NOMBRE_AL, AP_PAT, AP_MAT, CARRERA, SEMESTRE, STATUS  FROM ALUMNO INNER JOIN CARRERA ON ALUMNO.IDCARRERA = CARRERA.IDCARRERA');
     const carreras = await pool.query('SELECT IDCARRERA, CARRERA FROM CARRERA');
-    
     res.render('usuarios/listar_alumnos', { alumnos, carreras });
 });
 
@@ -97,6 +93,7 @@ router.get('/alumnos', isLoggedIn, async (req, res) => {
 router.get('/alumnos/eliminar/:id', isLoggedIn, async (req, res) => {
     const {id} = req.params;
     await pool.query('DELETE FROM ALUMNO WHERE NOCONTROL = ?', [id]);
+    req.flash('exito', 'Alumno eliminado con éxito');
     res.redirect('/inventarios/alumnos');
 });
 
@@ -120,14 +117,13 @@ router.post('/alumnos/editar/:id', isLoggedIn, async(req, res) => {
         semestre,
         status: 'ALTA'
     }
-
+    req.flash('exito', 'Alumno agregado con éxito');
     await  pool.query('UPDATE ALUMNO SET ? WHERE NOCONTROL = ?', [newAlumno, id]);
     res.redirect('/inventarios/alumnos');
 });
 
 router.get('/agregar_materia', isLoggedIn, async (req, res) => {
     const carreras = await pool.query('SELECT IDCARRERA, CARRERA FROM CARRERA');
-    
     res.render('inventarios/nuevamateria', { carreras });
 });
 
@@ -154,6 +150,7 @@ router.get('/materias', isLoggedIn, async (req, res) => {
 router.get('/materias/eliminar/:id', isLoggedIn, async (req, res) => {
     const {id} = req.params;
     await pool.query('DELETE FROM MATERIA WHERE CLAVEMATERIA = ?', [id]);
+    req.flash('mensaje', 'Materia eliminada con éxito');
     res.redirect('/inventarios/materias');
 });
 

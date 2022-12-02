@@ -4,7 +4,7 @@ const router = express.Router();
 
 const pool = require('../database');
 const passport = require('passport');
-const {isLoggedIn} = require('../lib/auth')
+const {isLoggedIn, isNotLoggedIn} = require('../lib/auth')
 
 router.get('/signup', isLoggedIn, async (req, res) => {
     const departamentos = await pool.query('select * from departamento');
@@ -18,11 +18,11 @@ router.post('/signup', isLoggedIn, passport.authenticate('local.signup', {
 }));
 
 
-router.get('/login', (req, res) => {
+router.get('/login', isNotLoggedIn, (req, res) => {
     res.render('../vistas/autenticar/login');
 });
 
-router.post('/login', async(req, res, next) => {
+router.post('/login', isNotLoggedIn, async(req, res, next) => {
     passport.authenticate('local.login', {
         successRedirect: '/home',
         failureRedirect: '/login',
