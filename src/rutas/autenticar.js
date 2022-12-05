@@ -4,14 +4,14 @@ const router = express.Router();
 
 const pool = require('../database');
 const passport = require('passport');
-const {isLoggedIn, isNotLoggedIn} = require('../lib/auth')
+const {isLoggedIn, isNotLoggedIn, isAdmin, isAux} = require('../lib/auth')
 
-router.get('/signup', isLoggedIn, async (req, res) => {
+router.get('/signup', isLoggedIn, isAux, async (req, res) => {
     const departamentos = await pool.query('select * from departamento');
     res.render('usuarios/nvousuario', {departamentos});
 });
 
-router.post('/signup', isLoggedIn, passport.authenticate('local.signup', {
+router.post('/signup', isLoggedIn, isAux, passport.authenticate('local.signup', {
     successRedirect: '/usuarios', //a donde se redirecciona una vez se registra el usuario de forma correcta|
     failureRedirect: '/signup',
     failureFlash: true
@@ -30,7 +30,7 @@ router.post('/login', isNotLoggedIn, async(req, res, next) => {
     })(req, res, next);
 });
 
-router.get('/usuarios', isLoggedIn, async (req, res) => {
+router.get('/usuarios', isLoggedIn, isAux, async (req, res) => {
     const docentes = await pool.query('SELECT NOTARJETA, NOMBRE_PR, APPAT_PR, APMAT_PR, DEPARTAMENTO, USER FROM DOCENTES INNER JOIN DEPARTAMENTO ON DEPARTAMENTO.IDDEPTO = DOCENTES.IDDEPTO');
     const personal = await pool.query('SELECT NOTARJETAP, NOMBRE_PER, APPAT_PER, APMAT_PER, PUESTO, TURNO, USER FROM PERSONAL;');
     res.render('usuarios/listar_usuarios',{ docentes, personal });

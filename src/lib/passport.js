@@ -30,10 +30,11 @@ passport.use('local.signup', new LocalStrategy({
     passReqToCallback: true
 }, async (req, user, password, done) => {
     const hoy = formatoFecha(new Date(Date.now()), 'yyyy/mm/dd');
-    const{ notarjeta, nombrepersona, ap_p, ap_m, tipopersona, departamento, turno, puesto } = req.body;
+    const{ nombrepersona, ap_p, ap_m, tipopersona, departamento, turno, puesto } = req.body;
     const newUser = {
         user,
-        password
+        password,
+        rol:  tipopersona,
     }
     newUser.password = await helpers.cifrar(password);
     if(tipopersona == 'Docente'){
