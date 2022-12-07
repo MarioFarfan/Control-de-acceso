@@ -1,12 +1,3 @@
-<head>
-  <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-  <script type="text/javascript">
-      $("#idarea").val("{{equipo.AREA}}");
-  </script>
-  <script type="text/javascript">
-    document.getElementById("idarea").value = "{{equipo.AREA}}";
-  </script>
-</head>
 <body class="bg-light">
     
 <div class="container">
@@ -19,60 +10,83 @@
     <div class="row g-5">
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">Agregar dispositivo</h4>
-        <form class="needs-validation" novalidate action="/links/inventarios/editar/{{equipo.FOLIOINV}}" method="POST">
+        <form class="needs-validation" novalidate action="/inventarios//listar_equipos/editar/{{equipo.noserie}}" method="POST">
           <div class="row g-3">
-            <div class="col-sm-6">
-              <label for="folioinv" class="form-label">Folio de inventario</label>
-              <input type="text" class="form-control" name="folioinv" placeholder="" value="{{equipo.FOLIOINV}}" required>
-              <div class="invalid-feedback">
-                Se requiere un número de inventario válido.
-              </div>
-            </div>
 
             <div class="col-sm-6">
               <label for="noserie" class="form-label">Número de serie</label>
-              <input type="text" class="form-control" name="noserie" placeholder="" value="{{equipo.NOSERIE}}" required>
+              <input type="text" class="form-control" name="noserie" placeholder="" value="{{equipo.noserie}}" required>
               <div class="invalid-feedback">
                 Se requiere un número de serie válido.
               </div>
             </div>
 
+
+            <div class="col-sm-6">
+              <label for="folioinv" class="form-label">Folio de inventario</label>
+              <input type="text" class="form-control" name="folioinv" placeholder="" value="{{equipo.noinventario}}" required>
+              <div class="invalid-feedback">
+                Se requiere un número de inventario válido.
+              </div>
+            </div>
+
+            
+
             <div class="col-12">
               <label for="marca" class="form-label">Marca</label>
-              <input type="text" class="form-control" name="marca" placeholder="" value="{{equipo.MARCA}}" required>
+              <input type="text" class="form-control" name="marca" placeholder="" value="{{equipo.marca}}" required>
               </div>
             </div>
 
             <div class="col-12">
               <label for="tipo" class="form-label">Tipo</label>
-              <select class="form-select" name="tipo" value="{{equipo.TIPO}}" required>
-                <option value="">Selecciona...</option>
-                <option>Monitor</option>
-                <option>Mouse</option>
-                <option>CPU</option>
+              <select class="form-select" onchange="select()" id="tipo" name="tipo" required>
+                <option value="">Choose...</option>
+                <option value="COMPUESTO"> Compuesto </option>
+                <option value="ALL IN ONE">All in One</option>
               </select>
               <div class="invalid-feedback">
                 Selecciona alguno de los tipos válidos, o agregar uno nuevo en caso de ser necesario. 
               </div>
             </div>
 
-            <div class="col-12">
-              <label for="foliocpu" class="form-label">Folio de la CPU</label>
-              <input type="text" class="form-control" name="foliocpu" placeholder="" value="{{equipo.FOLIOCPU}}" required>
+             <div id="compuesto" class="d-none">
+              <div class="col-12">
+                <label for="" class="form-label">Folio del Monitor: </label>
+                <input type="text" class="form-control" name="monitor" placeholder="" value="{{equipo.monitor}}" required>
+                <div class="invalid-feedback">
+                  Introduce el Folio del monitor.
+                </div>
+              </div>
+            </div>
+           
+              <div class="col-12">
+              <label for="" class="form-label">Folio del Mouse: </label>
+              <input type="text" class="form-control" name="mouse" placeholder="" value="{{equipo.mouse}}" required>
               <div class="invalid-feedback">
-                Introduce el Folio de la CPU.
+                Introduce el Folio del mouse
               </div>
             </div>
 
+            <div class="col-12">
+              <label for="" class="form-label">Folio del Teclado: </label>
+              <input type="text" class="form-control" name="teclado" placeholder="" value="{{equipo.teclado}}" required>
+              <div class="invalid-feedback">
+                Introduce el Folio del teclado.
+              </div>
+            </div>
+
+           
+
             <div class="col-md-5">
               <label for="idarea" class="form-label">Area a la que pertenece</label>
-              <select class="form-select" name="idarea" value="{{equipo.AREA}}" required>
+              <select class="form-select" name="idarea" required>
                 <option value="USUARIOS1">Usuarios 1</option>
                 <option value="USUARIOS2">Usuarios 2</option>
                 <option value="USUARIOS3">Usuarios 3</option>
                 <option value="USUARIOS4">Usuarios 4</option>
-                <option value="LAABORATORIOBD">Laboratorio de Bases de datos</option>
-                <option value="LAABORATORIONW">Laboratorio de redes</option>
+                <option value="LAB-BD">Laboratorio de Bases de datos</option>
+                <option value="LAB-RED">Laboratorio de redes</option>
                 <option value="ALMACEN">Almacen</option>
               </select>
               <div class="invalid-feedback">
@@ -82,14 +96,14 @@
           </div>
           <hr class="my-4">
           </div>
-          <button class="w-100 btn btn-primary btn-lg">Actualizar datos</button>
+          <button class="w-100 btn btn-primary btn-lg">Registrar dispositivo</button>
         </form>
       </div>
     </div>
   </main>
 
   <footer class="my-5 pt-5 text-muted text-center text-small">
-    <p class="mb-1">2022 Control de acceso al laboratorio de computo ITO</p> 
+    <p class="mb-1">2022 Control de acceso al laboratorio de computo ITO</p>
     <ul class="list-inline">
       <li class="list-inline-item"><a href="#">Privacy</a></li>
       <li class="list-inline-item"><a href="#">Terms</a></li>
@@ -97,3 +111,15 @@
     </ul>
   </footer>
 </div>
+
+<script>
+    function select(){
+        var tipo = document.getElementById("tipo").value;
+
+        if(tipo == "COMPUESTO"){
+            document.getElementById("compuesto").className = "";
+        }else if(tipo == "ALL IN ONE"){
+             document.getElementById("compuesto").className = "d-none";
+        }
+    } 
+</script>

@@ -10,12 +10,10 @@ router.get('/agregar_dispositivo', isLoggedIn, isAux, (req, res) => {
 });
 
 router.post('/agregar_dispositivo', isLoggedIn, async(req, res) => {
-    const{ noserie, marca, tipo, noinventario, monitor, teclado, mouse } = req.body;
-    const newDispositivo = {
-        noserie, marca, tipo, noinventario, monitor, teclado, mouse
-    };  //validar los datos
+    const{ noserie, marca, tipo, noinventario, monitor, teclado, mouse, idarea } = req.body;
+    const newDispositivo = { noserie, marca, tipo, noinventario, monitor, teclado, mouse, idarea };  //validar los datos
     await pool.query('INSERT INTO PC set ?', [newDispositivo]);
-    req.flash('mensaje', 'Dispositivo agregado con exito');
+    req.flash('mensaje', 'PC agregada con exito');
     res.redirect('/inventarios/listar_equipos');
 });
 
@@ -48,7 +46,7 @@ router.post('/listar_equipos/editar/:id', isLoggedIn, isAux, async(req, res) => 
 
     await  pool.query('UPDATE PC SET ? WHERE NOSERIE = ?', [newDispositivo, noserie]);
     req.flash('mensaje', 'Dispositivo editado con exito');
-    res.redirect('/listar_equipos');
+    res.redirect('/inventarios/listar_equipos');
 });
 
 //  OPERACIONES PARA ALUMNOS, LISTAR, AGREGAR, EDITAR Y ELIMIAR
@@ -151,6 +149,50 @@ router.post('/materias', isLoggedIn, isAux, async (req, res) => {
     const materias = await pool.query('SELECT CLAVEMATERIA, NOMBREMAT, CARRERA, RETICULA FROM MATERIA INNER JOIN CARRERA on carrera.idcarrera = materia.idcarrera');
     
     res.render('inventarios/listar_materias', { carreras, materias });
+});
+
+router.get('/agregar_periferico', isLoggedIn, isAux, (req, res) => {
+    res.render('inventarios/agregar_periferico')
+});
+
+router.post('/agregar_periferico', isLoggedIn, async(req, res) => {
+    const{ noserieper, marca, tipo, noinventario } = req.body;
+    const newDispositivo = { noserieper, marca,estado: 'SIN ASIGNAR', tipo };  //validar los datos
+    await pool.query('INSERT INTO periferico set ?', [newDispositivo]);
+    req.flash('mensaje', 'Periferico agregado con exito');
+    res.redirect('/inventarios/listar_perifericos');
+});
+
+router.get('/listar_perifericos', isLoggedIn, isAux, async (req, res) => {
+    const perifericos = await pool.query('select * from periferico');
+    res.render('inventarios/listar_perifericos', {perifericos});
+});
+
+router.get('/listar_perifericos/eliminar/:id', isAux, isLoggedIn, async (req, res) => {
+    const {id} = req.params;
+    await pool.query('DELETE FROM periferico WHERE noserieper = ?', [id]);
+    req.flash('mensaje', 'Periferico eliminado con éxito');
+    res.redirect('/inventarios/listar_perifericos');
+});
+
+router.get('/listar_perifericos/editar/:id', isLoggedIn, isAux, async(req, res) => {
+    const {id} = req.params;
+    const perifericos = await pool.query('SELECT * FROM periferico WHERE noserieper = ?', [id]);
+    res.render('inventarios/editar_periferico', {periferico: perifericos[0]});
+});
+
+router.post('/listar_perifericos/editar/:id', isLoggedIn, isAux, async(req, res) => {
+    const {id} = req.params;
+    const { noserieper, marca, tipo, noinventario } = req.body;
+    const newPeriferico = {
+        noserieper, 
+        marca,
+        estado, 
+        tipo
+    }
+    req.flash('exito', 'Alumno agregado con éxito');
+    await  pool.query('UPDATE periferico SET ? WHERE noserieper = ?', [newPeriferico, id]);
+    res.redirect('/inventarios/listar_perifericos');
 });
 
 module.exports = router;

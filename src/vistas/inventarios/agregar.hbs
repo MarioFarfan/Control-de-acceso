@@ -9,8 +9,8 @@
 
     <div class="row g-5">
       <div class="col-md-7 col-lg-8">
-        <h4 class="mb-3">Agregar dispositivo</h4>
-        <form class="needs-validation" novalidate action="/links/inventarios/agregar_dispositivo" method="POST">
+        <h4 class="mb-3">Agregar dispositivo (PC)</h4>
+        <form class="needs-validation" novalidate action="/inventarios/agregar_dispositivo" method="POST">
           <div class="row g-3">
 
             <div class="col-sm-6">
@@ -24,26 +24,23 @@
 
             <div class="col-sm-6">
               <label for="folioinv" class="form-label">Folio de inventario</label>
-              <input type="text" class="form-control" name="folioinv" placeholder="" value="" required>
+              <input type="text" class="form-control" name="noinventario" placeholder="" value="" required>
               <div class="invalid-feedback">
                 Se requiere un número de inventario válido.
               </div>
             </div>
 
-            
-
-            <div class="col-12">
+            <div class="col-sm-6">
               <label for="marca" class="form-label">Marca</label>
               <input type="text" class="form-control" name="marca" placeholder="" value="" required>
               </div>
-            </div>
+            
 
-            <div class="col-12">
+            <div class="col-sm-6">
               <label for="tipo" class="form-label">Tipo</label>
               <select class="form-select" onchange="select()" id="tipo" name="tipo" required>
-                <option value="">Choose...</option>
-                <option value="COMPUESTO"> Compuesto </option>
                 <option value="ALL IN ONE">All in One</option>
+                <option value="COMPUESTO"> Compuesto </option>
               </select>
               <div class="invalid-feedback">
                 Selecciona alguno de los tipos válidos, o agregar uno nuevo en caso de ser necesario. 
@@ -53,26 +50,27 @@
              <div id="compuesto" class="d-none">
               <div class="col-12">
                 <label for="" class="form-label">Folio del Monitor: </label>
-                <input type="text" class="form-control" name="foliomonitor" placeholder="" required>
+                <input type="text" class="form-control" name="monitor" placeholder="" required>
                 <div class="invalid-feedback">
                   Introduce el Folio del monitor.
                 </div>
               </div>
             </div>
            
-              <div class="col-12">
+            <div class="col-sm-6">
               <label for="" class="form-label">Folio del Mouse: </label>
-              <input type="text" class="form-control" name="foliomouse" placeholder="" required>
+              <input type="text" class="form-control" name="mouse" placeholder="" required>
               <div class="invalid-feedback">
                 Introduce el Folio del mouse
               </div>
             </div>
 
-            <div class="col-12">
+            <div class="col-sm-6">
               <label for="" class="form-label">Folio del Teclado: </label>
-              <input type="text" class="form-control" name="folioteclado" placeholder="" required>
+              <input type="text" class="form-control" name="teclado" placeholder="" required>
               <div class="invalid-feedback">
                 Introduce el Folio del teclado.
+              </div>
               </div>
             </div>
 
