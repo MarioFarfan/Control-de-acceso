@@ -9,30 +9,25 @@ router.get('/agregar_dispositivo', isLoggedIn, isAux, (req, res) => {
     res.render('inventarios/agregar')
 });
 
-router.post('/agregar_dispositivo', isLoggedIn, isAux, async(req, res) => {
-    const{ folioinv, noserie, marca, tipo, foliocpu, idarea } = req.body;
+router.post('/agregar_dispositivo', isLoggedIn, async(req, res) => {
+    const{ noserie, marca, tipo, noinventario, monitor, teclado, mouse } = req.body;
     const newDispositivo = {
-        folioinv, 
-        noserie, 
-        marca, 
-        tipo, 
-        foliocpu, 
-        idarea
+        noserie, marca, tipo, noinventario, monitor, teclado, mouse
     };  //validar los datos
-    await pool.query('INSERT INTO EQUIPO set ?', [newDispositivo]);
+    await pool.query('INSERT INTO PC set ?', [newDispositivo]);
     req.flash('mensaje', 'Dispositivo agregado con exito');
     res.redirect('/inventarios/listar_equipos');
 });
 
-router.get('/listar_equipos', isLoggedIn, isAux, async (req, res) => {
-    const equipos = await pool.query('SELECT FOLIOINV, NOSERIE, MARCA, TIPO, FOLIOCPU, NOMBRE FROM EQUIPO INNER JOIN AREA ON EQUIPO.IDAREA = AREA.IDAREA');
+router.get('/listar_equipos', isLoggedIn, async (req, res) => {
+    const equipos = await pool.query('SELECT * FROM PC');
     res.render('inventarios/listar_equipos', { equipos });
 });
 
 //Eliminar registros
 router.get('/listar_equipos/eliminar/:id', isLoggedIn, isAux, async (req, res) => {
     const {id} = req.params;
-    await pool.query('DELETE FROM EQUIPO WHERE FOLIOINV = ?', [id]);
+    await pool.query('DELETE FROM PC WHERE NOSERIE = ?', [id]);
     req.flash('mensaje', 'Equipo editado con exito');
     res.redirect('/inventarios/listar_equipos');
 });
@@ -40,23 +35,18 @@ router.get('/listar_equipos/eliminar/:id', isLoggedIn, isAux, async (req, res) =
 //Editar registros 
 router.get('/listar_equipos/editar/:id', isLoggedIn, isAux, async(req, res) => {
     const {id} = req.params;
-    const equipo = await pool.query('SELECT FOLIOINV, NOSERIE, MARCA, TIPO, FOLIOCPU, NOMBRE as AREA FROM EQUIPO INNER JOIN AREA ON EQUIPO.IDAREA = AREA.IDAREA WHERE FOLIOINV = ?', [id]);
+    const equipo = await pool.query('SELECT * FROM PC WHERE NOSERIE = ?', [id]);
     res.render('inventarios/editar', {equipo: equipo[0]});
 });
 
 router.post('/listar_equipos/editar/:id', isLoggedIn, isAux, async(req, res) => {
     const {id} = req.params;
-    const{ folioinv, noserie, marca, tipo, foliocpu, idarea } = req.body;
+    const{ noserie, marca, tipo, noinventario, monitor, teclado, mouse } = req.body;
     const newDispositivo = {
-        folioinv, 
-        noserie, 
-        marca, 
-        tipo, 
-        foliocpu, 
-        idarea
+        noserie, marca, tipo, noinventario, monitor, teclado, mouse
     };
 
-    await  pool.query('UPDATE EQUIPO SET ? WHERE FOLIOINV = ?', [newDispositivo, folioinv]);
+    await  pool.query('UPDATE PC SET ? WHERE NOSERIE = ?', [newDispositivo, noserie]);
     req.flash('mensaje', 'Dispositivo editado con exito');
     res.redirect('/listar_equipos');
 });

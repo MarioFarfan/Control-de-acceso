@@ -12,13 +12,6 @@
         <h4 class="mb-3">Agregar dispositivo</h4>
         <form class="needs-validation" novalidate action="/links/inventarios/agregar_dispositivo" method="POST">
           <div class="row g-3">
-            <div class="col-sm-6">
-              <label for="folioinv" class="form-label">Folio de inventario</label>
-              <input type="text" class="form-control" name="folioinv" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                Se requiere un número de inventario válido.
-              </div>
-            </div>
 
             <div class="col-sm-6">
               <label for="noserie" class="form-label">Número de serie</label>
@@ -28,6 +21,17 @@
               </div>
             </div>
 
+
+            <div class="col-sm-6">
+              <label for="folioinv" class="form-label">Folio de inventario</label>
+              <input type="text" class="form-control" name="folioinv" placeholder="" value="" required>
+              <div class="invalid-feedback">
+                Se requiere un número de inventario válido.
+              </div>
+            </div>
+
+            
+
             <div class="col-12">
               <label for="marca" class="form-label">Marca</label>
               <input type="text" class="form-control" name="marca" placeholder="" value="" required>
@@ -36,24 +40,43 @@
 
             <div class="col-12">
               <label for="tipo" class="form-label">Tipo</label>
-              <select class="form-select" name="tipo" required>
+              <select class="form-select" onchange="select()" id="tipo" name="tipo" required>
                 <option value="">Choose...</option>
-                <option>Monitor</option>
-                <option>Mouse</option>
-                <option>CPU</option>
+                <option value="COMPUESTO"> Compuesto </option>
+                <option value="ALL IN ONE">All in One</option>
               </select>
               <div class="invalid-feedback">
                 Selecciona alguno de los tipos válidos, o agregar uno nuevo en caso de ser necesario. 
               </div>
             </div>
 
-            <div class="col-12">
-              <label for="foliocpu" class="form-label">Folio de la CPU</label>
-              <input type="text" class="form-control" name="foliocpu" placeholder="" required>
-              <div class="invalid-feedback">
-                Introduce el Folio de la CPU.
+             <div id="compuesto" class="d-none">
+              <div class="col-12">
+                <label for="" class="form-label">Folio del Monitor: </label>
+                <input type="text" class="form-control" name="foliomonitor" placeholder="" required>
+                <div class="invalid-feedback">
+                  Introduce el Folio del monitor.
+                </div>
               </div>
             </div>
+           
+              <div class="col-12">
+              <label for="" class="form-label">Folio del Mouse: </label>
+              <input type="text" class="form-control" name="foliomouse" placeholder="" required>
+              <div class="invalid-feedback">
+                Introduce el Folio del mouse
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="" class="form-label">Folio del Teclado: </label>
+              <input type="text" class="form-control" name="folioteclado" placeholder="" required>
+              <div class="invalid-feedback">
+                Introduce el Folio del teclado.
+              </div>
+            </div>
+
+           
 
             <div class="col-md-5">
               <label for="idarea" class="form-label">Area a la que pertenece</label>
@@ -62,8 +85,8 @@
                 <option value="USUARIOS2">Usuarios 2</option>
                 <option value="USUARIOS3">Usuarios 3</option>
                 <option value="USUARIOS4">Usuarios 4</option>
-                <option value="LAABORATORIOBD">Laboratorio de Bases de datos</option>
-                <option value="LAABORATORIONW">Laboratorio de redes</option>
+                <option value="LAB-BD">Laboratorio de Bases de datos</option>
+                <option value="LAB-RED">Laboratorio de redes</option>
                 <option value="ALMACEN">Almacen</option>
               </select>
               <div class="invalid-feedback">
@@ -88,3 +111,15 @@
     </ul>
   </footer>
 </div>
+
+<script>
+    function select(){
+        var tipo = document.getElementById("tipo").value;
+
+        if(tipo == "COMPUESTO"){
+            document.getElementById("compuesto").className = "";
+        }else if(tipo == "ALL IN ONE"){
+             document.getElementById("compuesto").className = "d-none";
+        }
+    } 
+</script>

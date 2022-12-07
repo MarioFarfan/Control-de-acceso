@@ -33,11 +33,14 @@
 <table class="table">
     <thead class="table-dark">
         <tr>
-            <th scope="col" class="text-center">Folio de inventario</th>
+            
             <th scope="col" class="text-center">Num. Serie</th>
             <th scope="col" class="text-center">Marca</th>
             <th scope="col" class="text-center">Tipo</th>
-            <th scope="col" class="text-center">Folio CPU</th>
+            <th scope="col" class="text-center">Folio de inventario</th>
+            <th scope="col" class="text-center">Folio Monitor</th>
+            <th scope="col" class="text-center">Folio Mouse</th>
+            <th scope="col" class="text-center">Folio Teclado</th>
             <th scope="col" class="text-center">Area</th>
             <th scope="col" class="text-center">Borrar registro</th>
             <th scope="col" class="text-center">Editar registro</th>
@@ -46,14 +49,16 @@
     <tbody>
         {{#each equipos}}
             <tr>
-                <td class="text-center" scope="row">{{FOLIOINV}}</td>
-                <td class="text-center" >{{NOSERIE}}</td>
+                <td class="text-center" scope="row">{{NOSERIE}}</td>
                 <td class="text-center" >{{MARCA}}</td>
                 <td class="text-center">{{TIPO}}</td>
-                <td class="text-center">{{FOLIOCPU}}</td>
-                <td class="text-center">{{NOMBRE}}</td>
-                <td class="text-center"><a class="btn btn-danger" href="listar_equipos/eliminar/{{FOLIOINV}}"><i class="bi bi-trash3"></i></a></td>
-                <td class="text-center"><a class="btn btn-secondary" href="listar_equipos/editar/{{FOLIOINV}}"><i class="bi bi-pencil"></i></a></td>
+                <td class="text-center">{{NOINVENTARIO}}</td>
+                <td class="text-center" >{{MONITOR}}</td>
+                <td class="text-center" >{{TECLADO}}</td>
+                <td class="text-center" >{{MOUSE}}</td>
+                <td class="text-center">{{IDAREA}}</td>
+                <td class="text-center"><a class="btn btn-danger" href="listar_equipos/eliminar/{{NOSERIE}}"><i class="bi bi-trash3"></i></a></td>
+                <td class="text-center"><a class="btn btn-secondary" href="listar_equipos/editar/{{NOSERIE}}"><i class="bi bi-pencil"></i></a></td>
             </tr>
 
             {{else}}
