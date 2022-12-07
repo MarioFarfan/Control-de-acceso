@@ -37,19 +37,19 @@ router.get('/usuarios', isLoggedIn, isAux, async (req, res) => {
 });
 
 //ELIMINAR USUARIOS
-router.get('/usuarios/eliminar/:id', isLoggedIn, async (req, res) => {
+router.get('/usuarios/eliminar/:id', isLoggedIn, isAux, async (req, res) => {
     const {id} = req.params;
     await pool.query('DELETE FROM USUARIO WHERE USER = ?', [id]);
     res.redirect('/usuarios');
 });
 
 //EDITAR USUARIOS
-router.get('/usuarios/editar/:id', isLoggedIn, async (req, res) => {
+router.get('/usuarios/editar/:id', isLoggedIn, isAux, async (req, res) => {
     const {id} = req.params;
     res.render('/usuarios/editar_usuario', {id});
 });
 
-router.post('/usuarios/editar/:id', isLoggedIn, async(req, res, next) => {
+router.post('/usuarios/editar/:id', isLoggedIn, isAux, async(req, res, next) => {
     const {id} = req.params;
     const usuario = await pool.query('SELECT * FROM USUARIO WHERE USER = ?', [id]);
     const esdocente = await pool.query('SELECT * FROM docentes WHERE user = ?', [id]);
