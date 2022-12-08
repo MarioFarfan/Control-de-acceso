@@ -164,8 +164,10 @@ router.post('/agregar_periferico', isLoggedIn, async(req, res) => {
 });
 
 router.get('/listar_perifericos', isLoggedIn, isAux, async (req, res) => {
-    const perifericos = await pool.query('select * from periferico');
-    res.render('inventarios/listar_perifericos', {perifericos});
+    const equiposmonitor = await pool.query('SELECT * FROM PERIFERICO WHERE TIPO = "MONITOR"');
+    const equiposteclado = await pool.query('SELECT * FROM PERIFERICO WHERE TIPO = "TECLADO"');
+    const equiposmouse = await pool.query('SELECT * FROM PERIFERICO WHERE TIPO = "MOUSE"');
+    res.render('inventarios/listar_perifericos', {equiposmonitor, equiposteclado, equiposmouse });
 });
 
 router.get('/listar_perifericos/eliminar/:id', isAux, isLoggedIn, async (req, res) => {

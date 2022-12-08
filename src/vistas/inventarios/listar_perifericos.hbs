@@ -1,4 +1,4 @@
-<form method="POST" action="/links/inventarios/buscar">
+<form method="POST" action="">
     <div class="container">
     <div class="row g-5">
         <div class="col-sm-6">
@@ -7,12 +7,12 @@
         </div>
 
         <div class="col-sm-4">
-            <label for="idarea" class="form-label">Area a la que pertenece</label>
-            <select class="form-select" name="idarea" required>
-              <option value="0">Todas</option>
-              <option value="1">MONITOR</option>
-              <option value="2">MOUSE</option>
-              <option value="3">TECLADO</option>
+            <label for="" class="form-label">Tipo</label>
+            <select class="form-select" id="tipo" onchange="table()" required>
+              
+              <option value="MOUSE">MOUSE</option>
+              <option value="TECLADO">TECLADO</option>
+              <option value="MONITOR">MONITOR</option>
             </select>
             <div class="invalid-feedback">
               Please select a valid area.
@@ -20,44 +20,110 @@
         </div>
 
         <div class="col-sm-2">
-            <a class="w-10 btn btn-primary btn-lg" href="">Buscar</a>
+            <a class="w-10 btn btn-primary btn-lg" href="/inventarios/buscar">Buscar</a>
         </div>
     </div>
 </div>
 </form>
 <br>
-<table class="table">
+
+<table class="table" id="mouse">
     <thead class="table-dark">
         <tr>
             
             <th scope="col" class="text-center">Num. Serie</th>
             <th scope="col" class="text-center">Marca</th>
-            <th scope="col" class="text-center">Tipo</th>
             <th scope="col" class="text-center">Estado</th>
+            <th scope="col" class="text-center">Tipo</th>
+            <th scope="col" class="text-center">Editar registro</th>
+            <th scope="col" class="text-center">Borrar registro</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each equiposmouse}}
+            <tr>
+                <td class="text-center" scope="row">{{noserieper}}</td>
+                <td class="text-center" >{{marca}}</td>
+                <td class="text-center">{{estado}}</td>
+                <td class="text-center">{{tipo}}</td>
+                <td class="text-center"><a class="btn btn-secondary" href="listar_perifericos/editar/{{noserieper}}"><i class="bi bi-pencil"></i></a></td>
+                <td class="text-center"><a class="btn btn-danger" href="listar_perifericos/eliminar/{{noserieper}}"><i class="bi bi-trash3"></i></a></td>
+              </tr>
+            <br><br>
+        {{/each}} 
+        
+    </tbody>
+</table>
+
+<table class="table d-none" id="monitor">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col" class="text-center">Num. Serie</th>
+            <th scope="col" class="text-center">Marca</th>
+            <th scope="col" class="text-center">Estado</th>
+            <th scope="col" class="text-center">Tipo</th>
+            <th scope="col" class="text-center">Editar registro</th>
+            <th scope="col" class="text-center">Borrar registro</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each equiposmonitor}}
+            <tr>
+                <td class="text-center" scope="row">{{noserieper}}</td>
+                <td class="text-center" >{{marca}}</td>
+                <td class="text-center">{{estado}}</td>
+                <td class="text-center">{{tipo}}</td>
+                <td class="text-center"><a class="btn btn-secondary" href="listar_perifericos/editar/{{noserieper}}"><i class="bi bi-pencil"></i></a></td>
+                <td class="text-center"><a class="btn btn-danger" href="listar_perifericos/eliminar/{{noserieper}}"><i class="bi bi-trash3"></i></a></td>
+             </tr>
+        {{/each}} 
+        
+    </tbody>
+</table> 
+
+<table class="table d-none" id="teclado">
+    <thead class="table-dark">
+        <tr>
+           <th scope="col" class="text-center">Num. Serie</th>
+            <th scope="col" class="text-center">Marca</th>
+            <th scope="col" class="text-center">Estado</th>
+            <th scope="col" class="text-center">Tipo</th>
             <th scope="col" class="text-center">Ediitar registro</th>
             <th scope="col" class="text-center">Borrar registro</th>
         </tr>
     </thead>
     <tbody>
-        {{#each perifericos}}
+        {{#each equiposteclado}}
             <tr>
-                <td class="text-center" scope="row">{{noserieper}}</td>
+               <td class="text-center" scope="row">{{noserieper}}</td>
                 <td class="text-center" >{{marca}}</td>
-                <td class="text-center">{{tipo}}</td>
                 <td class="text-center">{{estado}}</td>
-                <td class="text-center"><a class="btn btn-danger" href="listar_perifericos/eliminar/{{noserieper}}"><i class="bi bi-trash3"></i></a></td>
+                <td class="text-center">{{tipo}}</td>
                 <td class="text-center"><a class="btn btn-secondary" href="listar_perifericos/editar/{{noserieper}}"><i class="bi bi-pencil"></i></a></td>
-            </tr>
-
-            {{else}}
-            <br><br>
-            <div class="col-md-4 mx-auto"> 
-                <div class="card card-body text-center">
-                    <p>No se encontraron registros</p>
-                    <a href="/inventarios/agregar_periferico">Agrega uno</a>
-                </div>
-            </div>
+                <td class="text-center"><a class="btn btn-danger" href="listar_perifericos/eliminar/{{noserieper}}"><i class="bi bi-trash3"></i></a></td>
+             </tr>
         {{/each}} 
         
     </tbody>
 </table> 
+
+
+<script>
+    function table(){
+        var tipo = document.getElementById("tipo").value;
+
+        if(tipo == "MONITOR"){
+            document.getElementById("mouse").className = "table d-none";
+            document.getElementById("teclado").className = "table d-none";
+            document.getElementById("monitor").className = "table";
+        }else if(tipo == "MOUSE"){
+             document.getElementById("mouse").className = "table";
+            document.getElementById("teclado").className = "table d-none";
+            document.getElementById("monitor").className = "table d-none";
+        }else if(tipo == "TECLADO"){
+            document.getElementById("mouse").className = "table d-none";
+            document.getElementById("teclado").className = "table";
+            document.getElementById("monitor").className = "table d-none";
+        }
+    } 
+</script>
