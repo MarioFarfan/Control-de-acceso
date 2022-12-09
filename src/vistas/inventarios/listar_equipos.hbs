@@ -1,0 +1,75 @@
+<form method="POST" action="/links/inventarios/buscar">
+    <div class="container">
+    <div class="row g-5">
+        <div class="col-sm-6">
+            <label for="campo" class="form-label">Buscar equipo</label>
+            <input type="text" class="form-control" name="campo" placeholder="" value="">
+        </div>
+
+        <div class="col-sm-4">
+            <label for="idarea" class="form-label">Area a la que pertenece</label>
+            <select class="form-select" name="idarea" required>
+              <option value="0">Todas</option>
+              <option value="1">USUARIOS 1</option>
+              <option value="2">USUARIOS 2</option>
+              <option value="3">USUARIOS 3</option>
+              <option value="4">USUARIOS 4</option>
+              <option value="5">Laboratorio de Bases de datos</option>
+              <option value="6">Laboratorio de redes</option>
+              <option value="7">Almacenamiento de equipos en desuso</option>
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid area.
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <a class="w-10 btn btn-primary btn-lg" href="inventarios/buscar">Buscar</a>
+        </div>
+    </div>
+</div>
+</form>
+<br>
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            
+            <th scope="col" class="text-center">Num. Serie</th>
+            <th scope="col" class="text-center">Marca</th>
+            <th scope="col" class="text-center">Tipo</th>
+            <th scope="col" class="text-center">Folio de inventario</th>
+            <th scope="col" class="text-center">Folio Monitor</th>
+            <th scope="col" class="text-center">Folio Mouse</th>
+            <th scope="col" class="text-center">Folio Teclado</th>
+            <th scope="col" class="text-center">Area</th>
+            <th scope="col" class="text-center">Borrar registro</th>
+            <th scope="col" class="text-center">Editar registro</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each equipos}}
+            <tr>
+                <td class="text-center" scope="row">{{noserie}}</td>
+                <td class="text-center" >{{marca}}</td>
+                <td class="text-center">{{tipo}}</td>
+                <td class="text-center">{{noinventario}}</td>
+                <td class="text-center" >{{monitor}}</td>
+                <td class="text-center" >{{teclado}}</td>
+                <td class="text-center" >{{mouse}}</td>
+                <td class="text-center">{{idarea}}</td>
+                <td class="text-center"><a class="btn btn-danger" href="listar_equipos/eliminar/{{noserie}}"><i class="bi bi-trash3"></i></a></td>
+                <td class="text-center"><a class="btn btn-secondary" href="listar_equipos/editar/{{noserie}}"><i class="bi bi-pencil"></i></a></td>
+            </tr>
+
+            {{else}}
+            <br><br>
+            <div class="col-md-4 mx-auto"> 
+                <div class="card card-body text-center">
+                    <p>No se encontraron registros</p>
+                    <a href="/inventarios/agregar_dispositivo">Agrega uno</a>
+                </div>
+            </div>
+        {{/each}} 
+        
+    </tbody>
+</table> 

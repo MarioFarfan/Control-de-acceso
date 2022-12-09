@@ -1,0 +1,138 @@
+<form method="POST" action="">
+    <div class="container">
+    <div class="row g-5">
+        <div class="col-sm-6">
+            <label for="campo" class="form-label">Buscar dispositivo</label>
+            <input type="text" class="form-control" name="campo" placeholder="" value="">
+        </div>
+
+        <div class="col-sm-4">
+            <label for="" class="form-label">Tipo</label>
+            <select class="form-select" id="tipo" onchange="table()" required>
+              
+              <option value="ROUTER">ROUTER</option>
+              <option value="SWITCH">SWITCH</option>
+              <option value="PROYECTOR">PROYECTOR</option>
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid area.
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <a class="w-10 btn btn-primary btn-lg" href="/inventarios/buscar">Buscar</a>
+        </div>
+    </div>
+</div>
+</form>
+<br></br>
+<table class="table" id="router">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col" class="text-center">Num. Serie</th>
+            <th scope="col" class="text-center">Num. Folio</th>
+            <th scope="col" class="text-center">Marca</th>
+            <th scope="col" class="text-center">Modelo</th>
+            <th scope="col" class="text-center">Tipo</th>
+            <th scope="col" class="text-center">Descripción</th>
+            <th scope="col" class="text-center">Editar registro</th>
+            <th scope="col" class="text-center">Borrar registro</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each routers}}
+            <tr>
+                <td class="text-center" scope="row">{{noserie}}</td>
+                <td class="text-center" >{{nofolio}}</td>
+                <td class="text-center">{{marca}}</td>
+                <td class="text-center">{{modelo}}</td>
+                <td class="text-center">{{tipo}}</td>
+                <td class="text-center">{{descripcion}}</td>
+                <td class="text-center"><a class="btn btn-secondary" href="listar_perifericos/editar/{{noserie}}"><i class="bi bi-pencil"></i></a></td>
+                <td class="text-center"><a class="btn btn-danger" href="listar_perifericos/eliminar/{{noserie}}"><i class="bi bi-trash3"></i></a></td>
+              </tr>
+              
+        {{/each}} 
+        
+    </tbody>
+</table>
+
+<table class="table d-none" id="switch">
+    <thead class="table-dark">
+        <tr>
+           <th scope="col" class="text-center">Num. Serie</th>
+            <th scope="col" class="text-center">Num. Folio</th>
+            <th scope="col" class="text-center">Marca</th>
+            <th scope="col" class="text-center">Modelo</th>
+            <th scope="col" class="text-center">Tipo</th>
+            <th scope="col" class="text-center">Descripción</th>
+            <th scope="col" class="text-center">Editar registro</th>
+            <th scope="col" class="text-center">Borrar registro</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each switches}}
+            <tr>
+                <td class="text-center" scope="row">{{noserie}}</td>
+                <td class="text-center" >{{nofolio}}</td>
+                <td class="text-center">{{marca}}</td>
+                <td class="text-center">{{modelo}}</td>
+                <td class="text-center">{{tipo}}</td>
+                <td class="text-center">{{descripcion}}</td>
+                <td class="text-center"><a class="btn btn-secondary" href="listar_perifericos/editar/{{noserie}}"><i class="bi bi-pencil"></i></a></td>
+                <td class="text-center"><a class="btn btn-danger" href="listar_perifericos/eliminar/{{noserie}}"><i class="bi bi-trash3"></i></a></td>
+              </tr>
+        {{/each}} 
+        
+    </tbody>
+</table>
+<table class="table d-none" id="proyector">
+    <thead class="table-dark">
+        <tr>
+           <th scope="col" class="text-center">Num. Serie</th>
+            <th scope="col" class="text-center">Num. Folio</th>
+            <th scope="col" class="text-center">Marca</th>
+            <th scope="col" class="text-center">Modelo</th>
+            <th scope="col" class="text-center">Tipo</th>
+            <th scope="col" class="text-center">Descripción</th>
+            <th scope="col" class="text-center">Editar registro</th>
+            <th scope="col" class="text-center">Borrar registro</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each proyectores}}
+            <tr>
+                <td class="text-center" scope="row">{{noserie}}</td>
+                <td class="text-center" >{{nofolio}}</td>
+                <td class="text-center">{{marca}}</td>
+                <td class="text-center">{{modelo}}</td>
+                <td class="text-center">{{tipo}}</td>
+                <td class="text-center">{{descripcion}}</td>
+                <td class="text-center"><a class="btn btn-secondary" href="listar_perifericos/editar/{{noserie}}"><i class="bi bi-pencil"></i></a></td>
+                <td class="text-center"><a class="btn btn-danger" href="listar_perifericos/eliminar/{{noserie}}"><i class="bi bi-trash3"></i></a></td>
+              </tr>
+        {{/each}} 
+    </tbody>
+</table>
+
+
+
+<script>
+    function table(){
+        var tipo = document.getElementById("tipo").value;
+
+        if(tipo == "ROUTER"){
+            document.getElementById("router").className = "table";
+            document.getElementById("switch").className = "table d-none";
+            document.getElementById("proyector").className = "table d-none";
+        }else if(tipo == "SWITCH"){
+             document.getElementById("router").className = "table d-none";
+            document.getElementById("switch").className = "table";
+            document.getElementById("proyector").className = "table d-none";
+        }else if(tipo == "PROYECTOR"){
+            document.getElementById("router").className = "table d-none";
+            document.getElementById("switch").className = "table d-none";
+            document.getElementById("proyector").className = "table";
+        }
+    } 
+</script>
