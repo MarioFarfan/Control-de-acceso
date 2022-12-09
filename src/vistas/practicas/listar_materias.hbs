@@ -1,0 +1,60 @@
+<form method="POST" action="/materias">
+    <div class="container">
+    <div class="row g-5">
+        <div class="col-sm-5">
+            <label for="campo" class="form-label">Buscar materia</label>
+            <input type="text" class="form-control" name="mat" placeholder="" value="">
+        </div>
+
+        <div class="col-sm-4">
+            <label for="idarea" class="form-label">Carrera a la que pertenece</label>
+            <select class="form-select" name="carr" required>
+              {{#each carreras}}
+                    <option value="{{IDCARRERA}}">{{CARRERA}}</option>
+              {{/each}} 
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid area.
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <a class="w-1 btn btn-primary mb-2" href="">Buscar</a>
+            <a class="w-5 btn btn-primary" href="/inventarios/agregar_materia">Agregar materia</a>
+        </div>
+    </div>
+</div>
+</form>
+<br>
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col" class="text-center">Clave </th>
+            <th scope="col" class="text-center">Materia</th>
+            <th scope="col" class="text-center">Carrera</th>
+            <th scope="col" class="text-center">Reticula</th>
+            <th scope="col" class="text-center">Elminar</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each materias}}
+            <tr>
+                <td class="text-center" scope="row">{{CLAVEMATERIA}}</td>
+                <td class="text-center" >{{NOMBREMAT}}</td>
+                <td class="text-center" >{{CARRERA}}</td>
+                <td class="text-center">{{RETICULA}}</td>
+                <td class="text-center"><a class="btn btn-danger" href="materias/eliminar/{{CLAVEMATERIA}}"><i class="bi bi-trash3"></i></a></td>
+              </tr>
+
+            {{else}}
+            <br><br>
+            <div class="col-md-4 mx-auto"> 
+                <div class="card card-body text-center">
+                    <p>No se encontraron registros</p>
+                    <a href="/inventarios/agregar_materia">Agrega uno</a>
+                </div>
+            </div>
+        {{/each}} 
+        
+    </tbody>
+</table> 
