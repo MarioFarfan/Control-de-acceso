@@ -1,47 +1,91 @@
 {{#if user}}
-<div class="container">
-  <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
+    <a href="/home" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
       <img src="/imagenes/logo ITO.png" class="bi me-2" width="70" height="70" ></img>
-      <span class="fs-4">Inicio</span>
+      <span class="fs-5 fw-semibold">LAB</span>
     </a>
-    <ul class="nav nav-pills">
-      
-      <li class="nav-item"><a href="/home" class="nav-link bi bi-house text-md-center" aria-current="page"><br> Inicio</a></li>
-
-      <li class="nav-item"><a href="#" class="nav-link bi bi-calendar-plus text-md-center"><br> Prácticas</a>
-      <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false"></a></a> 
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="/practicas/materias">Materias registradas</a></li>
-          <li><a class="dropdown-item" href="/practicas/agregar_materia">Agregar materia</a></li>
-          <li><a class="dropdown-item" href="/practicas/carreras">Carreras registradas</a></li>
-          <li><a class="dropdown-item" href="/practicas/agregar_carrera">Agregar carrera</a></li>
-        </ul>
-        </li>
-
-      <li class="nav-item dropdown text-md-center"><a href="#" class="bi bi-person text-md-center"><br>Usuarios
-      <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false"></a></a> 
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="/inventarios/alumnos">Alumnos registrados</a></li>
-          <li><a class="dropdown-item" href="/inventarios/usuarios/agregar_alumno">Agregar alumno</a></li>
-          <li><a class="dropdown-item" href="/signup">Agregar usuario</a></li>
-          <li><a class="dropdown-item" href="/usuarios/">Usuarios registrados</a></li>
-        </ul>
+    <ul class="list-unstyled ps-0">
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+          Gestion de practicas
+        </button>
+        <div class="collapse" id="home-collapse" style="">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Practicas programadas</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Programar práctica</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Practicas no programadas</a></li>
+          </ul>
+        </div>
       </li>
-      <li class="nav-item dropdown text-md-center"> <a href="#" class="bi bi-pc-display text-md-center"><br> Inventario
-       <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false"></a></a> 
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="/inventarios/listar_equipos">Listar equipos</a></li>
-          <li><a class="dropdown-item" href="/inventarios/agregar_dispositivo">Agregar equipos</a></li>
-          <li><a class="dropdown-item" href="/inventarios/listar_perifericos">Listar perifericos</a></li>
-          <li><a class="dropdown-item" href="/inventarios/agregar_periferico">Agregar perifericos</a></li>
-        </ul>
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+          Inventario
+        </button>
+        <div class="collapse" id="dashboard-collapse" style="">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="/inventarios/listar_equipos" class="link-dark d-inline-flex text-decoration-none rounded">Ver inventario</a></li>
+            <li><a href="/inventarios/agregar_dispositivo" class="link-dark d-inline-flex text-decoration-none rounded">Registrar PC</a></li>
+            <li><a href="/inventarios/agregar_periferico" class="link-dark d-inline-flex text-decoration-none rounded">Registrar periferico</a></li>
+            <li><a href="/inventarios/listar_perifericos" class="link-dark d-inline-flex text-decoration-none rounded">Listar perifericos</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Listar dispositivos extra</a></li>
+          </ul>
+        </div>
       </li>
-      <li class="nav-item">
-        <a href="/logout" class="nav-link" >Cerrar Sesion</a>
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+          Alumnos
+        </button>
+        <div class="collapse" id="orders-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="/inventarios/usuarios/agregar_alumno" class="link-dark d-inline-flex text-decoration-none rounded">Registrar alumno</a></li>
+            <li><a href="/inventarios/alumnos" class="link-dark d-inline-flex text-decoration-none rounded">Listar alumnos</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Shipped</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Returned</a></li>
+          </ul>
+        </div>
       </li>
-      
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+          Gestion de materias-grupos
+        </button>
+        <div class="collapse" id="dashboard-collapse" style="">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="/practicas/materias" class="link-dark d-inline-flex text-decoration-none rounded">Listar materias</a></li>
+            <li><a href="/practicas/agregar_materia" class="link-dark d-inline-flex text-decoration-none rounded">Nueva materia</a></li>
+            <li><a href="/practicas/carreras" class="link-dark d-inline-flex text-decoration-none rounded">Listar carreras</a></li>
+            <li><a href="/practicas/agregar_carrera" class="link-dark d-inline-flex text-decoration-none rounded">Nueva carreras</a></li>
+            
+            <li><a href="/practicas/departamentos" class="link-dark d-inline-flex text-decoration-none rounded">Listar departamentos</a></li>
+            <li><a href="/practicas/agregar_departamento" class="link-dark d-inline-flex text-decoration-none rounded">Nuevo departamento</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+          Gestion de usuarios
+        </button>
+        <div class="collapse" id="dashboard-collapse" style="">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="/signup" class="link-dark d-inline-flex text-decoration-none rounded">Nuevo usuario</a></li>
+            <li><a href="/usuarios/" class="link-dark d-inline-flex text-decoration-none rounded">Listar usuarios</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Listar dispositivos extra</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="border-top my-3"></li>
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+          Perfil
+        </button>
+        <div class="collapse" id="account-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">New...</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Profile</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Settings</a></li>
+            <li><a href="/logout" class="link-dark d-inline-flex text-decoration-none rounded">Cerrar Sesion</a></li>
+          </ul>
+        </div>
+      </li>
     </ul>
-  </header>
-</div>
+  </div>
 {{/if}}

@@ -4,10 +4,7 @@ const exphbs = require('express-handlebars');
 const path = require('path');
 const flash = require('connect-flash');
 const sesion = require('express-session');
-const MySQLStore = require('express-mysql-session');
 const passport = require('passport');
-
-const {database} = require('./llave');
 
 //inicialization
 const app = express();
@@ -27,10 +24,9 @@ app.set('view engine', '.hbs');
 
 //Midelwares
 app.use(sesion({
-    secret: 'sesionsql',
+    secret: 'sesion',
     resave: false,
-    saveUninitialized: false,
-    store: new MySQLStore(database)
+    saveUninitialized: false
 }));
 app.use(flash());
 app.use(morgan('dev'));

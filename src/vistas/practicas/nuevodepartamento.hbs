@@ -1,0 +1,45 @@
+<body class="bg-light">
+    
+<div class="container">
+  <main>
+    <div class="py-5 text-center">
+      <img class="d-block mx-auto mb-4" src="/imagenes/inventarios.webp" alt="" width="72" height="57">
+      <h2>Control General</h2>
+    </div>
+
+    <div class="row g-5">
+      <div class="col-md-7 col-lg-8">
+        <h4 class="mb-3">Agregar departamento</h4>
+        <form class="needs-validation" novalidate action="/practicas/agregar_departamento" method="POST">
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label for="clavemat" class="form-label">Alias del departamento: </label>
+              <input type="text" class="form-control" name="alias" placeholder="" value="" required>
+              <div class="invalid-feedback">
+                Se requiere una clave válida.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="materia" class="form-label">Nombre completo del departamento: </label>
+              <input type="text" class="form-control" name="departamento" placeholder="" value="" required>
+              <div class="invalid-feedback">
+                Se requiere un nombre de serie válido.
+              </div>
+            </div>
+
+          <button class="w-100 btn btn-primary btn-lg">Registrar departamento</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">2022 Control de acceso al laboratorio de computo ITO</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Privacy</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+  </footer>
+</div>

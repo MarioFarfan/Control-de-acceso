@@ -1,7 +1,8 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-const pool = require('../database');
+//const pool = require('../database');
+const {pool} = require('../database');
 const helpers = require('../lib/helper');
 
 passport.use('local.login', new LocalStrategy({
@@ -9,18 +10,29 @@ passport.use('local.login', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, async (req, username, password, done) => {
-    const filas = await pool.query('SELECT * FROM USUARIO WHERE USER = ?', [username]);
-    if (filas.length > 0) {
-        const user = filas[0];
-        const contravalida = await helpers.comparar(password, user.password); 
-        if (contravalida){
-            done(null, user, req.flash('mensaje', 'Hola ' + user.user));
-        } else {
-            done(null, false, req.flash('danger', 'Contraseña incorrecta'));
-        }
-    } else {
+    console.log('datos: ' + username + ':' + password);
+    try {
+        pool.getConnection(username, password);
+        user = {user: username, password: password}
+        done(null, user, req.flash('mensaje', 'Hola ' + user.user));
+      } catch (e) {
+        console.log("Something went wrong", e);
         return done(null, false, req.flash('danger', 'Usuario no existente'));
-    }
+      }
+    
+    //if (filas.length > 0) {
+    //    const user = filas[0];
+    //    const contravalida = await helpers.comparar(password, user.password); 
+    //    if (contravalida){
+    //        done(null, user, req.flash('mensaje', 'Hola ' + user.user));
+    //    } else {
+    //        done(null, false, req.flash('danger', 'Contraseña incorrecta'));
+    //    }
+    //} else {
+    //    return done(null, false, req.flash('danger', 'Usuario no existente'));
+    //}
+    return done(null, false, req.flash('danger', 'Usuario no existente'));
+    
 }));
 
 

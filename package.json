@@ -1,16 +1,13 @@
 {
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "bootstrap": "^5.2.1",
-    "bootstrap-icons": "^1.9.1",
     "connect-flash": "^0.1.1",
     "express": "^4.18.1",
     "express-handlebars": "^6.0.6",
-    "express-mysql-session": "^2.1.8",
     "express-session": "^1.17.3",
     "express-validator": "^6.14.2",
     "morgan": "^1.10.0",
