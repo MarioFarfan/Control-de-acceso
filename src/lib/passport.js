@@ -1,8 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-//const pool = require('../database');
-const {pool} = require('../database');
+const pool = require('../database');
 const helpers = require('../lib/helper');
 
 passport.use('local.login', new LocalStrategy({
@@ -11,14 +10,18 @@ passport.use('local.login', new LocalStrategy({
     passReqToCallback: true
 }, async (req, username, password, done) => {
     console.log('datos: ' + username + ':' + password);
-    try {
-        pool.getConnection(username, password);
-        user = {user: username, password: password}
+    
+    try{
+        if (pool.conectar(username, password)) {
+        const user = { user: 'username', password }
         done(null, user, req.flash('mensaje', 'Hola ' + user.user));
-      } catch (e) {
-        console.log("Something went wrong", e);
-        return done(null, false, req.flash('danger', 'Usuario no existente'));
-      }
+    } else {
+        return done(null, false, req.flash('danger', 'Error'));
+    }
+    } catch (err) {
+        console.log('Error: ' + err.message);
+        return done(null, false, req.flash('danger', 'Error'));
+    }
     
     //if (filas.length > 0) {
     //    const user = filas[0];
@@ -31,7 +34,6 @@ passport.use('local.login', new LocalStrategy({
     //} else {
     //    return done(null, false, req.flash('danger', 'Usuario no existente'));
     //}
-    return done(null, false, req.flash('danger', 'Usuario no existente'));
     
 }));
 
@@ -88,8 +90,8 @@ passport.serializeUser((user, done) =>{
 });
 
 passport.deserializeUser ( async (user, done) =>{
-    const filas = await pool.query('SELECT * FROM USUARIO WHERE user = ?', [user]);
-    done (null, filas[0]); 
+    //const filas = await pool.query('SELECT * FROM USUARIO WHERE user = ?', [user]);
+    done (null, user); 
 });
 
 function formatoFecha(fecha, formato) {
@@ -101,4 +103,13 @@ function formatoFecha(fecha, formato) {
     }
 
     return formato.replace(/dd|mm|yy|yyy/gi, matched => map[matched])
+}
+
+function db(user, password) {
+    return {
+        host: 'localhost',
+        user,
+        password,
+        database: 'laboratorio'
+    }
 }
