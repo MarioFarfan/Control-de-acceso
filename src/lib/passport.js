@@ -1,7 +1,11 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const ConexionDB = require('../conexionDB').ConexionDB;
+const { promisify } = require('util');
+//const pool = require('../database');
 
-const pool = require('../database');
+let conexion;
+
 const helpers = require('../lib/helper');
 
 passport.use('local.login', new LocalStrategy({
@@ -10,18 +14,10 @@ passport.use('local.login', new LocalStrategy({
     passReqToCallback: true
 }, async (req, username, password, done) => {
     console.log('datos: ' + username + ':' + password);
-    
-    try{
-        if (pool.conectar(username, password)) {
-        const user = { user: 'username', password }
-        done(null, user, req.flash('mensaje', 'Hola ' + user.user));
-    } else {
-        return done(null, false, req.flash('danger', 'Error'));
-    }
-    } catch (err) {
-        console.log('Error: ' + err.message);
-        return done(null, false, req.flash('danger', 'Error'));
-    }
+    const user = {user: username, password};
+    conexion = conectar(username, password);
+    console.dir(conexion);
+    done(null, user, req.flash('mensaje', 'Hola ' + user.user));
     
     //if (filas.length > 0) {
     //    const user = filas[0];
@@ -86,6 +82,7 @@ passport.use('local.signup', new LocalStrategy({
 }));
 
 passport.serializeUser((user, done) =>{
+    console.log('serializing user');
     done(null, user.user);
 });
 
@@ -105,11 +102,20 @@ function formatoFecha(fecha, formato) {
     return formato.replace(/dd|mm|yy|yyy/gi, matched => map[matched])
 }
 
-function db(user, password) {
-    return {
-        host: 'localhost',
-        user,
-        password,
-        database: 'laboratorio'
-    }
+function conectar(username, password) {
+    conexion = new ConexionDB(username, password);
+    conexion.conectar();
+    //console.dir(conexion);
+    module.exports = { conexion };
+    return conexion;
 }
+
+function desconectar(){
+    conexion.cerrarConexion();
+}
+
+function query(consulta) {
+    return promisify(conexion.connection.query).bind(conexion.connection)(consulta);
+  }
+
+module.exports = {query, conexion};
