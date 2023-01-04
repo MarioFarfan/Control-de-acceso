@@ -8,33 +8,47 @@ class ConexionDB {
     this.password = password;
     this.database = 'laboratorio';
   }
+
+  setUser(user) {this.user = user;}
+  setPassword(password) {this.password = password}
   getUser() { return 'user: ${this.user}'; }
   getPassword() { return 'password: ${this.password}'; }
   getConnection() { return 'connection: ${this.connection}'; }
   getDatos() { return `host: ${this.host} - user: ${this.user} - password: ${this.password} - database: ${this.database}`; }
 
   conectar() {  
-    this.connection = mysql.createConnection({
+      this.pool = mysql.createPool({
       host: this.host,
       user: this.user,
       password: this.password,
       database: this.database
     });
+    
+    this.query = promisify(this.pool.query).bind(this.pool);
 
-    this.connection.connect((error) => {
-      if (error) throw error;
+    this.getConnection((err, connection) => {
+      if (err) {
+          if (err.code === 'PROTOCOL_CONNECTION_LOST'){
+              console.error('LA CONEXION CON LA BASE DE DATOS FUÉ CERRADA');
+          }
+          if (err.code === 'ER_CON_COUNT_ERROR'){
+              console.error('EXISTEN MUCHAS CONEXIONES CON LA BASE DE DATOS');
+          }
+          if (err.code === 'ECONNREFUSED'){
+              console.error('Conexion con la base de datos denegada');
+          }
+      }
+      if (connection) connection.release();
       console.log('Base de datos conectada');
-    });
-  }
-
-  query(consulta) {
-    return promisify(this.connection.query).bind(this.connection)(consulta);
+      return;
+  });
   }
 
   cerrarConexion() {
     this.connection.end();
     console.log('Conexión cerrada');
   }
+
 }
 
 module.exports = {ConexionDB};

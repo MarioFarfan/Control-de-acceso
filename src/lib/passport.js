@@ -1,22 +1,22 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const ConexionDB = require('../conexionDB').ConexionDB;
+const {ConexionDB} = require('../conexionDB');
 const { promisify } = require('util');
 //const pool = require('../database');
 
-let conexion;
-
 const helpers = require('../lib/helper');
+const { dir } = require('console');
 
 passport.use('local.login', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
 }, async (req, username, password, done) => {
-    console.log('datos: ' + username + ':' + password);
     const user = {user: username, password};
-    conexion = conectar(username, password);
-    console.dir(conexion);
+    const conexion = new ConexionDB(username, password);
+    conexion.conectar();
+    conexion.query = promisify(conexion.query);
+    module.exports = { user, conexion };
     done(null, user, req.flash('mensaje', 'Hola ' + user.user));
     
     //if (filas.length > 0) {
@@ -82,7 +82,6 @@ passport.use('local.signup', new LocalStrategy({
 }));
 
 passport.serializeUser((user, done) =>{
-    console.log('serializing user');
     done(null, user.user);
 });
 
@@ -101,21 +100,3 @@ function formatoFecha(fecha, formato) {
 
     return formato.replace(/dd|mm|yy|yyy/gi, matched => map[matched])
 }
-
-function conectar(username, password) {
-    conexion = new ConexionDB(username, password);
-    conexion.conectar();
-    //console.dir(conexion);
-    module.exports = { conexion };
-    return conexion;
-}
-
-function desconectar(){
-    conexion.cerrarConexion();
-}
-
-function query(consulta) {
-    return promisify(conexion.connection.query).bind(conexion.connection)(consulta);
-  }
-
-module.exports = {query, conexion};
