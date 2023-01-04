@@ -1,24 +1,41 @@
-<body class="text-center">
-    
-  <main class="form-signin w-100 m-auto">
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+    <main class="form-signin w-100 m-auto d-flex justify-content-center">
     <form action="/login" method="POST">
-      <img class="mb-4" src="/imagenes/Logo TecNM.png" alt="" width="240" height="120">
-      <h1 class=" mb-3 fw-normal">Laboratorio de Computación</h1>
-      <h1 class="h3 mb-3 fw-normal">Iniciar sesión</h1>
-      <div class="form-floating">
-        <input type="text" class="form-control" name="username" placeholder="usuario" autofocus>
-        <label for="floatingInput">Usuario</label>
-      </div>
-      <div class="form-floating">
-        <input type="password" class="form-control" name="password" placeholder="Password">
-        <label for="floatingPassword">Contraseña</label>
-      </div>
 
-      <div class="checkbox mb-3">
-        <br>
+        <div class="bg-white p-5 rounded-5 text-secondary " style="width: 25rem" >
+          <div class="d-flex justify-content-center">
+              <img src="../imagenes/logo ITO.png" alt="login-icon" 
+                  style="height : 6rem" />
+        </div>
+        <div>
+            <h3 class="text-center fw-bold mb-2 text-uppercase">Laboratorio de Cómputo</h3>
+            <h4 class="text-center fw mb-2 text-uppercase"> Iniciar sesión </h4>
+            <p class="text-center text-dark-50">Ingrese su usuario y contraseña</p>
+        </div>
+        <div class="input-group mt-1">
+            <div class="input-group-text bg-dark">
+                <img src="../imagenes/username-icon.svg" alt="."
+                     style="height: 1rem"/>
+            </div>
+            <input class="form-control" type="text" name="username" placeholder="No. de Tarjeta" autofocus/>
+        </div>
+        <div class="input-group mt-2">
+            <div class="input-group-text bg-dark">
+                <img src="../imagenes/password-icon.svg" alt="."
+                     style="height: 1rem"/>
+            </div>
+            <input type="password" class="form-control" name="password" placeholder="Contraseña"/>
+        </div>
+        <div class="pt-1 ">
+            <a href="#" class="d-flex justify-content-end text-decoration-none text-dark fw-semibold fst-italic mb-3">Olvide mi contraseña</a>
+        </div>
+        <div class="btn btn-dark d-flex justify-content-center mt-2">Iniciar Sesión</div>
+        <div class="d-flex gap-1 justify-content-center mt-1">
+            <div>¿No tienes cuenta?</div>
+            <a href="#" class="d-flex justify-content-end text-decoration-none text-dark fw-semibold fst-italic">Registrarme</a>
+        </div>
       </div>
-      <button class="w-100 btn btn-lg btn-primary">Iniciar sesión</button>
     </form>
   </main>
 </body>
-<link href="/estilos/login.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
