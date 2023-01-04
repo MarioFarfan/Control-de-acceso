@@ -1,102 +1,78 @@
-<body class="bg-light">
-    
-<div class="container">
-  <main>
-    <div class="py-5 text-center">
-      <img class="d-block mx-auto mb-4" src="/imagenes/usuario.png" alt="" width="72" height="57">
-      <h2>Control de alumnos</h2>
-    </div>
-
-    <div class="row g-5">
-      <div class="col-md-7 col-lg-8">
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-5 rounded-5 container">
+      <h2 class="text-center fw mb-2 text-uppercase">Control de alumnos</h2>
         <h4 class="mb-3">Agregar nuevo alumno</h4>
         <form class="needs-validation" novalidate action="/inventarios/usuarios/agregar_alumno" method="POST">
-          <div class="row g-3">
+            <h4 class="fw mb-2 text-uppercase">Ingresar datos del estudiante</h4>
+            <div class="row row-cols-2">            
+                    <div class="mb-3">
+                        <label for="nocontrol" class="form-label">No. de control: </label>
+                        <input type="text" class="form-control" id="nocontrol">
+                        <div id="nocontrolHelp" class="form-text">Ingrese el numero de control del estudiante.</div>
+                    </div>
 
-            <div class="col-sm-6">
-              <label for="notarjeta" class="form-label">No. Control: </label>
-              <input type="text" class="form-control" name="nocontrol" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                Se requiere un número de tarjeta.
-              </div>
-            </d
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre(s): </label>
+                        <input type="text" class="form-control" id="nombre">
+                        <div id="nombreHelp" class="form-text">Ingrese el/los nombre/s del estudiante.</div>
+                    </div>
 
-            <div class="col-sm-6">
-              <label for="nombrepersona" class="form-label">Nombre(s) </label>
-              <input type="text" class="form-control" name="nombre_al" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                Se requiere un nombre.
-              </div>
-            </div>
+                    <div class="mb-3">
+                        <label for="apellidop" class="form-label">Apellido Paterno: </label>
+                        <input type="text" class="form-control" id="apellidop">
+                        <div id="apellidopHelp" class="form-text">Ingrese el apellido paterno del estudiante.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="apellidom" class="form-label">Apellido Materno: </label>
+                        <input type="text" class="form-control" id="apellidom">
+                        <div id="apellidomHelp" class="form-text">Ingrese el apellido materno del estudiante.</div>
+                    </div>
 
-            <div class="col-sm-6">
-              <label for="ap_p" class="form-label">Apellido Paterno</label>
-              <input type="text" class="form-control" name="ap_pat" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                Se requiere un apellido.
-              </div>
-            </div>
+                    <div class="mb-3">
+                        <label for="carrera" class="form-label">Carrera: </label>
+                         <select class="form-select form-select-lg mb-3"  aria-label=".form-select-lg example" id="carrera">
+                            {{#each carreras}}
+                                <option value="{{IDCARRERA}}">{{CARRERA}}</option>
+                            {{/each}}
+                         </select>
+                        <div id="noinvHelp" class="form-text">Ingrese el tipo de equipo a agregar.</div>
+                    </div>
 
-            <div class="col-sm-6">
-              <label for="ap_m" class="form-label">Apellido Materno</label>
-              <input type="text" class="form-control" name="ap_mat" placeholder="" value="" required>
-              </div>
-              <div class="invalid-feedback">
-                Se requiere un apellido.
-              </div>
-            </div>
+                    <div class="mb-3">
+                        <label for="tipo" class="form-label">Semestre: </label>
+                        <select class="form-select form-select-lg mb-3"  aria-label=".form-select-lg example" id="tipo">
+                            <option value="1">1°</option>
+                            <option value="2">2°</option>
+                            <option value="3">3°</option>
+                            <option value="4">4°</option>
+                            <option value="5">5°</option>
+                            <option value="6">6°</option>
+                            <option value="7">7°</option>
+                            <option value="8">8°</option>
+                            <option value="9">9°</option>
+                            <option value="10">10°</option>
+                            <option value="11">11°</option>
+                            <option value="12">12°</option>
+                            <option value="13">13°</option>
+                         </select>
+                        <div id="noinvHelp" class="form-text">Ingrese el tipo de equipo a agregar.</div>
+                    </div>
+                
+                    <div class="mb-3">
+                        <label for="tipo" class="form-label">Status: </label>
+                        <select class="form-select" aria-label="Default select example" for="status">
+                            <option value="ALTA">ALTA</option>
+                            <option value="BAJA">BAJA</option>
+                        </select>
+                    </div>
 
-            <!-- atributos de alumnos -->
-            <div class="">
-              <div class="col-sm-6">
-              <label for=" " class="form-label">Carrera: </label>
-              <select class="form-select" name="idcarrera" required>
-                  {{#each carreras}}
-                    <option value="{{IDCARRERA}}">{{CARRERA}}</option>
-                  {{/each}} 
-              </select>
-              <div class="invalid-feedback">
-                Selecciona alguno de los tipos válidos. 
-              </div>
+                    <div>
+
+                    </div>
             </div>
             
-            <div class="">
-              <div class="col-sm-6">
-              <label for=" " class="form-label">Semestre: </label>
-              <select class="form-select" name="semestre" required>
-                 <option value="1">1°</option>
-                 <option value="2">2°</option>
-                 <option value="3">3°</option>
-                 <option value="4">4°</option>
-                 <option value="5">5°</option>
-                 <option value="6">6°</option>
-                 <option value="7">7°</option>
-                 <option value="8">8°</option>
-                 <option value="9">9°</option>
-                 <option value="10">10°</option>
-                 <option value="11">11°</option>
-                 <option value="12">12°</option>
-              </select>
-              <div class="invalid-feedback">
-                Selecciona alguno de los tipos válidos. 
-              </div>
-            </div>
-           
-
-          <hr class="my-4">
-          </div>
-          <button class="w-100 btn btn-primary btn-lg">Registrar alumno</button>
-        </form>
-      </div>
+            <button type="submit" class="btn btn-primary d-flex justify-content-center">Submit</button>
+          </form>
     </div>
-  </main>
-
-  <footer class="my-5 pt-5 text-muted text-center text-small">
-    <p class="mb-1">2022 Control de acceso al laboratorio de computo ITO</p>
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="#">Privacy</a></li>
-      <li class="list-inline-item"><a href="#">Terms</a></li>
-      <li class="list-inline-item"><a href="#">Support</a></li>
-    </ul>
-  </footer>
-</div>
+  </body>

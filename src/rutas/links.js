@@ -55,12 +55,12 @@ router.post('/listar_equipos/editar/:id', isLoggedIn,  async(req, res) => {
 //  OPERACIONES PARA ALUMNOS, LISTAR, AGREGAR, EDITAR Y ELIMIAR
 router.get('/usuarios/agregar_alumno', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const carreras = await conexion.query('SELECT IDCARRERA, CARRERA FROM CARRERA');
+    const carreras = await conexion.query('SELECT IDCARRERA, NOMBRE FROM CARRERA');
     res.render('usuarios/agregar_alumno',{carreras});
 }); 
 
 router.post('/usuarios/agregar_alumno', isLoggedIn,  async (req, res ) => {
-    const { nocontrol, nombre_al, ap_pat, ap_mat, idcarrera, semestre } = req.body;
+    const { nocontrol, nombre, apellidop, apeliidom, idcarrera, semestre } = req.body;
     const newAlumno = {
         nocontrol,
         nombre_al,
@@ -71,7 +71,7 @@ router.post('/usuarios/agregar_alumno', isLoggedIn,  async (req, res ) => {
         status: 'ALTA'
     }
     const { conexion } = require('../lib/passport');
-    await conexion.query('INSERT INTO alumno set ?', [newAlumno]);
+    await conexion.query('INSERT INTO estudiante set ?', [newAlumno]);
     req.flash('mensaje', 'Alumno agregado con exito');
     res.redirect('/inventarios/alumnos');
 });
