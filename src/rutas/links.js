@@ -78,7 +78,7 @@ router.post('/usuarios/agregar_alumno', isLoggedIn,  async (req, res ) => {
 
 router.get('/alumnos', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const alumnos = await conexion.query('SELECT NOCONTROL, NOMBRE_AL, AP_PAT, AP_MAT, CARRERA, SEMESTRE, STATUS  FROM ALUMNO INNER JOIN CARRERA ON ALUMNO.IDCARRERA = CARRERA.IDCARRERA');
+    const alumnos = await conexion.query('SELECT NOCONTROL, NOMBRE, APELLIDOP, APELLIDOM, CARRERA, SEMESTRE, STATUS  FROM ESTUDIANTE INNER JOIN CARRERA ON ESTUDIANTE.IDCARRERA = CARRERA.IDCARRERA');
     const carreras = await conexion.query('SELECT IDCARRERA, CARRERA FROM CARRERA');
     res.render('usuarios/listar_alumnos', { alumnos, carreras });
 });
