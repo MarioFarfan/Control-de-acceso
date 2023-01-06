@@ -37,6 +37,9 @@ class ConexionDB {
           if (err.code === 'ECONNREFUSED'){
               console.error('Conexion con la base de datos denegada');
           }
+          if (err.code === 'ER_ACCESS_DENIED_ERROR'){
+            console.error('Credenciales incorrectas');
+        }
       }
       if (connection) connection.release();
       console.log('Base de datos conectada');
@@ -47,6 +50,10 @@ class ConexionDB {
   cerrarConexion() {
     this.connection.end();
     console.log('Conexión cerrada');
+  }
+
+  isConnected(){
+    return this.pool.status;
   }
 
 }

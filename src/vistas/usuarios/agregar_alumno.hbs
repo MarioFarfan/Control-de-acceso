@@ -10,7 +10,7 @@
     <div class="row g-5">
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">Agregar nuevo alumno</h4>
-        <form class="needs-validation" novalidate action="/inventarios/usuarios/agregar_alumno" method="POST">
+        <form class="needs-validation" action="/inventarios/usuarios/agregar_alumno" method="POST">
           <div class="row g-3">
 
             <div class="col-sm-6">
@@ -23,7 +23,7 @@
 
             <div class="col-sm-6">
               <label for="nombrepersona" class="form-label">Nombre(s) </label>
-              <input type="text" class="form-control" name="nombre_al" placeholder="" value="" required>
+              <input type="text" class="form-control" name="nombre" placeholder="" value="" required>
               <div class="invalid-feedback">
                 Se requiere un nombre.
               </div>
@@ -31,7 +31,7 @@
 
             <div class="col-sm-6">
               <label for="ap_p" class="form-label">Apellido Paterno</label>
-              <input type="text" class="form-control" name="ap_pat" placeholder="" value="" required>
+              <input type="text" class="form-control" name="apellidop" placeholder="" value="" required>
               <div class="invalid-feedback">
                 Se requiere un apellido.
               </div>
@@ -39,7 +39,7 @@
 
             <div class="col-sm-6">
               <label for="ap_m" class="form-label">Apellido Materno</label>
-              <input type="text" class="form-control" name="ap_mat" placeholder="" value="" required>
+              <input type="text" class="form-control" name="apellidom" placeholder="" value="" required>
               </div>
               <div class="invalid-feedback">
                 Se requiere un apellido.

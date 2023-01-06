@@ -52,34 +52,34 @@ router.post('/listar_equipos/editar/:id', isLoggedIn,  async(req, res) => {
     res.redirect('/inventarios/listar_equipos');
 });
 
-//  OPERACIONES PARA ALUMNOS, LISTAR, AGREGAR, EDITAR Y ELIMIAR
+//  OPERACIONES PARA ESTUDIANTES, LISTAR, AGREGAR, EDITAR Y ELIMIAR
 router.get('/usuarios/agregar_alumno', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const carreras = await conexion.query('SELECT IDCARRERA, CARRERA FROM CARRERA');
+    const carreras = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM CARRERA');
     res.render('usuarios/agregar_alumno',{carreras});
 }); 
 
 router.post('/usuarios/agregar_alumno', isLoggedIn,  async (req, res ) => {
-    const { nocontrol, nombre_al, ap_pat, ap_mat, idcarrera, semestre } = req.body;
+    const { nocontrol, nombre, apellidop, apellidom, idcarrera, semestre } = req.body;
     const newAlumno = {
         nocontrol,
-        nombre_al,
-        ap_pat,
-        ap_mat,
+        nombre,
+        apellidop,
+        apellidom,
         idcarrera,
         semestre,
         status: 'ALTA'
     }
     const { conexion } = require('../lib/passport');
-    await conexion.query('INSERT INTO alumno set ?', [newAlumno]);
+    await conexion.query('INSERT INTO estudiante set ?', [newAlumno]);
     req.flash('mensaje', 'Alumno agregado con exito');
     res.redirect('/inventarios/alumnos');
 });
 
 router.get('/alumnos', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const alumnos = await conexion.query('SELECT NOCONTROL, NOMBRE_AL, AP_PAT, AP_MAT, CARRERA, SEMESTRE, STATUS  FROM ALUMNO INNER JOIN CARRERA ON ALUMNO.IDCARRERA = CARRERA.IDCARRERA');
-    const carreras = await conexion.query('SELECT IDCARRERA, CARRERA FROM CARRERA');
+    const alumnos = await conexion.query('SELECT NOCONTROL, ESTUDIANTE.NOMBRE, APELLIDOP, APELLIDOM, CARRERA.NOMBRE, SEMESTRE, STATUS  FROM ESTUDIANTE INNER JOIN CARRERA ON ESTUDIANTE.IDCARRERA = CARRERA.IDCARRERA');
+    const carreras = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM CARRERA');
     res.render('usuarios/listar_alumnos', { alumnos, carreras });
 });
 
@@ -87,7 +87,7 @@ router.get('/alumnos', isLoggedIn,  async (req, res) => {
 router.get('/alumnos/eliminar/:id', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params;
-    await conexion.query('DELETE FROM ALUMNO WHERE NOCONTROL = ?', [id]);
+    await conexion.query('DELETE FROM ESTUDIANTE WHERE NOCONTROL = ?', [id]);
     req.flash('exito', 'Alumno eliminado con éxito');
     res.redirect('/inventarios/alumnos');
 });
@@ -96,42 +96,41 @@ router.get('/alumnos/eliminar/:id', isLoggedIn,  async (req, res) => {
 router.get('/alumnos/editar/:id', isLoggedIn,  async(req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params;
-    const alumnos = await conexion.query('SELECT * FROM ALUMNO WHERE NOCONTROL = ?', [id]);
-    const carreras = await conexion.query('SELECT IDCARRERA, CARRERA FROM CARRERA');
+    const alumnos = await conexion.query('SELECT * FROM ESTUDIANTE WHERE NOCONTROL = ?', [id]);
+    const carreras = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM CARRERA');
     res.render('usuarios/editar_alumno', {carreras, alumno: alumnos[0]});
 });
 
 router.post('/alumnos/editar/:id', isLoggedIn,  async(req, res) => {
     const {id} = req.params;
-    const { nocontrol, nombre_al, ap_pat, ap_mat, idcarrera, semestre } = req.body;
+    const { nocontrol, nombre, appelidop, appelidom, idcarrera, semestre } = req.body;
     const newAlumno = {
         nocontrol,
-        nombre_al,
-        ap_pat,
-        ap_mat,
+        nombre,
+        appelidop,
+        appelidom,
         idcarrera,
         semestre,
         status: 'ALTA'
     }
     const { conexion } = require('../lib/passport');
-    await  conexion.query('UPDATE ALUMNO SET ? WHERE NOCONTROL = ?', [newAlumno, id]);
+    await  conexion.query('UPDATE ESTUDIANTE SET ? WHERE NOCONTROL = ?', [newAlumno, id]);
     req.flash('exito', 'Alumno agregado con éxito');
     res.redirect('/inventarios/alumnos');
 });
 
 router.get('/agregar_materia', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const carreras = await conexion.query('SELECT IDCARRERA, CARRERA FROM CARRERA');
+    const carreras = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM CARRERA');
     res.render('inventarios/nuevamateria', { carreras });
 });
 
 router.post('/agregar_materia', isLoggedIn,  async (req, res ) => {
-    const { clavemat, nombremat, idcarrera, reticula } = req.body;
+    const { clave, nombre, idcarrera } = req.body;
     const newMateria = {
-        clavemateria: clavemat, 
-        nombremat, 
-        idcarrera, 
-        reticula
+        clave, 
+        nombre, 
+        idcarrera
     }
     const { conexion } = require('../lib/passport');
     await conexion.query('INSERT INTO MATERIA set ?', [newMateria]);
@@ -141,16 +140,15 @@ router.post('/agregar_materia', isLoggedIn,  async (req, res ) => {
 
 router.get('/materias', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const carreras = await conexion.query('SELECT IDCARRERA, CARRERA FROM CARRERA');
-    const materias = await conexion.query('SELECT CLAVEMATERIA, NOMBREMAT, CARRERA, RETICULA FROM MATERIA INNER JOIN CARRERA on carrera.idcarrera = materia.idcarrera');
-    
+    const carreras = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM CARRERA');
+    const materias = await conexion.query('SELECT CLAVE, NOMBRE, IDCARRERA FROM MATERIA INNER JOIN CARRERA on carrera.idcarrera = materia.idcarrera');
     res.render('inventarios/listar_materias', { carreras, materias });
 });
 
 router.get('/materias/eliminar/:id',  isLoggedIn, async (req, res) => {
     const {id} = req.params;
     const { conexion } = require('../lib/passport');
-    await conexion.query('DELETE FROM MATERIA WHERE CLAVEMATERIA = ?', [id]);
+    await conexion.query('DELETE FROM MATERIA WHERE CLAVE = ?', [id]);
     req.flash('mensaje', 'Materia eliminada con éxito');
     res.redirect('/inventarios/materias');
 });
@@ -159,9 +157,8 @@ router.post('/materias', isLoggedIn,  async (req, res) => {
     const {mat, carr } = req.body;
     console.log('datos del formulario' + mat + carr);
     const { conexion } = require('../lib/passport');
-    const carreras = await conexion.query('SELECT IDCARRERA, CARRERA FROM CARRERA where idcarrera = ?', [carr]);
-    const materias = await conexion.query('SELECT CLAVEMATERIA, NOMBREMAT, CARRERA, RETICULA FROM MATERIA INNER JOIN CARRERA on carrera.idcarrera = materia.idcarrera');
-    
+    const carreras = await conexion.query('SELECT IDCARRERA, NOMBRE FROM CARRERA where idcarrera = ?', [carr]);
+    const materias = await conexion.query('SELECT CLAVE, NOMBRE, IDCARRERA FROM MATERIA INNER JOIN CARRERA on carrera.idcarrera = materia.idcarrera');
     res.render('inventarios/listar_materias', { carreras, materias });
 });
 
@@ -170,26 +167,26 @@ router.get('/agregar_periferico', isLoggedIn,  (req, res) => {
 });
 
 router.post('/agregar_periferico', isLoggedIn, async(req, res) => {
-    const{ noserieper, marca, tipo, noinventario } = req.body;
-    const newDispositivo = { noserieper, marca,estado: 'SIN ASIGNAR', tipo };  //validar los datos
+    const{ noserie, marca, tipo, noinv } = req.body;
+    const newDispositivo = { noserie, noinv, tipo };  //validar los datos
     const { conexion } = require('../lib/passport');
-    await conexion.query('INSERT INTO periferico set ?', [newDispositivo]);
+    await conexion.query('INSERT INTO insumos set ?', [newDispositivo]);
     req.flash('mensaje', 'Periferico agregado con exito');
     res.redirect('/inventarios/listar_perifericos');
 });
 
 router.get('/listar_perifericos', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const equiposmonitor = await conexion.query('SELECT * FROM PERIFERICO WHERE TIPO = "MONITOR"');
-    const equiposteclado = await conexion.query('SELECT * FROM PERIFERICO WHERE TIPO = "TECLADO"');
-    const equiposmouse = await conexion.query('SELECT * FROM PERIFERICO WHERE TIPO = "MOUSE"');
+    const equiposmonitor = await conexion.query('SELECT * FROM INSUMOS WHERE TIPO like "MONITOR"');
+    const equiposteclado = await conexion.query('SELECT * FROM INSUMOS WHERE TIPO like "TECLADO"');
+    const equiposmouse = await conexion.query('SELECT * FROM INSUMOS WHERE TIPO like "MOUSE"');
     res.render('inventarios/listar_perifericos', {equiposmonitor, equiposteclado, equiposmouse });
 });
 
 router.get('/listar_perifericos/eliminar/:id',  isLoggedIn, async (req, res) => {
     const {id} = req.params;
     const { conexion } = require('../lib/passport');
-    await conexion.query('DELETE FROM periferico WHERE noserieper = ?', [id]);
+    await conexion.query('DELETE FROM INSUMOS WHERE noserie = ?', [id]);
     req.flash('mensaje', 'Periferico eliminado con éxito');
     res.redirect('/inventarios/listar_perifericos');
 });
@@ -197,7 +194,7 @@ router.get('/listar_perifericos/eliminar/:id',  isLoggedIn, async (req, res) => 
 router.get('/listar_perifericos/editar/:id', isLoggedIn,  async(req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params;
-    const perifericos = await conexion.query('SELECT * FROM periferico WHERE noserieper = ?', [id]);
+    const perifericos = await conexion.query('SELECT * FROM INSUMOS WHERE noserie = ?', [id]);
     res.render('inventarios/editar_periferico', {periferico: perifericos[0]});
 });
 
@@ -211,7 +208,7 @@ router.post('/listar_perifericos/editar/:id', isLoggedIn,  async(req, res) => {
         tipo
     }
     const { conexion } = require('../lib/passport');
-    await  conexion.query('UPDATE periferico SET ? WHERE noserieper = ?', [newPeriferico, id]);
+    await  conexion.query('UPDATE INSUMOS SET ? WHERE noserie = ?', [newPeriferico, id]);
     req.flash('exito', 'Alumno agregado con éxito');
     res.redirect('/inventarios/listar_perifericos');
 });

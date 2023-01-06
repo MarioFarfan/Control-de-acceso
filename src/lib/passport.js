@@ -15,20 +15,17 @@ passport.use('local.login', new LocalStrategy({
     const user = {user: username, password};
     const conexion = new ConexionDB(username, password);
     conexion.conectar();
-    conexion.query = promisify(conexion.query);
-    module.exports = { user, conexion };
+    module.exports = { conexion };
     done(null, user, req.flash('mensaje', 'Hola ' + user.user));
-    
-    //if (filas.length > 0) {
-    //    const user = filas[0];
-    //    const contravalida = await helpers.comparar(password, user.password); 
-    //    if (contravalida){
-    //        done(null, user, req.flash('mensaje', 'Hola ' + user.user));
-    //    } else {
-    //        done(null, false, req.flash('danger', 'Contraseña incorrecta'));
+    console.log(conexion.isConnected());
+    //if(conexion.isConnected()) {
+    //    if (err) {
+    //      return done(null, false, req.flash('danger', 'Credenciales incorrectas'));
     //    }
-    //} else {
-    //    return done(null, false, req.flash('danger', 'Usuario no existente'));
+    //    if (connection){
+    //        module.exports = { conexion };
+    //        done(null, user, req.flash('mensaje', 'Hola ' + user.user));
+    //    } 
     //}
     
 }));

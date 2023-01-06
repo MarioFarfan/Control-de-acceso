@@ -6,7 +6,7 @@ const { isLoggedIn } = require('../lib/auth');
 
 router.get('/agregar_materia', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const carreras = await conexion.query('SELECT IDCARRERA, CARRERA FROM CARRERA');
+    const carreras = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM CARRERA');
     res.render('practicas/nuevamateria', { carreras });
 });
 
@@ -26,8 +26,8 @@ router.post('/agregar_materia', isLoggedIn,  async (req, res ) => {
 
 router.get('/materias', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const carreras = await conexion.query('SELECT IDCARRERA, CARRERA FROM CARRERA');
-    const materias = await conexion.query('SELECT CLAVEMATERIA, NOMBREMAT, CARRERA, RETICULA FROM MATERIA INNER JOIN CARRERA on carrera.idcarrera = materia.idcarrera');
+    const carreras = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM CARRERA');
+    const materias = await conexion.query('SELECT CLAVE, MATERIA.NOMBRE, CARRERA.NOMBRE FROM MATERIA INNER JOIN CARRERA on carrera.idcarrera = materia.idcarrera');
     
     res.render('practicas/listar_materias', { carreras, materias });
 });
@@ -43,7 +43,7 @@ router.get('/materias/eliminar/:id',  isLoggedIn, async (req, res) => {
 
 router.get('/carreras', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const carreras = await conexion.query('select idcarrera, carrera, alias, departamento from carrera inner join departamento on carrera.iddepto = departamento.iddepto');
+    const carreras = await conexion.query('select idcarrera, nombre, alias, departamento from carrera inner join departamento on carrera.departamento = departamento.departamento');
     const departamentos = await conexion.query('SELECT * FROM DEPARTAMENTO');
     
     res.render('practicas/listar_carreras', { carreras, departamentos });
@@ -79,7 +79,6 @@ router.get('/carreras/eliminar/:id',  isLoggedIn, async (req, res) => {
 router.get('/departamentos', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
     const departamentos = await conexion.query('SELECT * FROM departamento');
-    
     res.render('practicas/listar_departamentos', { departamentos });
 });
 

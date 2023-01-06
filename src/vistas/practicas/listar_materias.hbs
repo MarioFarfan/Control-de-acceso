@@ -32,18 +32,16 @@
             <th scope="col" class="text-center">Clave </th>
             <th scope="col" class="text-center">Materia</th>
             <th scope="col" class="text-center">Carrera</th>
-            <th scope="col" class="text-center">Reticula</th>
             <th scope="col" class="text-center">Elminar</th>
         </tr>
     </thead>
     <tbody>
         {{#each materias}}
             <tr>
-                <td class="text-center" scope="row">{{CLAVEMATERIA}}</td>
-                <td class="text-center" >{{NOMBREMAT}}</td>
-                <td class="text-center" >{{CARRERA}}</td>
-                <td class="text-center">{{RETICULA}}</td>
-                <td class="text-center"><a class="btn btn-danger" href="materias/eliminar/{{CLAVEMATERIA}}"><i class="bi bi-trash3"></i></a></td>
+                <td class="text-center" scope="row">{{CLAVE}}</td>
+                <td class="text-center" >{{NOMBRE}}</td>
+                <td class="text-center" >{{IDCARRERA}}</td>
+                <td class="text-center"><a class="btn btn-danger" href="materias/eliminar/{{CLAVE}}"><i class="bi bi-trash3"></i></a></td>
               </tr>
 
             {{else}}

@@ -10,12 +10,12 @@
     <div class="row g-5">
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">Agregar periferico</h4>
-        <form class="needs-validation" novalidate action="/inventarios/agregar_periferico" method="POST">
+        <form class="needs-validation" action="/inventarios/agregar_periferico" method="POST">
           <div class="row g-3">
 
             <div class="col-sm-6">
               <label for="noserie" class="form-label">Número de serie</label>
-              <input type="text" class="form-control" name="noserieper" placeholder="" value="" required>
+              <input type="text" class="form-control" name="noserie" placeholder="" value=""  required>
               <div class="invalid-feedback">
                 Se requiere un número de serie válido.
               </div>
@@ -24,7 +24,7 @@
 
             <div class="col-sm-6">
               <label for="folioinv" class="form-label">Folio de inventario</label>
-              <input type="text" class="form-control" name="noinventario" placeholder="" value="" required>
+              <input type="text" class="form-control" name="noinv" placeholder="" value="" required>
               <div class="invalid-feedback">
                 Se requiere un número de inventario válido.
               </div>

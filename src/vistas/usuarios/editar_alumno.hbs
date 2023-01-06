@@ -10,7 +10,7 @@
     <div class="row g-5">
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">Editar alumno</h4>
-        <form class="needs-validation" novalidate action="/inventarios/alumnos/editar/{{alumno.nocontrol}}" method="POST">
+        <form class="needs-validation" action="/inventarios/alumnos/editar/{{alumno.nocontrol}}" method="POST">
           <div class="row g-3">
 
             <div class="col-sm-6">
@@ -23,7 +23,7 @@
 
             <div class="col-sm-6">
               <label for="nombrepersona" class="form-label">Nombre(s) </label>
-              <input type="text" class="form-control" name="nombre_al" placeholder="" value="{{alumno.nombre_al}}" required>
+              <input type="text" class="form-control" name="nombre" placeholder="" value="{{alumno.nombre}}" required>
               <div class="invalid-feedback">
                 Se requiere un nombre.
               </div>
@@ -31,7 +31,7 @@
 
             <div class="col-sm-6">
               <label for="ap_p" class="form-label">Apellido Paterno</label>
-              <input type="text" class="form-control" name="ap_pat" placeholder="" value="{{alumno.ap_pat}}" required>
+              <input type="text" class="form-control" name="apellidop" placeholder="" value="{{alumno.apellidop}}" required>
               <div class="invalid-feedback">
                 Se requiere un apellido.
               </div>
@@ -39,7 +39,7 @@
 
             <div class="col-sm-6">
               <label for="ap_m" class="form-label">Apellido Materno</label>
-              <input type="text" class="form-control" name="ap_mat" placeholder="" value="{{alumno.ap_mat}}" required>
+              <input type="text" class="form-control" name="apellidom" placeholder="" value="{{alumno.apellidom}}" required>
               </div>
               <div class="invalid-feedback">
                 Se requiere un apellido.
