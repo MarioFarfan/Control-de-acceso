@@ -167,7 +167,7 @@ router.get('/agregar_periferico', isLoggedIn,  (req, res) => {
 });
 
 router.post('/agregar_periferico', isLoggedIn, async(req, res) => {
-    const{ noserie, marca, tipo, noinv } = req.body;
+    const{ noserie, noinv, tipo } = req.body;
     const newDispositivo = { noserie, noinv, tipo };  //validar los datos
     const { conexion } = require('../lib/passport');
     await conexion.query('INSERT INTO insumos set ?', [newDispositivo]);

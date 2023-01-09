@@ -1,115 +1,84 @@
-<body class="bg-light">
-    
-<div class="container">
-  <main>
-    <div class="py-5 text-center">
-      <img class="d-block mx-auto mb-4" src="/imagenes/inventarios.webp" alt="" width="72" height="57">
-      <h2>Control de inventarios</h2>
-    </div>
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-5 rounded-5 container">
+      <h2 class="text-center fw mb-2 text-uppercase">Control de inventario</h2>
+        <h4 class="fw mb-3 text-uppercase">Agregar nuevo equipo de cómputo</h4>
+        <form class="needs-validation" novalidate action="" method="POST">
+            <h5 class="fw mb-2">Ingresa los datos del equipo</h5>
+            <div class="row row-cols-2">            
+                    <div class="mb-3">
+                        <label for="noserie" class="form-label">No. de serie: </label>
+                        <input type="text" class="form-control" id="noserie">
+                        <div id="noserieHelp" class="form-text">Ingrese el numero de serie que incluye el equipo.</div>
+                    </div>
 
-    <div class="row g-5">
-      <div class="col-md-7 col-lg-8">
-        <h4 class="mb-3">Agregar dispositivo (PC)</h4>
-        <form class="needs-validation" action="/inventarios/agregar_dispositivo" method="POST">
-          <div class="row g-3">
+                    <div class="mb-3">
+                        <label for="noinv" class="form-label">Numero de inventario: </label>
+                        <input type="text" class="form-control" id="noinv">
+                        <div id="noinvHelp" class="form-text">Ingrese el numero de inventario proporcionado por la institución.</div>
+                    </div>
 
-            <div class="col-sm-6">
-              <label for="noserie" class="form-label">Número de serie</label>
-              <input type="text" class="form-control" name="noserie" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                Se requiere un número de serie válido.
-              </div>
-            </div>
+                    <div class="mb-3">
+                      <label for="marca" class="form-label">Marca</label>
+                      <input type="text" class="form-control" name="marca" placeholder="" value="" required>
+                    </div>
 
+                     <div class="mb-3">
+                        <label for="tipo" class="form-label">Tipo</label>
+                        <select class="form-select" onchange="select()" id="tipo" name="tipo" required>
+                          <option value="ALL IN ONE">All in One</option>
+                          <option value="COMPUESTO"> Compuesto </option>
+                        </select>
+                        <div class="invalid-feedback">
+                          <div id="areaHelp" class="form-text">Ingrese el tipo de equipo a agregar.</div>
+                        </div>
+                    </div>
 
-            <div class="col-sm-6">
-              <label for="folioinv" class="form-label">Folio de inventario</label>
-              <input type="text" class="form-control" name="noinventario" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                Se requiere un número de inventario válido.
-              </div>
-            </div>
+                    <div id="compuesto" class="mb-3 d-none">
+                      <div class="col-12">
+                        <label for="" class="form-label">Folio del Monitor: </label>
+                        <input type="text" class="form-control" name="monitor" placeholder="" required>
+                        <div class="invalid-feedback">
+                          Introduce el Folio del monitor.
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="mb-3">
+                      <label for="" class="form-label">Folio del Mouse: </label>
+                      <input type="text" class="form-control" name="mouse" placeholder="" required>
+                      <div class="invalid-feedback">
+                        Introduce el Folio del mouse
+                      </div>
+                    </div>
 
-            <div class="col-sm-6">
-              <label for="marca" class="form-label">Marca</label>
-              <input type="text" class="form-control" name="marca" placeholder="" value="" required>
-              </div>
-            
-
-            <div class="col-sm-6">
-              <label for="tipo" class="form-label">Tipo</label>
-              <select class="form-select" onchange="select()" id="tipo" name="tipo" required>
-                <option value="ALL IN ONE">All in One</option>
-                <option value="COMPUESTO"> Compuesto </option>
-              </select>
-              <div class="invalid-feedback">
-                Selecciona alguno de los tipos válidos, o agregar uno nuevo en caso de ser necesario. 
-              </div>
-            </div>
-
-             <div id="compuesto" class="d-none">
-              <div class="col-12">
-                <label for="" class="form-label">Folio del Monitor: </label>
-                <input type="text" class="form-control" name="monitor" placeholder="" required>
-                <div class="invalid-feedback">
-                  Introduce el Folio del monitor.
+                    <div class="mb-3">
+                      <label for="" class="form-label">Folio del Teclado: </label>
+                      <input type="text" class="form-control" name="teclado" placeholder="" required>
+                      <div class="invalid-feedback">
+                        Introduce el Folio del teclado.
+                      </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-           
-            <div class="col-sm-6">
-              <label for="" class="form-label">Folio del Mouse: </label>
-              <input type="text" class="form-control" name="mouse" placeholder="" required>
-              <div class="invalid-feedback">
-                Introduce el Folio del mouse
-              </div>
-            </div>
 
-            <div class="col-sm-6">
-              <label for="" class="form-label">Folio del Teclado: </label>
-              <input type="text" class="form-control" name="teclado" placeholder="" required>
-              <div class="invalid-feedback">
-                Introduce el Folio del teclado.
-              </div>
-              </div>
-            </div>
-
-           
-
-            <div class="col-md-5">
-              <label for="idarea" class="form-label">Area a la que pertenece</label>
-              <select class="form-select" name="idarea" required>
-                <option value="USUARIOS1">Usuarios 1</option>
-                <option value="USUARIOS2">Usuarios 2</option>
-                <option value="USUARIOS3">Usuarios 3</option>
-                <option value="USUARIOS4">Usuarios 4</option>
-                <option value="LAB-BD">Laboratorio de Bases de datos</option>
-                <option value="LAB-RED">Laboratorio de redes</option>
-                <option value="ALMACEN">Almacen</option>
-              </select>
-              <div class="invalid-feedback">
-                Please select a valid area.
+                    <div class="mb-3">
+                        <label for="tipo" class="form-label">Area a la que pertenece: </label>
+                        <select class="form-select form-select mb-3"  aria-label=".form-select-lg example" id="area">
+                            <option value="USUARIOS1">Usuarios 1</option>
+                            <option value="USUARIOS2">Usuarios 2</option>
+                            <option value="USUARIOS3">Usuarios 3</option>
+                            <option value="USUARIOS4">Usuarios 4</option>
+                            <option value="LAB-BD">Laboratorio de Bases de datos</option>
+                            <option value="LAB-RED">Laboratorio de redes</option>
+                            <option value="ALMACEN">Almacen</option>
+                         </select>
+                    </div>
+                  <div>
+                     <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>
               </div>
             </div>
-          </div>
-          <hr class="my-4">
-          </div>
-          <button class="w-100 btn btn-primary btn-lg">Registrar dispositivo</button>
-        </form>
-      </div>
+          </form>
     </div>
-  </main>
-
-  <footer class="my-5 pt-5 text-muted text-center text-small">
-    <p class="mb-1">2022 Control de acceso al laboratorio de computo ITO</p>
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="#">Privacy</a></li>
-      <li class="list-inline-item"><a href="#">Terms</a></li>
-      <li class="list-inline-item"><a href="#">Support</a></li>
-    </ul>
-  </footer>
-</div>
-
+  </body>
 <script>
     function select(){
         var tipo = document.getElementById("tipo").value;
