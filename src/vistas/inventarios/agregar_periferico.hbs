@@ -1,40 +1,33 @@
-<body class="bg-light">
-    
-<div class="container">
-  <main>
-    <div class="py-5 text-center">
-      <img class="d-block mx-auto mb-4" src="/imagenes/inventarios.webp" alt="" width="72" height="57">
-      <h2>Control de inventarios</h2>
-    </div>
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-5 rounded-5 container">
+      <h2 class="text-center fw mb-2 text-uppercase">Control de inventario</h2>
+        <h4 class="text-center fw mb-3 text-uppercase">Registro de insumos</h4>
+        <form class="needs-validation" novalidate action="" method="POST">
+            <h5 class="fw mb-2">Ingresa los datos del material</h5>
+            <div class="row row-cols-2">            
+                    <div class="mb-3">
+                        <label for="noserie" class="form-label">No. de serie: </label>
+                        <input type="text" class="form-control" id="noserie" required>
+                        <div id="noserieHelp" class="form-text">Ingrese el numero de serie que incluye el equipo.</div>
+                    </div>
 
-    <div class="row g-5">
-      <div class="col-md-7 col-lg-8">
-        <h4 class="mb-3">Agregar periferico</h4>
-        <form class="needs-validation" action="/inventarios/agregar_periferico" method="POST">
-          <div class="row g-3">
+                    <div class="mb-3">
+                        <label for="noinv" class="form-label">Numero de inventario: </label>
+                        <input type="text" class="form-control" id="noinv" required>
+                        <div id="noinvHelp" class="form-text">Ingrese el numero de inventario proporcionado por la institución.</div>
+                    </div>
 
-            <div class="col-sm-6">
-              <label for="noserie" class="form-label">Número de serie</label>
-              <input type="text" class="form-control" name="noserie" placeholder="" value=""  required>
-              <div class="invalid-feedback">
-                Se requiere un número de serie válido.
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <label for="folioinv" class="form-label">Folio de inventario</label>
-              <input type="text" class="form-control" name="noinv" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                Se requiere un número de inventario válido.
-              </div>
-            </div>
-
-            <div class="col-sm-6">
-              <label for="marca" class="form-label">Marca</label>
-              <input type="text" class="form-control" name="marca" placeholder="" value="" required>
-              </div>
-            
+                     <div class="mb-3">
+                        <label for="tipo" class="form-label">Tipo</label>
+                        <select class="form-select" id="tipo" name="tipo" required>
+                          <option value="MOUSE">Mouse</option>
+                          <option value="TECLADO">Teclado</option>
+                          <option value="MONITOR">Monitor</option>
+                        </select>
+                        <div class="invalid-feedback">
+                          <div id="areaHelp" class="form-text">Ingrese el tipo de equipo a agregar.</div>
+                        </div>
+                    </div>
 
             <div class="col-sm-6">
               <label for="tipo" class="form-label">Tipo</label>
@@ -48,20 +41,10 @@
               </div>
             </div>
           </div>
-          <hr class="my-4">
+            <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>
           </div>
-          <button class="w-100 btn btn-primary btn-lg">Registrar dispositivo</button>
+          
         </form>
       </div>
     </div>
   </main>
-
-  <footer class="my-5 pt-5 text-muted text-center text-small">
-    <p class="mb-1">2022 Control de acceso al laboratorio de computo ITO</p>
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="#">Privacy</a></li>
-      <li class="list-inline-item"><a href="#">Terms</a></li>
-      <li class="list-inline-item"><a href="#">Support</a></li>
-    </ul>
-  </footer>
-</div>
