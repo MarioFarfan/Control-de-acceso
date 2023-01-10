@@ -1,7 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const {ConexionDB} = require('../conexionDB');
-const { promisify } = require('util');
 //const pool = require('../database');
 
 const helpers = require('../lib/helper');
@@ -12,24 +11,27 @@ passport.use('local.login', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, async (req, username, password, done) => {
-    const user = {user: username, password};
     const conexion = new ConexionDB(username, password);
     conexion.conectar();
+    const user = {user: username, password};
     module.exports = { conexion };
     done(null, user, req.flash('mensaje', 'Hola ' + user.user));
-    console.log(conexion.isConnected());
-    //if(conexion.isConnected()) {
+    //conexion.getConnection((err, connection) => {
     //    if (err) {
-    //      return done(null, false, req.flash('danger', 'Credenciales incorrectas'));
+    //        done(null, null, req.flash('danger', 'Hola '));
     //    }
-    //    if (connection){
-    //        module.exports = { conexion };
+    //    if (connection) {
+    //        connection.release();
+    //        console.log('Base de datos conectada');
+    //        const user = {user: username, password};
     //        done(null, user, req.flash('mensaje', 'Hola ' + user.user));
-    //    } 
-    //}
+    //        return;
+    //    }
+    //        
+    //});
     
 }));
-
+/*
 
 passport.use('local.signup', new LocalStrategy({
     usernameField: 'user',
@@ -77,7 +79,7 @@ passport.use('local.signup', new LocalStrategy({
     //const estado = await pool.query('INSERT INTO usuario set ? ', [newUser]);
     return done(null, newUser);
 }));
-
+*/
 passport.serializeUser((user, done) =>{
     done(null, user.user);
 });

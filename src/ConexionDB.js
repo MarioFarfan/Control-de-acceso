@@ -26,7 +26,7 @@ class ConexionDB {
     
     this.query = promisify(this.pool.query).bind(this.pool);
 
-    this.getConnection((err, connection) => {
+    this.pool.getConnection((err, connection) => {
       if (err) {
           if (err.code === 'PROTOCOL_CONNECTION_LOST'){
               console.error('LA CONEXION CON LA BASE DE DATOS FUÉ CERRADA');

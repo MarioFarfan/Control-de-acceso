@@ -9,8 +9,8 @@ router.get('/agregar_dispositivo', isLoggedIn,  (req, res) => {
 
 router.post('/agregar_dispositivo', isLoggedIn, async(req, res) => {
     const { conexion } = require('../lib/passport');
-    const{ noserie, marca, tipo, noinventario, monitor, teclado, mouse, idarea } = req.body;
-    const newDispositivo = { noserie, marca, tipo, noinventario, monitor, teclado, mouse, idarea };  //validar los datos
+    const{ noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea } = req.body;
+    const newDispositivo = { noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea };  //validar los datos
     await conexion.query('INSERT INTO PC set ?', [newDispositivo]);
     req.flash('mensaje', 'PC agregada con exito');
     res.redirect('/inventarios/listar_equipos');
@@ -19,7 +19,8 @@ router.post('/agregar_dispositivo', isLoggedIn, async(req, res) => {
 router.get('/listar_equipos', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const equipos = await conexion.query('SELECT * FROM PC');
-    res.render('inventarios/listar_equipos', { equipos });
+    const areas = await conexion.query('select idarea, nombre from area');
+    res.render('inventarios/listar_equipos', { equipos, areas });
 });
 
 //Eliminar registros
@@ -42,9 +43,9 @@ router.get('/listar_equipos/editar/:id', isLoggedIn,  async(req, res) => {
 router.post('/listar_equipos/editar/:id', isLoggedIn,  async(req, res) => {
     const {id} = req.params;
     const { conexion } = require('../lib/passport');
-    const{ noserie, marca, tipo, noinventario, monitor, teclado, mouse } = req.body;
+    const{ noserie, marca, tipo, noinv, monitor, teclado, mouse } = req.body;
     const newDispositivo = {
-        noserie, marca, tipo, noinventario, monitor, teclado, mouse
+        noserie, marca, tipo, noinv, monitor, teclado, mouse
     };
 
     await  conexion.query('UPDATE PC SET ? WHERE NOSERIE = ?', [newDispositivo, noserie]);
