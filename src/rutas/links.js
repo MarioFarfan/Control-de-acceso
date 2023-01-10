@@ -233,5 +233,5 @@ router.post('/nuevo_dispositivoaux', isLoggedIn, async(req, res) => {
 router.get('/dispositivos_auxiliares', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const equipos = await conexion.query('SELECT * FROM DISPOSITIVO');
-    res.render('inventarios/listar_dispositivos', { equipos });
+    res.render('inventarios/listar_dispositivos_auxiliares', { equipos });
 });

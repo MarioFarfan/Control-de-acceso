@@ -7,30 +7,31 @@
             <div class="row row-cols-2">            
                     <div class="mb-3">
                         <label for="noserie" class="form-label">No. de serie: </label>
-                        <input type="text" class="form-control" id="noserie" required>
+                        <input type="text" class="form-control" id="noserie" required onkeyup="this.value = this.value.toUpperCase();">
                         <div id="noserieHelp" class="form-text">Ingrese el numero de serie que incluye el equipo.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre: </label>
-                        <input type="text" class="form-control" id="nombre" required>
+                        <input type="text" class="form-control" id="nombre" required onkeyup="this.value = this.value.toUpperCase();">
                         <div id="nombreHelp" class="form-text">Ingrese el numero de inventario proporcionado por la institución.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="marca" class="form-label">Marca: </label>
-                        <input type="text" class="form-control" id="marca" required>
+                        <input type="text" class="form-control" id="marca" required onkeyup="this.value = this.value.toUpperCase();">
                         <div id="marcaHelp" class="form-text">Ingrese la marca del dispositivo.</div>
                     </div>
 
                      <div class="mb-3">
                         <label for="tipo" class="form-label">Tipo</label>
                         <select class="form-select" id="tipo" name="tipo" required>
-                          <option value="Router">Router</option>
-                          <option value="Switch">Switch</option>
-                          <option value="Concentrador">Concentrador</option>
-                          <option value="Proyector">Proyector</option>
-                          <option value="Impresora">Impresora</option>
+                          <option value="ROUTER">ROUTER</option>
+                          <option value="SWITCH">SWITCH</option>
+                          <option value="CONCENTRADOR">CONCENTRADOR</option>
+                          <option value="PROYECTOR">PROYECTOR</option>
+                          <option value="IMPRESORA">IMPRESORA</option>
+                          <option value="MULTIFUNCIONAL">MULTIFUNCIONAL</option>
                         </select>
                         <div class="invalid-feedback">
                           <div id="tipoHelp" class="form-text">Ingrese el tipo de equipo a agregar.</div>
@@ -39,13 +40,13 @@
 
                     <div class="mb-3">
                         <label for="descripcion" class="form-label">Descripción: </label>
-                        <input type="text" class="form-control" id="descripcion" required>
+                        <input type="text" class="form-control" id="descripcion" required onkeyup="this.value = this.value.toUpperCase();">
                         <div id="descripcionHelp" class="form-text">Ingrese una breve descripcion del dispositivo.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="noinv" class="form-label">Numero de inventario: </label>
-                        <input type="text" class="form-control" id="noinv" required>
+                        <input type="text" class="form-control" id="noinv" required onkeyup="this.value = this.value.toUpperCase();">
                         <div id="noinvHelp" class="form-text">Ingrese el numero de inventario proporcionado por la institución.</div>
                     </div>
           </div>

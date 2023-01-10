@@ -7,25 +7,26 @@
             <div class="row row-cols-2">            
                     <div class="mb-3">
                         <label for="nocontrol" class="form-label">No. de control: </label>
-                        <input type="text" class="form-control" id="nocontrol">
+                        <input type="text" class="form-control" id="nocontrol" required maxlength="9" minlength="8" pattern="[0-9]" onkeyup="this.value = this.value.toUpperCase();"
+                        title="El número de control solo pueden tener 8 caracteres núericos y en caso de los alumnos de traslado la letra 'T' al inicio">
                         <div id="nocontrolHelp" class="form-text">Ingrese el numero de control del estudiante.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre(s): </label>
-                        <input type="text" class="form-control" id="nombre">
+                        <input type="text" class="form-control" id="nombre" required id="espacios" onkeyup="this.value = this.value.toUpperCase();">
                         <div id="nombreHelp" class="form-text">Ingrese el/los nombre/s del estudiante.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="apellidop" class="form-label">Apellido Paterno: </label>
-                        <input type="text" class="form-control" id="apellidop">
+                        <input type="text" class="form-control" id="apellidop" required id="espacios" onkeyup="this.value = this.value.toUpperCase();">
                         <div id="apellidopHelp" class="form-text">Ingrese el apellido paterno del estudiante.</div>
                     </div>
                     
                     <div class="mb-3">
                         <label for="apellidom" class="form-label">Apellido Materno: </label>
-                        <input type="text" class="form-control" id="apellidom">
+                        <input type="text" class="form-control" id="apellidom" required id="espacios" onkeyup="this.value = this.value.toUpperCase();">
                         <div id="apellidomHelp" class="form-text">Ingrese el apellido materno del estudiante.</div>
                     </div>
 
@@ -76,3 +77,15 @@
           </form>
     </div>
   </body>
+
+  <script>
+    nocontrol.addEventListener("keudown", e => {
+        let string = e.target.value;
+        e.target.value = string.trim();
+    });
+    espacios.addEventListener("keyup", e => {
+        let string = e.target.value;
+        e.target.value = string.trimEnd();
+        e.target.value = string.trimStart();
+    })
+  </script>

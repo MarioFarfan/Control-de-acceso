@@ -14,7 +14,7 @@
           <div class="row g-3">
             <div class="col-sm-6">
               <label for="clavemat" class="form-label">Identificador de la carrera: </label>
-              <input type="text" class="form-control" name="idcarrera" placeholder="" value="" required>
+              <input type="text" class="form-control" name="idcarrera" placeholder="" value="" required onkeyup="this.value = this.value.toUpperCase();">
               <div class="invalid-feedback">
                 Se requiere una clave válida.
               </div>
@@ -22,7 +22,7 @@
 
             <div class="col-sm-6">
               <label for="reticula" class="form-label">Nombre de la carrera: </label>
-              <input type="text" class="form-control" name="carrera" placeholder="" required>
+              <input type="text" class="form-control" name="carrera" placeholder="" required onkeyup="this.value = this.value.toUpperCase();">
               <div class="invalid-feedback">
                 Introduce un dato válido.
               </div>
