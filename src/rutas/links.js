@@ -214,3 +214,23 @@ router.post('/listar_perifericos/editar/:id', isLoggedIn,  async(req, res) => {
 });
 
 module.exports = router;
+
+//Dispositivos extra
+router.get('/nuevo_dispositivoaux', isLoggedIn,  (req, res) => {
+    res.render('inventarios/agregar_dispositivo')
+});
+
+router.post('/nuevo_dispositivoaux', isLoggedIn, async(req, res) => {
+    const { conexion } = require('../lib/passport');
+    const{ noserie, nombre, marca, tipo, descripcion, noinventario } = req.body;
+    const newDispositivo = { noserie, nombre, marca, tipo, descripcion, noinventario };  //validar los datos
+    await conexion.query('INSERT INTO DISPOSITIVO set ?', [newDispositivo]);
+    req.flash('mensaje', 'dispositivo agregado con exito');
+    res.redirect('inventarios/listar_dispositivos');
+});
+
+router.get('/dispositivos_auxiliares', isLoggedIn, async (req, res) => {
+    const { conexion } = require('../lib/passport');
+    const equipos = await conexion.query('SELECT * FROM DISPOSITIVO');
+    res.render('inventarios/listar_dispositivos', { equipos });
+});
