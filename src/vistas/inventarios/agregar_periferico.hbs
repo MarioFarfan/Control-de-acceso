@@ -2,7 +2,7 @@
     <div class="bg-white p-5 rounded-5 container">
       <h2 class="text-center fw mb-2 text-uppercase">Control de inventario</h2>
         <h4 class="text-center fw mb-3 text-uppercase">Registro de insumos</h4>
-        <form class="needs-validation" novalidate action="" method="POST">
+        <form class="needs-validation" action="" method="POST">
             <h5 class="fw mb-2">Ingresa los datos del material</h5>
             <div class="row row-cols-2">            
                     <div class="mb-3">
@@ -30,14 +30,10 @@
                     </div>
 
             <div class="col-sm-6">
-              <label for="tipo" class="form-label">Tipo</label>
-              <select class="form-select" id="tipo" name="tipo" required>
-                <option value="MOUSE">Mouse</option>
-                <option value="TECLADO">Teclado</option>
-                <option value="MONITOR">Monitor</option>
-              </select>
+              <label for="tipo" class="form-label">Marca</label>
+              <input type="text" class="form-control" id="marca" required>
               <div class="invalid-feedback">
-                Selecciona alguno de los tipos válidos, o agregar uno nuevo en caso de ser necesario. 
+                Introduce una marca
               </div>
             </div>
           </div>
