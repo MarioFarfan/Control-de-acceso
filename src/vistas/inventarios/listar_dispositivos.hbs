@@ -2,34 +2,8 @@
     <div class="bg-white p-5 rounded-5 container w-100">
 
         <form method="POST" action="">
-            <h4 class="fw mb-3 text-uppercase">Listado de insumos</h4>
+            <h4 class="fw mb-3 text-uppercase">Listado de dispositivos</h4>
             <div class="container">
-            <div class="row g-5">
-                <div class="col-sm-6">
-                    <label for="campo" class="form-label">Buscar periferico</label>
-                    <input type="text" class="form-control" name="campo" placeholder="" value="">
-                </div>
-
-                <div class="col-sm-4">
-                    <label for="" class="form-label">Tipo</label>
-                    <select class="form-select" id="tipo" onchange="table()" required>
-                    
-                    <option value="MOUSE">MOUSE</option>
-                    <option value="TECLADO">TECLADO</option>
-                    <option value="MONITOR">MONITOR</option>
-                    </select>
-                    <div class="invalid-feedback">
-                    Please select a valid area.
-                    </div>
-                </div>
-
-                <div class="col-sm-2">
-                    <a class="w-10 btn btn-primary btn-lg" href="/inventarios/buscar">Buscar</a>
-                </div>
-            </div>
-        </div>
-        </form>
-        <br>
 
         <table class="table" id="mouse">
             <thead class="table-dark">
@@ -46,13 +20,15 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each equiposmouse}}
+                {{#each equipos}}
                     <tr>
                         <td class="text-center" scope="row">{{noserie}}</td>
+                        <td class="text-center">{{nombre}}</td>
                         <td class="text-center" >{{marca}}</td>
-                        <td class="text-center">{{noinv}}</td>
                         <td class="text-center">{{tipo}}</td>
-                        <td class="text-center"><a class="btn btn-secondary" href="listar_perifericos/editar/{{noserie}}"><i class="bi bi-pencil"></i></a></td>
+                        <td class="text-center">{{descripcion}}</td>
+                        <td class="text-center">{{noinv}}</td>
+                        <td class="text-center"><a class="btn btn-secondary" href="listar_dispositivos/editar/{{noserie}}"><i class="bi bi-pencil"></i></a></td>
                         <td class="text-center"><a class="btn btn-danger" href="listar_perifericos/eliminar/{{noserie}}"><i class="bi bi-trash3"></i></a></td>
                     </tr>
                     <br><br>
@@ -61,64 +37,7 @@
             </tbody>
         </table>
 
-        <table class="table d-none" id="monitor">
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col" class="text-center">Num. Serie</th>
-                    <th scope="col" class="text-center">Nombre</th>
-                    <th scope="col" class="text-center">Marca</th>
-                    <th scope="col" class="text-center">Tipo</th>
-                    <th scope="col" class="text-center">Descripción</th>
-                    <th scope="col" class="text-center">Num inventario</th>
-                    <th scope="col" class="text-center">Editar registro</th>
-                    <th scope="col" class="text-center">Borrar registro</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each equiposmonitor}}
-                    <tr>
-                        <td class="text-center" scope="row">{{noserie}}</td>
-                        <td class="text-center" >{{marca}}</td>
-                        <td class="text-center">{{noinv}}</td>
-                        <td class="text-center">{{tipo}}</td>
-                        <td class="text-center"><a class="btn btn-secondary" href="listar_perifericos/editar/{{noserie}}"><i class="bi bi-pencil"></i></a></td>
-                        <td class="text-center"><a class="btn btn-danger" href="listar_perifericos/eliminar/{{noserie}}"><i class="bi bi-trash3"></i></a></td>
-                    </tr>
-                {{/each}} 
-                
-            </tbody>
-        </table> 
-
-        <table class="table d-none" id="teclado">
-            <thead class="table-dark">
-                <tr>
-               <tr> 
-                    <th scope="col" class="text-center">Num. Serie</th>
-                    <th scope="col" class="text-center">Nombre</th>
-                    <th scope="col" class="text-center">Marca</th>
-                    <th scope="col" class="text-center">Tipo</th>
-                    <th scope="col" class="text-center">Descripción</th>
-                    <th scope="col" class="text-center">Num inventario</th>
-                    <th scope="col" class="text-center">Editar registro</th>
-                    <th scope="col" class="text-center">Borrar registro</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each equiposteclado}}
-                    <tr>
-                    <td class="text-center" scope="row">{{noserie}}</td>
-                        <td class="text-center" >{{marca}}</td>
-                        <td class="text-center">{{noinv}}</td>
-                        <td class="text-center">{{tipo}}</td>
-                        <td class="text-center"><a class="btn btn-secondary" href="listar_perifericos/editar/{{noserie}}"><i class="bi bi-pencil"></i></a></td>
-                        <td class="text-center"><a class="btn btn-danger" href="listar_perifericos/eliminar/{{noserie}}"><i class="bi bi-trash3"></i></a></td>
-                    </tr>
-                {{/each}} 
-                
-            </tbody>
-        </table> 
-
-
+<!--->
         <script>
             function table(){
                 var tipo = document.getElementById("tipo").value;

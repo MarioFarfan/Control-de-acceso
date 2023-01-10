@@ -1,47 +1,37 @@
-<body>
-  <div class="album py-5 bg-light">
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+  <div class="album py-5 bg-dark">
     <div class="container">
-        <h3>Bienvenido {{user.user}}</h3>
+      <hr><hr>
+        <h6 class="text-center fw-bold mb-2 text-uppercase text-light">Instituto Tecnológico de Oaxaca</h6>
+        <h3 class="text-center fw-bold mb-2 text-uppercase text-light">Laboratorio de Cómputo</h3>
+        <h5 class="text-center fw-bold mb-2 text-uppercase text-light">Bienvenido {{user.user}}</h5>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div class="col">
-          <div class="card shadow-sm">
-            <img class="bd-placeholder-img card-img-top" width="100%" height="225" preserveAspectRatio="xMidYMid slice" focusable="false" src="imagenes/acceso.png">
+          <div class="card shadow-sm"  >
+            <img class="bd-placeholder-img card-img-top" width="100%" height="150" preserveAspectRatio="xMidYMid slice" focusable="false" src="imagenes/acceso.png">
             <div class="card-body">
-              <p class="card-text">Control de acceso</p>
+              <a class="button d-flex justify-content-end text-decoration-none text-dark fw-semibold fst-italic mb-3">Control de acceso</a>
               <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <a type="button" class="btn btn-sm btn-outline-secondary" href="">Ir</a>
-                </div>
               </div>
             </div>
           </div>
         </div>
         <div class="col">
           <div class="card shadow-sm">
-            <img class="bd-placeholder-img card-img-top" width="100%" height="225" preserveAspectRatio="xMidYMid slice" focusable="false" src="/imagenes/inventarios.webp">
-              <title>Inventarios</title>
-            </img>
-
-            <div class="card-body">
-              <text x="50%" y="50%" fill="black" dy=".3em">Inventarios</text>
-              <p class="card-text"></p>
+            <img class="bd-placeholder-img card-img-top" width="100%" height="150" preserveAspectRatio="xMidYMid slice" focusable="false" src="/imagenes/inventarios.webp">
+             <div class="card-body">
+              <a class="button d-flex justify-content-end text-decoration-none text-dark fw-semibold fst-italic mb-3">Inventarios</a>
               <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <a type="button" class="btn btn-sm btn-outline-secondary" href="/inventarios/listar_equipos">Ir</a>
-                </div>
               </div>
             </div>
-          </div>
+            </div>
         </div>
         <div class="col">
           <div class="card shadow-sm">
-            <img class="bd-placeholder-img card-img-top" width="100%" height="225" preserveAspectRatio="xMidYMid slice" focusable="false" src="imagenes/area.jpg">
+            <img class="bd-placeholder-img card-img-top" width="100%" height="150" preserveAspectRatio="xMidYMid slice" focusable="false" src="imagenes/area.jpg">
             <div class="card-body">
-              <p class="card-text">Gestión de areas.</p>
+              <a class="button d-flex justify-content-end text-decoration-none text-dark fw-semibold fst-italic mb-3">Gestión de areas.</a>
               <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <a type="button" class="btn btn-sm btn-outline-secondary" href="">Ir</a>
-                </div>
               </div>
             </div>
           </div>
@@ -49,39 +39,32 @@
 
         <div class="col">
           <div class="card shadow-sm">
-            <img class="bd-placeholder-img card-img-top" width="100%" height="225" preserveAspectRatio="xMidYMid slice" focusable="false" src="imagenes/usuarios.png">
+            <img class="bd-placeholder-img card-img-top" width="100%" height="150" preserveAspectRatio="xMidYMid slice" focusable="false" src="imagenes/usuarios.png">
             <div class="card-body">
-              <text x="50%" y="50%" fill="black" dy=".3em"> Gestión de usuarios.</text>
+              <a class="button d-flex justify-content-end text-decoration-none text-dark fw-semibold fst-italic mb-3">Gestión de usuarios.</a>
               <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <a type="button" class="btn btn-sm btn-outline-secondary" href="/usuarios/">Ir</a>
-                </div>
               </div>
             </div>
           </div>
         </div>
+
         <div class="col">
           <div class="card shadow-sm">
-            <img class="bd-placeholder-img card-img-top" width="100%" height="225" preserveAspectRatio="xMidYMid slice" focusable="false" src="imagenes/practicas.jpg">
+            <img class="bd-placeholder-img card-img-top" width="100%" height="150" preserveAspectRatio="xMidYMid slice" focusable="false" src="imagenes/practicas.jpg">
             <div class="card-body">
-              <text x="50%" y="50%" fill="black" dy=".3em"> Gestión de practicas </text>
+              <a class="button d-flex justify-content-end text-decoration-none text-dark fw-semibold fst-italic mb-3">Gestión de practicas.</a>
               <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Ir</button>
-                </div>
               </div>
             </div>
           </div>
         </div>
+
         <div class="col">
           <div class="card shadow-sm">
-            <img class="bd-placeholder-img card-img-top" width="100%" height="225" preserveAspectRatio="xMidYMid slice" focusable="false" src="imagenes/reportes.png">
+            <img class="bd-placeholder-img card-img-top" width="100%" height="150" preserveAspectRatio="xMidYMid slice" focusable="false" src="imagenes/reportes.png">
             <div class="card-body">
-              <text x="50%" y="50%" fill="black" dy=".3em"> Reportes </text>
+              <a class="button d-flex justify-content-end text-decoration-none text-dark fw-semibold fst-italic mb-3" href="">Reportes</a>
               <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Ir</button>
-                </div>
               </div>
             </div>
           </div>
