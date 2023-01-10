@@ -1,0 +1,2 @@
+Notas para el proyecto:
+Agregar un campo para la marca de los perifericos
