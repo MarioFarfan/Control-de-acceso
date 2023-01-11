@@ -1,38 +1,37 @@
-<form method="POST" action="/materias">
-    <div class="container">
-    <div class="row g-5">
-        <div class="col-sm-5">
-            <label for="campo" class="form-label">Buscar departamento</label>
-            <input type="text" class="form-control" name="mat" placeholder="" value="">
-        </div>
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-5 rounded-5 container w-100">
+        <form method="POST" action="/materias">
+            <div class="row g-5">
+                    <h4 class="fw mb-3 text-uppercase">Listado de Departamentos</h4>
+                    <div class="col-sm-10">
+                        <label for="campo" class="form-label">Buscar equipo</label>
+                        <input type="text" class="form-control" name="campo" placeholder="" value="">
+                        
+                    </div>
+                    <div class="col"><br><a class="btn btn-primary" href="">Buscar</a></div>
+                        
+                </div>
 
-        <div class="col-sm-2">
-            <a class="w-1 btn btn-primary mb-2" href="">Buscar</a>
-            <a class="w-5 btn btn-primary" href="/practicas/agregar_departamento">Agregar departamento</a>
-        </div>
-    </div>
-</div>
-</form>
-<br>
-<table class="table">
-    <thead class="table-dark">
-        <tr>
-            <th scope="col" class="text-center">Clave </th>
-            <th scope="col" class="text-center">Abreviatura</th>
-            <th scope="col" class="text-center">Departamento</th>
-            <th scope="col" class="text-center">Elminar</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each departamentos}}
+        </form>
+
+            <div class="bg-white p-5 rounded-5 container">
+    <table class="table table-primary table-responsive">
+        <thead class="table-dark">
             <tr>
-                <td class="text-center" scope="row">{{iddepto}}</td>
-                <td class="text-center" >{{alias}}</td>
-                <td class="text-center">{{departamento}}</td>
-                <td class="text-center"><a class="btn btn-danger" href="departamentos/eliminar/{{iddepto}}"><i class="bi bi-trash3"></i></a></td>
-              </tr>
+                <th scope="col" class="text-center">Clave </th>
+                <th scope="col" class="text-center">Departamento</th>
+                <th scope="col" class="text-center">Elminar</th>
+            </tr>
+        </thead>
+        <tbody>
+                {{#each departamentos}}
+                        <tr>
+                                <td class="text-center" scope="row">{{iddepto}}</td>
+                                <td class="text-center">{{departamento}}</td>
+                                <td class="text-center"><a class="btn btn-danger" href="departamentos/eliminar/{{iddepto}}"><i class="bi bi-trash3"></i></a></td>
+                        </tr>
 
-            {{else}}
+                {{else}}
                     <div class="container col-md-3 mx-auto"> 
                         <div class="card card-warning text-center">
                             <p>No se encontraron registros</p>
@@ -40,6 +39,6 @@
                         </div>
                     </div>
                  {{/each}} 
-        
-    </tbody>
+            
+        </tbody>
 </table> 
