@@ -1,13 +1,13 @@
 <body class="bg-dark d-flex justify-content-center align-items-center vh-100">
     <div class="bg-white p-5 rounded-5 container w-100">
         <form method="POST" action="">
-                <div class="row g-5">
-                    <hr><hr>
+                <div class="row g-3">
+                
                     <h4 class="fw mb-3 text-uppercase">Listado de Carreras</h4>
-                    <div class="col-sm-6">
-                        <label for="campo" class="form-label">Buscar carrera</label>
-                        <input type="text" class="form-control" name="campo" placeholder="" value="">
-                    </div>
+        <div class="col-sm-5">
+            <label for="campo" class="form-label">Buscar carrera</label>
+            <input type="text" class="form-control" name="campo" placeholder="" value="">
+         </div>
                     
         <div class="col-sm-4">
             <label for="idarea" class="form-label">Departamento al que pertenece</label>
@@ -21,42 +21,37 @@
             </div>
         </div>
 
-        <div class="col-sm-2">
-            <a class="w-1 btn btn-primary mb-2" href="">Buscar</a>
-            <a class="w-5 btn btn-primary" href="/practicas/agregar_carrera">Agregar carrera</a>
-        </div>
-    </div>
-</div>
-</form>
-<br>
-<table class="table">
-    <thead class="table-dark">
-        <tr>
-            <th scope="col" class="text-center">Clave </th>
-            <th scope="col" class="text-center">Carrera</th>
-            <th scope="col" class="text-center">Abreviatura</th>
-            <th scope="col" class="text-center">Departamento</th>
-            <th scope="col" class="text-center">Elminar</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each carreras}}
-            <tr>
-                <td class="text-center" scope="row">{{idcarrera}}</td>
-                <td class="text-center" >{{carrera}}</td>
-                <td class="text-center" >{{alias}}</td>
-                <td class="text-center">{{departamento}}</td>
-                <td class="text-center"><a class="btn btn-danger" href="carreras/eliminar/{{idcarrera}}"><i class="bi bi-trash3"></i></a></td>
-              </tr>
+        <div class="col-3 d-grid gap-2 d-md-block">
+            <br>
+            <a href="#" class="btn btn-primary ">Buscar</a>
+            <a href="/practicas/agregar_carrera" class="btn btn-primary">Nueva Carrera</a>
+        </div>       
+    </form>
 
-            {{else}}
-                    <div class="container col-md-3 mx-auto"> 
-                        <div class="card card-warning text-center">
-                            <p>No se encontraron registros</p>
-                            <a href="/inventarios/agregar_dispositivo">Agrega uno</a>
-                        </div>
-                    </div>
-                 {{/each}} 
-        
-    </tbody>
-</table> 
+            <table class="table">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col" class="text-center">Clave </th>
+                        <th scope="col" class="text-center">Carrera</th>
+                        <th scope="col" class="text-center">Abreviatura</th>
+                        <th scope="col" class="text-center">Elminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each carreras}}
+                        <tr>
+                            <td class="text-center" scope="row">{{idcarrera}}</td>
+                            <td class="text-center" >{{carrera}}</td>
+                            <td class="text-center" >{{alias}}</td>
+                            <td class="text-center"><a class="btn btn-danger" href="carreras/eliminar/{{idcarrera}}"><i class="bi bi-trash3"></i></a></td>
+                        </tr>
+
+                        {{else}}
+                                <div class="alert alert-warning text-center" role="alert">
+                                    No se encontraron registros
+                                </div>
+                            {{/each}} 
+                    
+                </tbody>
+            </table> 
+

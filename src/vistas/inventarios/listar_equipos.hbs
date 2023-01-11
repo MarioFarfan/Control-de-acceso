@@ -1,10 +1,9 @@
 <body class="bg-dark d-flex justify-content-center align-items-center vh-100">
     <div class="bg-white p-5 rounded-5 container w-100">
         <form method="POST" action="/links/inventarios/buscar">
-                <div class="row g-5">
-                    <hr><hr>
+                <div class="row g-3">
                     <h4 class="fw mb-3 text-uppercase">Listado de Equipos de cómputo</h4>
-                    <div class="col-sm-6">
+                    <div class="col-sm-5">
                         <label for="campo" class="form-label">Buscar equipo</label>
                         <input type="text" class="form-control" name="campo" placeholder="" value="">
                     </div>
@@ -24,8 +23,9 @@
                             Please select a valid area.
                         </div>
                     </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-primary mb-2" href="">Buscar</a>
+                        <div class="col-3 d-grid gap-2 d-md-block">
+                            <br>
+                            <a class="btn btn-primary" href="">Buscar</a>
                         </div>
                 </div>
         </form>
@@ -62,13 +62,10 @@
                 </tr>
 
                 {{else}}
-                    <div class="container col-md-3 mx-auto"> 
-                        <div class="card card-warning text-center">
-                            <p>No se encontraron registros</p>
-                            <a href="/inventarios/agregar_dispositivo">Agrega uno</a>
-                        </div>
-                    </div>
-                 {{/each}} 
+                    <div class="alert alert-warning text-center" role="alert">
+                       No se encontraron registros
+                      </div>
+             {{/each}} 
             
         </tbody>
 </table> 

@@ -1,6 +1,7 @@
 <body class="bg-dark d-flex justify-content-center align-items-center vh-100">
     <div class="bg-white p-5 rounded-5 container">
         <form method="POST" action="">
+            <h4 class="fw mb-3 text-uppercase">Listado de estudiantes</h4>
                 <div class="row g-5">
                     <div class="col-sm-6">
                         <label for="campo" class="form-label">Buscar alumno</label>
@@ -53,13 +54,10 @@
                     </tr>
 
                     {{else}}
-                    <div class="container col-md-3 mx-auto"> 
-                        <div class="card card-warning text-center">
-                            <p>No se encontraron registros</p>
-                            <a href="/inventarios/agregar_dispositivo">Agrega uno</a>
-                        </div>
+                    <div class="alert alert-warning text-center" role="alert">
+                         No se encontraron registros
                     </div>
-                 {{/each}} 
+                {{/each}} 
             </tbody>
         </table> 
     </div>

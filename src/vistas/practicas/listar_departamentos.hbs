@@ -4,7 +4,7 @@
             <div class="row g-5">
                     <h4 class="fw mb-3 text-uppercase">Listado de Departamentos</h4>
                     <div class="col-sm-10">
-                        <label for="campo" class="form-label">Buscar equipo</label>
+                        <label for="campo" class="form-label">Buscar departamento</label>
                         <input type="text" class="form-control" name="campo" placeholder="" value="">
                         
                     </div>
@@ -32,11 +32,8 @@
                         </tr>
 
                 {{else}}
-                    <div class="container col-md-3 mx-auto"> 
-                        <div class="card card-warning text-center">
-                            <p>No se encontraron registros</p>
-                            <a href="/inventarios/agregar_dispositivo">Agrega uno</a>
-                        </div>
+                    <div class="alert alert-warning text-center" role="alert">
+                         No se encontraron registros
                     </div>
                  {{/each}} 
             

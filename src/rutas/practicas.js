@@ -43,7 +43,7 @@ router.get('/materias/eliminar/:id',  isLoggedIn, async (req, res) => {
 
 router.get('/carreras', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    //const carreras = await conexion.query('select idcarrera, nombre, alias, departamento from carrera inner join departamento on carrera.departamento = departamento.departamento');
+    const carreras = await conexion.query('select idcarrera, nombre, alias from carrera inner join departamento');
     const departamentos = await conexion.query('SELECT * FROM DEPARTAMENTO');
     
     res.render('practicas/listar_carreras', { carreras, departamentos });

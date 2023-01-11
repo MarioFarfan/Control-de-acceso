@@ -1,8 +1,8 @@
 <body class="bg-dark d-flex justify-content-center align-items-center vh-100">
     <div class="bg-white p-5 rounded-5 container w-100">
         <form method="POST" action="/materias">
-            <div class="row g-5">
-                    <h4 class="fw mb-3 text-uppercase">Listado de Departamentos</h4>
+            <div class="row g-3">
+                    <h4 class="fw mb-3 text-uppercase">Listado de Materias</h4>
                     <div class="col-sm-5">
                         <label for="campo" class="form-label">Buscar materia</label>
                         <input type="text" class="form-control" name="mat" placeholder="" value="">
@@ -41,11 +41,8 @@
               </tr>
 
                 {{else}}
-                    <div class="container col-md-3 mx-auto"> 
-                        <div class="card card-warning text-center">
-                            <p>No se encontraron registros</p>
-                            <a href="/inventarios/agregar_dispositivo">Agrega uno</a>
-                        </div>
+                    <div class="alert alert-warning text-center" role="alert">
+                         No se encontraron registros
                     </div>
                  {{/each}} 
             
