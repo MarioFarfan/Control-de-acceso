@@ -85,5 +85,16 @@ router.get('/logout', (req, res) => {
     });
 })
 
+router.get('/menuinventarios', isLoggedIn, (req, res) => {
+    res.render('menuinventarios');
+});
+
+router.get('/menugrupos', isLoggedIn, (req, res) => {
+    res.render('menugrupos');
+});
+
+router.get('/menuusuarios', isLoggedIn, (req, res) => {
+    res.render('menuusuarios');
+});
 
 module.exports = router;
