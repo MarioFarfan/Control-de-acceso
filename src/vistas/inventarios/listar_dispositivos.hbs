@@ -2,8 +2,23 @@
     <div class="bg-white p-5 rounded-5 container w-100">
 
         <form method="POST" action="">
-            <h4 class="fw mb-3 text-uppercase">Listado de dispositivos</h4>
+           <h4 class="fw mb-3 text-uppercase">Listado de dispositivos auxiliares</h4>
             <div class="container">
+            <div class="row g-2">
+                <div class="col-sm-9">
+                    <label for="campo" class="form-label">Buscar dispositivo</label>
+                    <input type="text" class="form-control" name="campo" placeholder="" value="">
+                </div>
+
+                <div class="col-3 d-grid gap-2 d-md-block">
+                    <br>
+                    <a class="btn btn-primary" href="/inventarios/buscar">Buscar</a>
+                    <a class="btn btn-primary" href="/inventarios/nuevo_dispositivoaux">Nuevo</a>
+                </div>
+            </div>
+        </div>
+        </form>
+        <br>
 
         <table class="table" id="mouse">
             <thead class="table-dark">
@@ -37,23 +52,3 @@
             </tbody>
         </table>
 
-<!--->
-        <script>
-            function table(){
-                var tipo = document.getElementById("tipo").value;
-
-                if(tipo == "MONITOR"){
-                    document.getElementById("mouse").className = "table d-none";
-                    document.getElementById("teclado").className = "table d-none";
-                    document.getElementById("monitor").className = "table";
-                }else if(tipo == "MOUSE"){
-                    document.getElementById("mouse").className = "table";
-                    document.getElementById("teclado").className = "table d-none";
-                    document.getElementById("monitor").className = "table d-none";
-                }else if(tipo == "TECLADO"){
-                    document.getElementById("mouse").className = "table d-none";
-                    document.getElementById("teclado").className = "table";
-                    document.getElementById("monitor").className = "table d-none";
-                }
-            } 
-        </script>
