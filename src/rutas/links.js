@@ -3,11 +3,11 @@ const router = express.Router();
 const { isLoggedIn } = require('../lib/auth');
 
 
-router.get('/agregar_dispositivo', isLoggedIn,  (req, res) => {
+router.get('/agregar_pc', isLoggedIn,  (req, res) => {
     res.render('inventarios/agregar')
 });
 
-router.post('/agregar_dispositivo', isLoggedIn, async(req, res) => {
+router.post('/agregar_pc', isLoggedIn, async(req, res) => {
     const { conexion } = require('../lib/passport');
     const{ noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea } = req.body;
     const newDispositivo = { noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea };  //validar los datos
@@ -56,12 +56,12 @@ router.post('/listar_equipos/editar/:id', isLoggedIn,  async(req, res) => {
 //  OPERACIONES PARA ESTUDIANTES, LISTAR, AGREGAR, EDITAR Y ELIMIAR
 router.get('/usuarios/agregar_alumno', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const carreras = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM CARRERA');
+    const carreras = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE FROM CARRERA');
     res.render('usuarios/agregar_alumno',{carreras});
 }); 
 
 router.post('/usuarios/agregar_alumno', isLoggedIn,  async (req, res ) => {
-    const { nocontrol, nombre, apellidop, apellidom, idcarrera, semestre } = req.body;
+    const { nocontrol, nombre, apellidop, apellidom, idcarrera, semestre, status } = req.body;
     const newAlumno = {
         nocontrol,
         nombre,
@@ -69,7 +69,7 @@ router.post('/usuarios/agregar_alumno', isLoggedIn,  async (req, res ) => {
         apellidom,
         idcarrera,
         semestre,
-        status: 'ALTA'
+        status
     }
     const { conexion } = require('../lib/passport');
     await conexion.query('INSERT INTO estudiante set ?', [newAlumno]);
@@ -79,7 +79,8 @@ router.post('/usuarios/agregar_alumno', isLoggedIn,  async (req, res ) => {
 
 router.get('/alumnos', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const alumnos = await conexion.query('SELECT NOCONTROL, ESTUDIANTE.NOMBRE, APELLIDOP, APELLIDOM, CARRERA.NOMBRE, SEMESTRE, STATUS  FROM ESTUDIANTE INNER JOIN CARRERA ON ESTUDIANTE.IDCARRERA = CARRERA.IDCARRERA');
+    const { campo, idcarrera } = req.body;
+    const alumnos = await conexion.query('SELECT NOCONTROL, ESTUDIANTE.NOMBRE AS NOMBRE, APELLIDOP, APELLIDOM, CARRERA.NOMBRE AS CARRERA, SEMESTRE, STATUS FROM ESTUDIANTE INNER JOIN CARRERA ON ESTUDIANTE.IDCARRERA = CARRERA.IDCARRERA WHERE CARRERA.NOMBRE= ?',[idcarrera]);
     const carreras = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM CARRERA');
     res.render('usuarios/listar_alumnos', { alumnos, carreras });
 });
@@ -104,7 +105,7 @@ router.get('/alumnos/editar/:id', isLoggedIn,  async(req, res) => {
 
 router.post('/alumnos/editar/:id', isLoggedIn,  async(req, res) => {
     const {id} = req.params;
-    const { nocontrol, nombre, appelidop, appelidom, idcarrera, semestre } = req.body;
+    const { nocontrol, nombre, appelidop, appelidom, idcarrera, semestre, status } = req.body;
     const newAlumno = {
         nocontrol,
         nombre,
@@ -223,15 +224,22 @@ router.get('/nuevo_dispositivoaux', isLoggedIn,  (req, res) => {
 
 router.post('/nuevo_dispositivoaux', isLoggedIn, async(req, res) => {
     const { conexion } = require('../lib/passport');
-    const{ noserie, nombre, marca, tipo, descripcion, noinventario } = req.body;
-    const newDispositivo = { noserie, nombre, marca, tipo, descripcion, noinventario };  //validar los datos
+    const{ noserie, nombre, marca, tipo, descripcion, noinv } = req.body;
+    const newDispositivo = 
+       { noserie,
+         nombre, 
+         marca, 
+         tipo, 
+         descripcion, 
+         noinv };  //validar los datos
+    
     await conexion.query('INSERT INTO DISPOSITIVO set ?', [newDispositivo]);
     req.flash('mensaje', 'dispositivo agregado con exito');
-    res.redirect('inventarios/listar_dispositivos');
+    res.redirect('/inventarios/listar_dispositivos');
 });
 
-router.get('/dispositivos_auxiliares', isLoggedIn, async (req, res) => {
+router.get('/listar_dispositivos', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const equipos = await conexion.query('SELECT * FROM DISPOSITIVO');
-    res.render('inventarios/listar_perifericos', { equipos });
+    res.render('inventarios/listar_dispositivos', { equipos });
 });
