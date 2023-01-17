@@ -238,7 +238,7 @@ router.post('/nuevo_dispositivoaux', isLoggedIn, async(req, res) => {
     res.redirect('/inventarios/listar_dispositivos');
 });
 
-router.get('/dispositivos_auxiliares', isLoggedIn, async (req, res) => {
+router.get('/listar_dispositivos', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const equipos = await conexion.query('SELECT * FROM DISPOSITIVO');
     res.render('inventarios/listar_dispositivos', { equipos });
