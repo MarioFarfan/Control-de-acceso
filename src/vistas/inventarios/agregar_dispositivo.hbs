@@ -2,24 +2,24 @@
     <div class="bg-white p-5 rounded-5 container">
       <h2 class="text-center fw mb-2 text-uppercase">Control de inventario</h2>
         <h4 class="text-center fw mb-3 text-uppercase">Registro de dispositivos</h4>
-        <form class="needs-validation" action="" method="POST">
+        <form class="needs-validation" action="/nuevo_dispositivoaux" method="POST">
             <h5 class="fw mb-2">Ingresa los datos del material</h5>
             <div class="row row-cols-2">            
                     <div class="mb-3">
                         <label for="noserie" class="form-label">No. de serie: </label>
-                        <input type="text" class="form-control" id="noserie" required onkeyup="this.value = this.value.toUpperCase();">
+                        <input type="text" class="form-control" id="noserie" name="noserie" required onkeyup="this.value = this.value.toUpperCase();">
                         <div id="noserieHelp" class="form-text">Ingrese el numero de serie que incluye el equipo.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre: </label>
-                        <input type="text" class="form-control" id="nombre" required onkeyup="this.value = this.value.toUpperCase();">
+                        <input type="text" class="form-control" id="nombre" name="nombre" required onkeyup="this.value = this.value.toUpperCase();">
                         <div id="nombreHelp" class="form-text">Ingrese el numero de inventario proporcionado por la institución.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="marca" class="form-label">Marca: </label>
-                        <input type="text" class="form-control" id="marca" required onkeyup="this.value = this.value.toUpperCase();">
+                        <input type="text" class="form-control" id="marca" name="marca" required onkeyup="this.value = this.value.toUpperCase();">
                         <div id="marcaHelp" class="form-text">Ingrese la marca del dispositivo.</div>
                     </div>
 
@@ -40,16 +40,16 @@
 
                     <div class="mb-3">
                         <label for="descripcion" class="form-label">Descripción: </label>
-                        <input type="text" class="form-control" id="descripcion" required onkeyup="this.value = this.value.toUpperCase();">
+                        <input type="text" class="form-control" id="descripcion" name="descripcion" required onkeyup="this.value = this.value.toUpperCase();">
                         <div id="descripcionHelp" class="form-text">Ingrese una breve descripcion del dispositivo.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="noinv" class="form-label">Numero de inventario: </label>
-                        <input type="text" class="form-control" id="noinv" required onkeyup="this.value = this.value.toUpperCase();">
+                        <input type="text" class="form-control" id="noinv" name="noinv" onkeyup="this.value = this.value.toUpperCase();">
                         <div id="noinvHelp" class="form-text">Ingrese el numero de inventario proporcionado por la institución.</div>
                     </div>
-          </div>
+           </div>
             <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>
           </div>
           
@@ -57,3 +57,4 @@
       </div>
     </div>
   </main>
+</body>

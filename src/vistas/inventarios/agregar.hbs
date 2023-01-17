@@ -2,18 +2,19 @@
     <div class="bg-white p-5 rounded-5 container">
       <h2 class="text-center fw mb-2 text-uppercase">Control de inventario</h2>
         <h4 class="fw mb-3 text-uppercase">Agregar nuevo equipo de cómputo</h4>
-        <form class="needs-validation" action="/agregar_dispositivo" method="POST">
+
+        <form class="needs-validation" action="/inventarios/agregar_pc" method="POST">
             <h5 class="fw mb-2">Ingresa los datos del equipo</h5>
             <div class="row row-cols-2">            
                     <div class="mb-3">
                         <label for="noserie" class="form-label">No. de serie: </label>
-                        <input type="text" class="form-control" id="noserie" onkeyup="this.value = this.value.toUpperCase();">
+                        <input type="text" class="form-control" id="noserie" name="noserie"  onkeyup="this.value = this.value.toUpperCase();">
                         <div id="noserieHelp" class="form-text">Ingrese el numero de serie que incluye el equipo.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="noinv" class="form-label">Numero de inventario: </label>
-                        <input type="text" class="form-control" id="noinv" onkeyup="this.value = this.value.toUpperCase();">
+                        <input type="text" class="form-control" id="noinv" name="noinv" onkeyup="this.value = this.value.toUpperCase();">
                         <div id="noinvHelp" class="form-text">Ingrese el numero de inventario proporcionado por la institución.</div>
                     </div>
 
@@ -36,7 +37,7 @@
                     <div id="compuesto" class="mb-3 d-none">
                       <div class="col-12">
                         <label for="" class="form-label">Folio del Monitor: </label>
-                        <input type="text" class="form-control" name="monitor" placeholder="" required onkeyup="this.value = this.value.toUpperCase();">
+                        <input type="text" class="form-control" name="monitor" onkeyup="this.value = this.value.toUpperCase();">
                         <div class="invalid-feedback">
                           Introduce el Folio del monitor.
                         </div>
@@ -45,7 +46,7 @@
                   
                     <div class="mb-3">
                       <label for="" class="form-label">Folio del Mouse: </label>
-                      <input type="text" class="form-control" name="mouse" placeholder="" required onkeyup="this.value = this.value.toUpperCase();">
+                      <input type="text" class="form-control" name="mouse" placeholder="" onkeyup="this.value = this.value.toUpperCase();">
                       <div class="invalid-feedback">
                         Introduce el Folio del mouse
                       </div>
@@ -53,7 +54,7 @@
 
                     <div class="mb-3">
                       <label for="" class="form-label">Folio del Teclado: </label>
-                      <input type="text" class="form-control" name="teclado" placeholder="" required onkeyup="this.value = this.value.toUpperCase();">
+                      <input type="text" class="form-control" name="teclado" placeholder="" onkeyup="this.value = this.value.toUpperCase();">
                       <div class="invalid-feedback">
                         Introduce el Folio del teclado.
                       </div>
@@ -62,23 +63,23 @@
 
                     <div class="mb-3">
                         <label for="tipo" class="form-label">Area a la que pertenece: </label>
-                        <select class="form-select form-select mb-3"  aria-label=".form-select-lg example" id="area">
-                            <option value="USUARIOS1">USUARIOS 1</option>
-                            <option value="USUARIOS2">USUARIOS 2</option>
-                            <option value="USUARIOS3">USUARIOS 3</option>
-                            <option value="USUARIOS4">USUARIOS 4</option>
-                            <option value="LAB-BD">LABORATORIO DE BASES DE DATOS</option>
-                            <option value="LAB-RED">LABORATORIO DE REDES</option>
+                        <select class="form-select form-select mb-3"  aria-label=".form-select-lg example" id="area" name="idarea">
+                            <option value="US1">USUARIOS 1</option>
+                            <option value="US2">USUARIOS 2</option>
+                            <option value="US3">USUARIOS 3</option>
+                            <option value="US4">USUARIOS 4</option>
+                            <option value="LABBD">LABORATORIO DE BASES DE DATOS</option>
+                            <option value="LABRED">LABORATORIO DE REDES</option>
                             <option value="ALMACEN">ALMACEN</option>
                          </select>
                     </div>
-                  <div>
                      <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>
-              </div>
             </div>
           </form>
     </div>
-  </body>
+ </main>
+</body>
+
 <script>
     function select(){
         var tipo = document.getElementById("tipo").value;
