@@ -149,4 +149,31 @@ router.post('/nueva_pactica', async (req, res) => {
     res.redirect('/practicas/practicas_registradas');
 });
 
+router.get('/nuevo_personal', async (req, res) => {
+    const { conexion } = require('../lib/passport');
+    const departamentos = await conexion.query('Select * from departamento');
+    res.render('practicas/nuevo_profesor', {departamentos} );
+});
+
+router.post('/nuevo_personal', async (req, res) => {
+    const { conexion } = require('../lib/passport');
+    const { notarjeta, nombre, apellidop, apellidom, iddepto, tipo } = req.body;
+    const newProfe = {
+        notarjeta,
+        nombre,
+        apellidop,
+        apellidom,
+        iddepto,
+        tipo,
+    }    
+    await conexion.query('INSERT INTO personal set ?', [newProfe]);
+    req.flash('exito', 'Registro agregado con éxito');
+    res.redirect('/practicas/eprsonal_registrado');
+});
+
+router.get('/eprsonal_registrado', async (req, res) => {
+    res.send('aqui va la lista del personal')
+    //res.render('practicas/nuevo_profesor',  );
+});
+
 module.exports = router;
