@@ -1,0 +1,78 @@
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-5 rounded-5 container">
+      <h2 class="text-center fw mb-2 text-uppercase">Practicas</h2>
+        <h4 class="fw mb-3 text-uppercase">Programar practica</h4>
+        <form class="needs-validation" action="" method="POST">
+            <h5 class="fw mb-2">Ingresa los datos de la materia</h5>
+            <div class="row row-cols-2">            
+                    <div class="sm-2">
+                        <label for="clavemat" class="form-label">Nombre de la practica: </label>
+                         <input type="text" class="form-control" name="nombre" placeholder="" value="" required onkeyup="this.value = this.value.toUpperCase();">
+                        <div id="nocontrolHelp" class="form-text">Ingrese la clave del grupo.</div>
+                    </div>
+                    
+                    <div class="sm-2">
+                        <label for="clavemat" class="form-label">Clave del grupo: </label>
+                         <input type="text" class="form-control" name="idgrupo" placeholder="" value="" required onkeyup="this.value = this.value.toUpperCase();">
+                        <div id="nocontrolHelp" class="form-text">Ingrese la clave del grupo.</div>
+                    </div>
+
+                    <div class="sm-1">
+                        <label for="materia" class="form-label">Fecha y hora: </label>
+                        <input type="datetime-local" class="form-control" min="" max="2018-12-31" name="fecha" placeholder="" id="fecha" onchange="validar()" name="fecha">
+                        <div id="nombreHelp" class="form-text">Ingrese la fecha en la que desea programar la practica</div>
+                    </div>
+
+                    <div class="sm-1">
+                        <label for="idcarrera" class="form-label">Duración: </label>
+                        <input type="time" class="form-control" name="duracion" placeholder="" value="01:00:00" required max="3:00:00" min="01:00:00" step="01:00:00">
+                        <div id="carreraHelp" class="form-text">¿Cuanto tiempo requiere para la practica?</div>
+                    </div>
+
+                    <div class="sm-1">
+                        <label for="idcarrera" class="form-label">Profesor : </label>
+                        <select class="form-select" name="profesor" required>
+                            {{#each personal}}
+                              <option value="{{notarjeta}}">{{nombre}} {{apellikdop}} {{apellidom}}</option>
+                            {{/each}} 
+                        </select>
+                        <div id="carreraHelp" class="form-text">El horario del laboratorio es de 7:00 a 17:00 hrs</div>
+                    </div>
+
+                    <div class="sm-1">
+                        <label for="idcarrera" class="form-label">¿Se utilizará alguno de los soguientes programas? </label>
+                        <select class="form-select" name="id_software" required>
+                            {{#each programas}}
+                              <option value="{{id_software}}">{{software}}</option>
+                            {{/each}} 
+                        </select>
+                        <div id="carreraHelp" class="form-text">El horario del laboratorio es de 7:00 a 17:00 hrs</div>
+                    </div>
+
+                    <div class="sm-1">
+                        <label for="idcarrera" class="form-label">Area </label>
+                        <select class="form-select" name="idarea" required>
+                            {{#each areas}}
+                              <option value="{{idarea}}">{{nombre}} con {{capacidad}} lugares</option>
+                            {{/each}} 
+                        </select>
+                        <div id="carreraHelp" class="form-text">Escoga un area de acuerdo al numero de estudiantes que tiene en su grupo</div>
+                    </div>
+            </div>
+            <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>
+          </form>
+    </div>
+    <script>
+      var input = document.getElementById("fecha");
+      function validar(){
+        var selectedDate = new Date(input.value);
+          if(selectedDate < new Date() || selectedDate.getDay() == 0){
+              input.setCustomValidity("Invalid date");
+          }else{
+              input.setCustomValidity("");
+          }
+      }
+    </script>
+  </body>
+
+  

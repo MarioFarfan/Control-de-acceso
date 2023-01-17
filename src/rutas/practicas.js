@@ -4,6 +4,17 @@ const router = express.Router();
 //const pool = require('../database');
 const { isLoggedIn } = require('../lib/auth');
 
+function formatoFecha(fecha, formato) {
+    const map = {
+        dd: fecha.getDate(),
+        mm: fecha.getMonth() + 1,
+        yy: fecha.getFullYear().toString().slice(-2),
+        yyyy: fecha.getFullYear()
+    }
+
+    return formato.replace(/dd|mm|yy|yyy/gi, matched => map[matched])
+}
+
 router.get('/agregar_materia', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
     const carreras = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM CARRERA');
@@ -106,6 +117,36 @@ router.get('/departamentos/eliminar/:id',  isLoggedIn, async (req, res) => {
     await conexion.query('DELETE FROM departamento WHERE iddepto = ?', [id]);
     req.flash('exito', 'registro eliminado con éxito');
     res.redirect('/practicas/departamentos');
+});
+
+router.get('/nueva_pactica', async (req, res) => {
+    const { conexion } = require('../lib/passport');
+    const areas = await conexion.query('Select * from area');
+    const personal = await conexion.query('Select * from personal');
+    const programas = await conexion.query('Select * from software');
+    const fecha = formatoFecha(new Date(), "dd/mm/yyyy");
+    console.log(fecha);
+    //const grupos = conexion.query('select * from grupo');
+    res.render('practicas/nueva_practica', {areas, personal, programas} );
+});
+
+router.post('/nueva_pactica', async (req, res) => {
+    const { conexion } = require('../lib/passport');
+    const { nombre, idgrupo, fecha, duracion, idarea, id_software } = req.body;
+    let arr = fecha.split('T');
+    const newPractica = {
+        nombre,
+        idgrupo,
+        fecha: arr[0],
+        horainicio: arr[1],
+        duracion,
+        idarea,
+        id_software
+    }    
+    console.log(newPractica);
+    await conexion.query('INSERT INTO practica set ?', [newPractica]);
+    req.flash('exito', 'Registro agregado con éxito');
+    res.redirect('/practicas/practicas_registradas');
 });
 
 module.exports = router;

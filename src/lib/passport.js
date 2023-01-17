@@ -1,6 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const {ConexionDB} = require('../conexionDB');
+//const {ConexionDB} = require('../conexionDB');
 //const pool = require('../database');
 
 const helpers = require('../lib/helper');
@@ -11,11 +11,28 @@ passport.use('local.login', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, async (req, username, password, done) => {
+    //const conexion = new ConexionDB(username, password);
+    //conexion.conectar();
+    //const user = {user: username, password};
+    //module.exports = { conexion };
+    //console.dir(conexion.getConnection());
+    //done(null, user, req.flash('mensaje', 'Hola ' + user.user));
+
+    const { ConexionDB } = require('../ConexionDB.js');
+
     const conexion = new ConexionDB(username, password);
-    conexion.conectar();
-    const user = {user: username, password};
-    module.exports = { conexion };
-    done(null, user, req.flash('mensaje', 'Hola ' + user.user));
+    await conexion.conectar();                     
+    console.log('Esta conectado: ' + conexion.conectado);
+    if (conexion.isConnected()) {
+        const user = {user: username, password};
+        module.exports = { conexion };
+        console.log('Conexión exitosa');
+        done(null, user, req.flash('mensaje', 'bienveniodo ' + user.user));
+    } else {
+        console.log('Error en la conexión');
+        done(null, null, req.flash('danger', 'Credenciales incorrectas '));
+    }
+
     //conexion.getConnection((err, connection) => {
     //    if (err) {
     //        done(null, null, req.flash('danger', 'Hola '));
@@ -31,8 +48,8 @@ passport.use('local.login', new LocalStrategy({
     //});
     
 }));
-/*
 
+/*
 passport.use('local.signup', new LocalStrategy({
     usernameField: 'user',
     passwordField: 'password',

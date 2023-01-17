@@ -7,13 +7,14 @@ class ConexionDB {
     this.user = user;
     this.password = password;
     this.database = 'laboratorio';
+    this.conectado = false;
   }
 
   setUser(user) {this.user = user;}
   setPassword(password) {this.password = password}
   getUser() { return 'user: ${this.user}'; }
   getPassword() { return 'password: ${this.password}'; }
-  getConnection() { return 'connection: ${this.connection}'; }
+  getConnection() { return 'connection: ${this.pool.getConnection}'; }
   getDatos() { return `host: ${this.host} - user: ${this.user} - password: ${this.password} - database: ${this.database}`; }
 
   conectar() {  
@@ -27,6 +28,12 @@ class ConexionDB {
     this.query = promisify(this.pool.query).bind(this.pool);
 
     this.pool.getConnection((err, connection) => {
+      if (connection){
+        connection.release();
+        this.conectado = true;
+        console.log('Base de datos conectada ' + this.conectado);
+        return;
+      } 
       if (err) {
           if (err.code === 'PROTOCOL_CONNECTION_LOST'){
               console.error('LA CONEXION CON LA BASE DE DATOS FUÉ CERRADA');
@@ -38,13 +45,10 @@ class ConexionDB {
               console.error('Conexion con la base de datos denegada');
           }
           if (err.code === 'ER_ACCESS_DENIED_ERROR'){
-            console.error('Credenciales incorrectas');
+            console.error('Credenciales incorrectas!!');
         }
       }
-      if (connection) connection.release();
-      console.log('Base de datos conectada');
-      return;
-  });
+    });
   }
 
   cerrarConexion() {
@@ -53,7 +57,13 @@ class ConexionDB {
   }
 
   isConnected(){
-    return this.pool.status;
+    return this.query('SELECT * from area')
+    .then((result)=>{
+      return true;
+    })
+    .catch((err)=>{
+      return false;
+    });
   }
 
 }

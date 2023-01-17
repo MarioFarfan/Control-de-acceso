@@ -1,2 +1,3 @@
 Notas para el proyecto:
-Agregar un campo para la marca de los perifericos
+Agregar un campo para la marca de los perifericos (insumos)
+Agregar un campo para el estado (En uso asignados a un pc, insumos disponibles para usarse)
