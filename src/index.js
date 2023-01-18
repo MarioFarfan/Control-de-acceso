@@ -50,7 +50,7 @@ app.use(require('./rutas'));
 app.use(require('./rutas/autenticar'));
 app.use('/inventarios', require('./rutas/links'));
 app.use('/practicas', require('./rutas/practicas'));
-app.use('/agenda', require('./rutas/agenda'));
+app.use('/extra', require('./rutas/extra'));
 
 //public
 app.use(express.static(path.join(__dirname, 'public')));

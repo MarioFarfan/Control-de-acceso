@@ -1,0 +1,37 @@
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-5 rounded-5 container">
+      <h2 class="text-center fw mb-2 text-uppercase">Control de inventario</h2>
+        <h4 class="text-center fw mb-3 text-uppercase">Registro de dispositivos</h4>
+        <form class="needs-validation" action="" method="POST">
+            <h5 class="fw mb-2">Ingresa los datos del material</h5>
+            <div class="row row-cols-2">            
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre del software: </label>
+                        <input type="text" class="form-control" id="software" name="software" required onkeyup="this.value = this.value.toUpperCase();">
+                        <div id="nombreHelp" class="form-text">Ingrese el nombre del software que agregará.</div>
+                    </div>
+
+                     <div class="mb-3">
+                        <label for="tipolicencia" class="form-label">Tipo de Licencia: </label>
+                        <select class="form-select" id="tipolicencia" name="tipolicencia" required>
+                          <option value="LIBRE">LIBRE</option>
+                          <option value="PROPIETARIO">PROPIETARIO</option>
+                        </select>
+                        <div class="invalid-feedback">
+                          <div id="tipoHelp" class="form-text">Ingrese el tipo de licencia del software a agregar.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="licencia" class="form-label">Clave o llave de licencia: </label>
+                        <input type="text" class="form-control" id="licencia" name="licencia"  onkeyup="this.value = this.value.toUpperCase();">
+                        <div id="descripcionHelp" class="form-text">Ingrese una breve descripcion del dispositivo.</div>
+                    </div>
+           </div>
+            <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>
+          </div>  
+        </form>
+      </div>
+    </div>
+  </main>
+</body>
