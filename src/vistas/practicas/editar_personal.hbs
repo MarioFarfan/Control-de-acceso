@@ -1,0 +1,57 @@
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-5 rounded-5 container">
+      <h2 class="text-center fw mb-2 text-uppercase">Personal</h2>
+        <h4 class="fw mb-3 text-uppercase">Edición de personal</h4>
+        <form class="needs-validation" action="" method="POST">
+            <h5 class="fw mb-2">Corriga los datos del miembro de personal que desea modificar</h5>
+            <div class="row row-cols-2">            
+                    <div class="sm-2">
+                        <label for="clavemat" class="form-label">Número de tarjeta: </label>
+                         <input type="text" class="form-control" name="notarjeta" placeholder="" value="{{personal.notarjeta}}" required onkeyup="this.value = this.value.toUpperCase();">
+                        <div id="nocontrolHelp" class="form-text">Ingrese la clave del grupo.</div>
+                    </div>
+                    
+                    <div class="sm-2">
+                        <label for="clavemat" class="form-label">Nombre(s): </label>
+                         <input type="text" class="form-control" name="nombre" placeholder="" value="{{personal.nombre}}" required onkeyup="this.value = this.value.toUpperCase();">
+                        <div id="nocontrolHelp" class="form-text">Ingrese el o los nombres del profesor</div>
+                    </div>
+
+                    <div class="sm-1">
+                        <label for="materia" class="form-label">Apellido paterno: </label>
+                        <input type="text" class="form-control" name="apellidop" placeholder="" value="{{personal.apellidop}}" required onkeyup="this.value = this.value.toUpperCase();">
+                        <div id="nombreHelp" class="form-text">Apellido paterno del profesor</div>
+                    </div>
+
+                    <div class="sm-1">
+                        <label for="idcarrera" class="form-label">Apellido materno: </label>
+                        <input type="text" class="form-control" name="apellidom" placeholder="" value="{{personal.apellidom}}" required onkeyup="this.value = this.value.toUpperCase();">
+                        <div id="carreraHelp" class="form-text">Apellido materno del profesor</div>
+                    </div>
+
+                    <div class="sm-1">
+                        <label for="idcarrera" class="form-label">Departamento: </label>
+                        <select class="form-select" name="iddepto" required>
+                            {{#each departamentos}}
+                              <option value="{{iddepto}}">{{departamento}}</option>
+                            {{/each}} 
+                        </select>
+                        <div id="carreraHelp" class="form-text">Seleccionar el departamento al que pertenece</div>
+                    </div>
+
+                    <div class="sm-1">
+                        <label for="idcarrera" class="form-label">Tipo</label>
+                        <select class="form-select" name="tipo" required>
+                          <option value="PROFESOR">PROFESOR</option>
+                          <option value="ADMINISTRADOR">ADMINISTRADOR</option>
+                          <option value="PROFESOR">PROFESOR</option>
+                        </select>
+                        <div id="carreraHelp" class="form-text">Seleccione el tipo de agente que se registra</div>
+                    </div>
+            </div>
+            <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>
+          </form>
+    </div>
+  </body>
+
+  

@@ -1,0 +1,63 @@
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-5 rounded-5 container w-100">
+        <form method="POST" action="">
+                <div class="row g-3">
+                
+                    <h4 class="fw mb-3 text-uppercase">Listado del personal registrado</h4>
+        <div class="col-sm-5">
+            <label for="campo" class="form-label">Buscar personal</label>
+            <input type="text" class="form-control" name="campo" placeholder="" value="">
+         </div>
+                    
+        <div class="col-sm-4">
+            <label for="idarea" class="form-label">Departamento al que pertenece</label>
+            <select class="form-select" name="carr" required>
+              {{#each departamentos}}
+                    <option value="{{iddepto}}">{{departamento}}</option>
+              {{/each}} 
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid area.
+            </div>
+        </div>
+
+        <div class="col-3 d-grid gap-2 d-md-block">
+            <br>
+            <a href="#" class="btn btn-primary ">Buscar</a>
+            <a href="/usuarios/nuevo_personal" class="btn btn-primary">Nuevo miembro de personal</a>
+        </div>       
+    </form>
+
+            <table class="table">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col" class="text-center">Num. Tarjeta</th>
+                        <th scope="col" class="text-center">Nombre</th>
+                        <th scope="col" class="text-center">Apellido paterno</th>
+                        <th scope="col" class="text-center">Apellido materno</th>
+                        <th scope="col" class="text-center">Departamento</th>
+                        <th scope="col" class="text-center">Puesto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each personal}}
+                        <tr>
+                            <td class="text-center" scope="row">{{notarjeta}}</td>
+                            <td class="text-center" >{{nombre}}</td>
+                            <td class="text-center" >{{apellidop}}</td>
+                            <td class="text-center" >{{apellidom}}</td>
+                            <td class="text-center" >{{departamento}}</td>
+                            <td class="text-center" >{{tipo}}</td>
+                            <td class="text-center"><a class="btn btn-secondary" href="personal/editar/{{notarjeta}}"><i class="bi bi-pencil"></i></a></td>
+                            <td class="text-center"><a class="btn btn-danger" href="personal/eliminar/{{notarjeta}}"><i class="bi bi-trash3"></i></a></td>
+                        </tr>
+
+                        {{else}}
+                                <div class="alert alert-warning text-center" role="alert">
+                                    No se encontraron registros
+                                </div>
+                            {{/each}} 
+                    
+                </tbody>
+            </table> 
+
