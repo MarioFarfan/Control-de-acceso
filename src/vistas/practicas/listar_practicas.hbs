@@ -1,0 +1,59 @@
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-5 rounded-5 container w-100">
+        <form method="POST" action="">
+            <div class="row g-3">
+                <h4 class="fw mb-3 text-uppercase">Practicas programadas</h4>
+                <div class="col-sm-4">
+                    <label for="idarea" class="form-label">Area del laboratorio</label>
+                    <select class="form-select" name="carr" required>
+                        {{#each areas}}
+                            <option value="{{idarea}}">{{nombre}}</option>
+                        {{/each}} 
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a valid area.
+                    </div>
+                 </div>
+
+                <div class="col-3 d-grid gap-2 d-md-block">
+                    <br>
+                    <a href="#" class="btn btn-primary ">Buscar</a>
+                    <a href="/practicas/nueva_pactica" class="btn btn-secondary">Agregar practica</a>
+                </div>
+            </div>     
+        </form>
+
+            <div class="container p-4">
+    <div class="row">
+        {{#each practicas}}
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <a href="{{url}}" target="_blank">
+                        <h4 class="card-title text-uppercase">
+                            {{practicaname}}
+                        </h4>
+                        <h5>
+                            {{horainicio}}
+                        </h5>
+                    </a>
+                    <p class="m-2">{{area}}</p>
+                    <a class="btn btn-primary" href="/practicas/edit/{{folio}}">
+                        Detalles de practica
+                    </a>
+                </div>
+            </div>
+        </div>
+        {{else}}
+        <div class="col-md-4 mx-auto">
+            <div class="card card-body text-center">
+                <p>There are not practicas saved yet.</p>
+                <a href="/practcias/nueva_pactica">Create One!</a>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+    </div>
+</body>
