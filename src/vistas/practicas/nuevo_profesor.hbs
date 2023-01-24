@@ -1,6 +1,6 @@
 <body class="bg-dark d-flex justify-content-center align-items-center vh-100">
     <div class="bg-white p-5 rounded-5 container">
-      <h2 class="text-center fw mb-2 text-uppercase">Personal</h2>
+      <h2 class="text-center fw mb-2 text-uppercase">Control de Personal</h2>
         <h4 class="fw mb-3 text-uppercase">Registro de personal</h4>
         <form class="needs-validation" action="" method="POST">
             <h5 class="fw mb-2">Ingresa los datos del miembro que desea agreegar</h5>
@@ -14,19 +14,19 @@
                     <div class="sm-2">
                         <label for="clavemat" class="form-label">Nombre(s): </label>
                          <input type="text" class="form-control" name="nombre" placeholder="" value="" required onkeyup="this.value = this.value.toUpperCase();">
-                        <div id="nocontrolHelp" class="form-text">Ingrese el o los nombres del profesor</div>
+                        <div id="nocontrolHelp" class="form-text">Ingrese el o los nombres de la persona</div>
                     </div>
 
                     <div class="sm-1">
                         <label for="materia" class="form-label">Apellido paterno: </label>
                         <input type="text" class="form-control" name="apellidop" placeholder="" value="" required onkeyup="this.value = this.value.toUpperCase();">
-                        <div id="nombreHelp" class="form-text">Apellido paterno del profesor</div>
+                        <div id="nombreHelp" class="form-text">Apellido paterno de la persona</div>
                     </div>
 
                     <div class="sm-1">
                         <label for="idcarrera" class="form-label">Apellido materno: </label>
                         <input type="text" class="form-control" name="apellidom" placeholder="" value="" required onkeyup="this.value = this.value.toUpperCase();">
-                        <div id="carreraHelp" class="form-text">Apellido materno del profesor</div>
+                        <div id="carreraHelp" class="form-text">Apellido materno de la persona</div>
                     </div>
 
                     <div class="sm-1">
@@ -43,10 +43,10 @@
                         <label for="idcarrera" class="form-label">Tipo</label>
                         <select class="form-select" name="tipo" required>
                           <option value="PROFESOR">PROFESOR</option>
-                          <option value="ADMINISTRADOR">ADMINISTRADOR</option>
-                          <option value="PROFESOR">PROFESOR</option>
+                          <option value="ADMINISTRATIVO">ADMINISTRATIVO</option>
+                          <option value="PERSONAL">PERSONAL DEL LABORATORIO</option>
                         </select>
-                        <div id="carreraHelp" class="form-text">Seleccione el tipo de agente que se registra</div>
+                        <div id="carreraHelp" class="form-text">Seleccione el tipo de personal que se registra</div>
                     </div>
             </div>
             <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>

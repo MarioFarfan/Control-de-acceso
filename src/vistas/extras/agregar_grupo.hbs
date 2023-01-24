@@ -1,0 +1,57 @@
+ <body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-5 rounded-5 container">
+      <h2 class="text-center fw mb-2 text-uppercase">Control de grupos</h2>
+        <h4 class="text-center fw mb-3 text-uppercase">Registro de nuevo grupo</h4>
+        <form class="needs-validation" action="" method="POST">
+            <h5 class="fw mb-2">Ingresa los datos del grupo</h5>
+            <div class="row row-cols-2">            
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Grupo: </label>
+                        <input type="text" class="form-control" id="software" name="software" required onkeyup="this.value = this.value.toUpperCase();">
+                        <div id="nombreHelp" class="form-text">Ingrese el nombre del software que agregará.</div>
+                    </div>
+
+                     <div class="mb-3">
+                        <label for="tipolicencia" class="form-label">Clave de Materia: </label>
+                        <select class="form-select" id="tipolicencia" name="tipolicencia" required>
+                          <option value="LIBRE">LIBRE</option>
+                          <option value="PROPIETARIO">PROPIETARIO</option>
+                        </select>
+                        <div class="invalid-feedback">
+                          <div id="tipoHelp" class="form-text">Ingrese el tipo de licencia del software a agregar.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="notarjeta" class="form-label">No. de Tarjeta: </label>
+                        <input type="text" class="form-control" id="notarjeta" name="notarjeta"  onkeyup="this.value = this.value.toUpperCase();">
+                        <div id="descripcionHelp" class="form-text">Ingrese una breve descripcion del dispositivo.</div>
+                    </div>
+
+                     <div class="mb-3">
+                        <label for="horario" class="form-label">Horario: </label>
+                        <select class="form-select" id="tipohorario" name="horario" required>
+                          <option value="7:00">7:00 AM</option>
+                          <option value="8:00">8:00 AM</option>
+                          <option value="9:00">9:00 AM</option>
+                          <option value="10:00">10:00 AM</option>
+                          <option value="11:00">11:00 AM</option>
+                          <option value="12:00">12:00 AM</option>
+                          <option value="13:00">1:00 PM</option>
+                          <option value="14:00">2:00 PM</option>
+                          <option value="15:00">3:00 PM</option>
+                          <option value="16:00">4:00 PM</option>
+                          <option value="17:00">5:00 PM</option>
+                          <option value="18:00">6:00 PM</option>
+                          <option value="19:00">7:00 PM</option>
+                        </select>
+                        <div id="descripcionHelp" class="form-text">Ingrese una breve descripcion del dispositivo.</div>
+                    </div>
+           </div>
+            <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>
+          </div>  
+        </form>
+      </div>
+    </div>
+  </main>
+</body>

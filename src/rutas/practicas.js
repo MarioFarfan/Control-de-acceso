@@ -119,7 +119,7 @@ router.get('/departamentos/eliminar/:id',  isLoggedIn, async (req, res) => {
     res.redirect('/practicas/departamentos');
 });
 
-router.get('/nueva_pactica', async (req, res) => {
+router.get('/nueva_practica', async (req, res) => {
     const { conexion } = require('../lib/passport');
     const areas = await conexion.query('Select * from area');
     const personal = await conexion.query('Select * from personal');
@@ -130,7 +130,7 @@ router.get('/nueva_pactica', async (req, res) => {
     res.render('practicas/nueva_practica', {areas, personal, programas} );
 });
 
-router.post('/nueva_pactica', async (req, res) => {
+router.post('/nueva_practica', async (req, res) => {
     const { conexion } = require('../lib/passport');
     const { nombre, idgrupo, fecha, duracion, idarea, id_software } = req.body;
     let arr = fecha.split('T');

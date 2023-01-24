@@ -23,7 +23,7 @@ router.post('/nuevo_personal', isLoggedIn, async (req, res) => {
     }    
     await conexion.query('INSERT INTO personal set ?', [newProfe]);
     req.flash('exito', 'Registro agregado con éxito');
-    res.redirect('/usuarios/eprsonal_registrado');
+    res.redirect('/usuarios/personal_registrado');
 });
 
 router.get('/personal_registrado', isLoggedIn, async (req, res) => {
