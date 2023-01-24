@@ -6,26 +6,28 @@
             <h5 class="fw mb-2">Ingresa los datos del grupo</h5>
             <div class="row row-cols-2">            
                     <div class="mb-3">
-                        <label for="nombre" class="form-label">Grupo: </label>
-                        <input type="text" class="form-control" id="software" name="software" required onkeyup="this.value = this.value.toUpperCase();">
-                        <div id="nombreHelp" class="form-text">Ingrese el nombre del software que agregará.</div>
+                        <label for="grupo" class="form-label">Grupo: </label>
+                        <input type="text" class="form-control" id="grupo" name="grupo" required onkeyup="this.value = this.value.toUpperCase();">
+                        <div id="grupoHelp" class="form-text">Ingrese el grupo</div>
                     </div>
 
                      <div class="mb-3">
-                        <label for="tipolicencia" class="form-label">Clave de Materia: </label>
-                        <select class="form-select" id="tipolicencia" name="tipolicencia" required>
-                          <option value="LIBRE">LIBRE</option>
-                          <option value="PROPIETARIO">PROPIETARIO</option>
+                        <label for="clave" class="form-label">Clave de Materia: </label>
+                        <select class="form-select" id="clave" name="clave" required>
+                          {{#each mat}}
+                                <option value="{{clave}}">{{nombre}}</option>
+                          {{/each}} 
                         </select>
+                        
+                        <div id="tipoHelp" class="form-text">Ingrese la clave de materia.</div>
                         <div class="invalid-feedback">
-                          <div id="tipoHelp" class="form-text">Ingrese el tipo de licencia del software a agregar.</div>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="notarjeta" class="form-label">No. de Tarjeta: </label>
                         <input type="text" class="form-control" id="notarjeta" name="notarjeta"  onkeyup="this.value = this.value.toUpperCase();">
-                        <div id="descripcionHelp" class="form-text">Ingrese una breve descripcion del dispositivo.</div>
+                        <div id="descripcionHelp" class="form-text">Ingrese el numero de tarjeta del docente.</div>
                     </div>
 
                      <div class="mb-3">
@@ -45,7 +47,7 @@
                           <option value="18:00">6:00 PM</option>
                           <option value="19:00">7:00 PM</option>
                         </select>
-                        <div id="descripcionHelp" class="form-text">Ingrese una breve descripcion del dispositivo.</div>
+                        <div id="descripcionHelp" class="form-text">Ingrese el horario de clase de este grupo.</div>
                     </div>
            </div>
             <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>

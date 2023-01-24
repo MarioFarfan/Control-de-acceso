@@ -1,0 +1,70 @@
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-5 rounded-5 container w-100">
+        <form method="POST" action="">
+                <div class="row g-3">
+                
+                    <h4 class="fw mb-3 text-uppercase">Listado de grupos</h4>
+        <div class="col-sm-5">
+            <label for="campo" class="form-label">Buscar materias</label>
+            <input type="text" class="form-control" name="campo" placeholder="" value="">
+         </div>
+                    
+        <div class="col-sm-4">
+            <label for="idarea" class="form-label">Carrera a la que pertenece</label>
+            <select class="form-select" name="carr" required>
+              {{#each carreras}}
+                    <option value="{{idcarrera}}">{{nombre}}</option>
+              {{/each}} 
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid area.
+            </div>
+        </div>
+
+        <div class="col-3 d-grid gap-2 d-md-block">
+            <br>
+            <a href="#" class="btn btn-primary ">Buscar</a>
+            <a href="/extras/agregar_grupo" class="btn btn-primary">Nuevo</a>
+        </div>       
+    </form>
+
+            <table class="table">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col" class="text-center">Grupo</th>
+                        <th scope="col" class="text-center">Clave de Materia</th>
+                        <th scope="col" class="text-center">Nombre de Materia</th>
+                        <th scope="col" class="text-center">Apellido paterno</th>
+                        <th scope="col" class="text-center">Apellido materno</th>
+                        <th scope="col" class="text-center">Nombre</th>
+                        <th scope="col" class="text-center">Horario</th>
+                        <th scope="col" class="text-center">No. de Alumnos</th>
+                        <th scope="col" class="text-center">Editar</th>
+                        <th scope="col" class="text-center">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each grupos}}
+                        <tr>
+                            <td class="text-center" scope="row">{{GRUPO}}</td>
+                            <td class="text-center" >{{CMATERIA}}</td>
+                            <td class="text-center" >{{NOMBRE}}</td>
+                            <td class="text-center" >{{APELLIDOP}}</td>
+                            <td class="text-center" >{{APELLIDOM}}</td>
+                            <td class="text-center" >{{N}}</td>
+                            <td class="text-center" >{{HORARIO}} HRS</td>
+                            <td class="text-center" >{{NOALUMNOS}}</td>
+                            <td class="text-center"><a class="btn btn-secondary" href="personal/editar/{{IDGRUPO}}"><i class="bi bi-pencil"></i></a></td>
+                            <td class="text-center"><a class="btn btn-danger" href="personal/eliminar/{{IDGRUPO}}"><i class="bi bi-trash3"></i></a></td>
+                        </tr>
+
+                        {{else}}
+                                <div class="alert alert-warning text-center" role="alert">
+                                    No se encontraron registros
+                                </div>
+                            {{/each}} 
+                    
+                </tbody>
+            </table> 
+    </div>
+</body>

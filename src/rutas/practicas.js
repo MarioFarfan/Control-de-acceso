@@ -119,11 +119,7 @@ router.get('/departamentos/eliminar/:id', isLoggedIn, async (req, res) => {
     res.redirect('/practicas/departamentos');
 });
 
-<<<<<<< HEAD
-router.get('/nueva_practica', async (req, res) => {
-=======
 router.get('/nueva_pactica', isLoggedIn,  async (req, res) => {
->>>>>>> 30b300c95c97459f33c1489519057129c11fd29f
     const { conexion } = require('../lib/passport');
     const areas = await conexion.query('Select * from area');
     const personal = await conexion.query('Select * from personal');
@@ -134,11 +130,7 @@ router.get('/nueva_pactica', isLoggedIn,  async (req, res) => {
     res.render('practicas/nueva_practica', {areas, personal, programas} );
 });
 
-<<<<<<< HEAD
-router.post('/nueva_practica', async (req, res) => {
-=======
 router.post('/nueva_pactica', isLoggedIn, async (req, res) => {
->>>>>>> 30b300c95c97459f33c1489519057129c11fd29f
     const { conexion } = require('../lib/passport');
     const { nombre, idgrupo, fecha, duracion, idarea, id_software } = req.body;
     let arr = fecha.split('T');
