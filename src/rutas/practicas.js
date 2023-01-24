@@ -111,7 +111,7 @@ router.post('/agregar_departamento', isLoggedIn,  async (req, res ) => {
     res.redirect('/practicas/departamentos');
 });
 
-router.get('/departamentos/eliminar/:id',  isLoggedIn, async (req, res) => {
+router.get('/departamentos/eliminar/:id', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params; 
     await conexion.query('DELETE FROM departamento WHERE iddepto = ?', [id]);
@@ -119,7 +119,11 @@ router.get('/departamentos/eliminar/:id',  isLoggedIn, async (req, res) => {
     res.redirect('/practicas/departamentos');
 });
 
+<<<<<<< HEAD
 router.get('/nueva_practica', async (req, res) => {
+=======
+router.get('/nueva_pactica', isLoggedIn,  async (req, res) => {
+>>>>>>> 30b300c95c97459f33c1489519057129c11fd29f
     const { conexion } = require('../lib/passport');
     const areas = await conexion.query('Select * from area');
     const personal = await conexion.query('Select * from personal');
@@ -130,7 +134,11 @@ router.get('/nueva_practica', async (req, res) => {
     res.render('practicas/nueva_practica', {areas, personal, programas} );
 });
 
+<<<<<<< HEAD
 router.post('/nueva_practica', async (req, res) => {
+=======
+router.post('/nueva_pactica', isLoggedIn, async (req, res) => {
+>>>>>>> 30b300c95c97459f33c1489519057129c11fd29f
     const { conexion } = require('../lib/passport');
     const { nombre, idgrupo, fecha, duracion, idarea, id_software } = req.body;
     let arr = fecha.split('T');
@@ -147,6 +155,13 @@ router.post('/nueva_practica', async (req, res) => {
     await conexion.query('INSERT INTO practica set ?', [newPractica]);
     req.flash('exito', 'Registro agregado con éxito');
     res.redirect('/practicas/practicas_registradas');
+});
+
+router.get('/practicas_registradas', isLoggedIn, async (req, res) => {
+    const { conexion } = require('../lib/passport');
+    const areas = await conexion.query('SELECT * FROM area');
+    const practicas = await conexion.query('SELECT practica.folio, practica.nombre as practicaname, practica.idgrupo, fecha, horainicio, duracion, practica.idarea, area.nombre as area, software.software FROM practica inner join area on practica.idarea=area.idarea inner join software on software.id_software = practica.id_software order by horainicio');
+    res.render('practicas/listar_practicas', {areas, practicas});
 });
 
 module.exports = router;
