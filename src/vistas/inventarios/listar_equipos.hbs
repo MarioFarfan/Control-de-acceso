@@ -1,38 +1,58 @@
 <body class="bg-dark d-flex justify-content-center align-items-center vh-100">
     <div class="bg-white p-5 rounded-5 container w-100">
         <form method="POST" action="/links/inventarios/buscar">
-                <div class="row g-3">
+                <div class="row g-4">
                     <h4 class="fw mb-3 text-uppercase">Listado de Equipos de cómputo</h4>
-                    <div class="col-sm-5">
-                        <label for="campo" class="form-label">Buscar equipo</label>
-                        <input type="text" class="form-control" name="campo" placeholder="" value="">
-                    </div>
-                    <div class="col-sm-4">
-                        <label for="idarea" class="form-label">Area a la que pertenece</label>
-                        <select class="form-select" name="idarea" required>
-                        <option value="0">Todas</option>
-                        <option value="1">USUARIOS 1</option>
-                        <option value="2">USUARIOS 2</option>
-                        <option value="3">USUARIOS 3</option>
-                        <option value="4">USUARIOS 4</option>
-                        <option value="5">Laboratorio de Bases de datos</option>
-                        <option value="6">Laboratorio de redes</option>
-                        <option value="7">Almacenamiento de equipos en desuso</option>
+                    <div class="col-sm-2">
+                        <label for="campo" class="form-label">Filtrar por:</label>
+                        <select class="form-select" name="filtro" id="filtro" onchange="filtrar()">
+                        <option value="idarea">Area</option>
+                        <option value="tipo">Tipo</option>
                         </select>
                         <div class="invalid-feedback">
                             Please select a valid area.
                         </div>
                     </div>
-                        <div class="col-3 d-grid gap-2 d-md-block">
+
+                    <div class="col-sm-3" id="filtroarea">
+                        <label for="idarea" class="form-label">Area a la que pertenece</label>
+                        <select class="form-select" name="idarea" onchange="buscar()" id="areabuscar">
+                        <option value=""></option>
+                        <option value="USUARIOS1">USUARIOS 1</option>
+                        <option value="USUARIOS2">USUARIOS 2</option>
+                        <option value="USUARIOS3">USUARIOS 3</option>
+                        <option value="USUARIOS4">USUARIOS 4</option>
+                        <option value="LABORATORIO DE REDES">Laboratorio de Bases de datos</option>
+                        <option value="LABORATORIO DE BASE DE DATOS">Laboratorio de redes</option>
+                        <option value="ALMACEN">Almacenamiento de equipos en desuso</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid area.
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3 d-none" id="filtrotipo">
+                        <label for="idarea" class="form-label">Tipo de equipo</label>
+                        <select class="form-select" name="tipo" id="buscartipo" onchange="buscar()">
+                            <option value=""></option>
+                        <option value="ALL IN ONE">ALL IN ONE</option>
+                        <option value="COMPUESTO">COMPUESTA</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid area.
+                        </div>
+                    </div>
+
+                    <div class="col-3 d-grid gap-2 d-md-block">
                             <br>
                             <a class="btn btn-primary" href="">Buscar</a>
-                            <a class="btn btn-primary" href="/inventarios/agregar_dispositivo">Nuevo</a>
-                        </div>
+                            <a class="btn btn-primary" href="/inventarios/agregar_pc">Nuevo</a>
+                    </div>
                 </div>
         </form>
 <br>
 <div class="bg-white p-5 rounded-5 container">
-    <table class="table table-primary table-responsive">
+    <table class="table table-primary table-responsive" id="tabla">
         <thead class="table-dark">
             <tr>
                 <th scope="col" class="text-center">Num. Serie</th>
@@ -53,11 +73,11 @@
                     <td class="text-center" scope="row">{{noserie}}</td>
                     <td class="text-center" >{{marca}}</td>
                     <td class="text-center">{{tipo}}</td>
-                    <td class="text-center">{{noinventario}}</td>
+                    <td class="text-center">{{noinv}}</td>
                     <td class="text-center" >{{monitor}}</td>
                     <td class="text-center" >{{teclado}}</td>
                     <td class="text-center" >{{mouse}}</td>
-                    <td class="text-center">{{idarea}}</td>
+                    <td class="text-center">{{nombre}}</td>
                     <td class="text-center"><a class="btn btn-danger" href="listar_equipos/eliminar/{{noserie}}"><i class="bi bi-trash3"></i></a></td>
                     <td class="text-center"><a class="btn btn-secondary" href="listar_equipos/editar/{{noserie}}"><i class="bi bi-pencil"></i></a></td>
                 </tr>
@@ -70,3 +90,46 @@
             
         </tbody>
 </table> 
+</div>
+</div>
+</body>
+        <script>
+            function filtrar(){
+                var filtro = document.getElementById("filtro").value;
+
+                if(filtro == "idarea"){
+                    document.getElementById("filtroarea").className = "col-sm-3";
+                    document.getElementById("filtrotipo").className = "col-sm-3 d-none";
+                }else if(filtro == "tipo"){
+                    document.getElementById("filtroarea").className = "col-sm-3 d-none";
+                    document.getElementById("filtrotipo").className = "col-sm-3";
+                }
+            } 
+        </script>
+
+        <script>
+            function buscar() {
+                // Declare variables
+                var input, filter, table, tr, td, i, txtValue, col;
+                col = document.getElementById("filtro").value;
+                var searchcol = col=="idarea"?7:2;
+                input = (col=="idarea"?document.getElementById("areabuscar"):document.getElementById("buscartipo"));
+                filter = input.value.toUpperCase();
+                filter = filter.trim();
+                table = document.getElementById("tabla");
+                tr = table.getElementsByTagName("tr");
+
+                // Loop through all table rows, and hide those who don't match the search query
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[searchcol];
+                    if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                    }
+                }
+            }
+</script>
