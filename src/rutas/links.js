@@ -18,7 +18,8 @@ router.post('/agregar_pc', isLoggedIn, async(req, res) => {
 
 router.get('/listar_equipos', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const equipos = await conexion.query('SELECT * FROM PC');
+    const {filtro, idarea, tipo}= req.body;
+    const equipos = await conexion.query('SELECT * FROM PC INNER JOIN AREA on PC.idarea = AREA.idarea');
     const areas = await conexion.query('select idarea, nombre from area');
     res.render('inventarios/listar_equipos', { equipos, areas });
 });
