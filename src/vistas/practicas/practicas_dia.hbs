@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="/estilos/calendar.css" type="text/css" />
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-5 rounded-5 container w-100" id="miContenedor">
+        <form method="POST" action="">
+            <div class="row g-3">
+                <h4 class="fw mb-3 text-uppercase">Practicas programadas</h4>
+
+                 <div class="col-sm-4">
+                    <label for="idarea" class="form-label">Periodo de tiempo</label>
+                    <select class="form-select"  required>
+                        <option value="DIA" selected="true">Día</option>
+                        <option value="SEMANA">Semana</option>
+                        <option value="MES">Mes</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a valid area.
+                    </div>
+                 </div>
+
+                <div class="col-3 d-grid gap-2 d-md-block">
+                    <br>
+                    <a href="#" class="btn btn-primary ">Buscar</a>
+                    <a href="practicas/nueva_practica" class="btn btn-secondary">Agregar practica</a>
+                </div>
+            </div>     
+        </form>
+
+            
+        <div>
+            <div class="container p-4" class="scroldiv">
+                <div class="row">
+                    {{#each practicasday}}
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <a href="{{url}}" target="_blank">
+                                    <h4 class="card-title text-uppercase">
+                                        {{practicaname}}
+                                    </h4>
+                                    <h5>
+                                        {{horainicio}}
+                                    </h5>
+                                </a>
+                                <p class="m-2">{{area}}</p>
+                                <a class="btn btn-primary" href="/practicas/edit/{{folio}}">
+                                    Detalles de practica
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {{else}}
+                    <div class="col-md-4 mx-auto">
+                        <div class="card card-body text-center">
+                            <p>There are not practicas saved yet.</p>
+                            <a href="/practicas/nueva_practica">Create One!</a>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

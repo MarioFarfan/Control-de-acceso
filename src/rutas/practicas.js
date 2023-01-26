@@ -119,7 +119,7 @@ router.get('/departamentos/eliminar/:id', isLoggedIn, async (req, res) => {
     res.redirect('/practicas/departamentos');
 });
 
-router.get('/nueva_pactica', isLoggedIn,  async (req, res) => {
+router.get('/nueva_practica', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
     const areas = await conexion.query('Select * from area');
     const personal = await conexion.query('Select * from personal');
@@ -130,7 +130,7 @@ router.get('/nueva_pactica', isLoggedIn,  async (req, res) => {
     res.render('practicas/nueva_practica', {areas, personal, programas} );
 });
 
-router.post('/nueva_pactica', isLoggedIn, async (req, res) => {
+router.post('/nueva_practica', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const { nombre, idgrupo, fecha, duracion, idarea, id_software } = req.body;
     let arr = fecha.split('T');
@@ -142,18 +142,71 @@ router.post('/nueva_pactica', isLoggedIn, async (req, res) => {
         duracion,
         idarea,
         id_software
-    }    
-    console.log(newPractica);
-    await conexion.query('INSERT INTO practica set ?', [newPractica]);
-    req.flash('exito', 'Registro agregado con éxito');
-    res.redirect('/practicas/practicas_registradas');
+    }
+    const cruce = await conexion.query('select * from practica where idarea = ? and horainicio = ? and fecha = ?', [idarea, newPractica.horainicio, newPractica.fecha]);
+    console.log(cruce);
+    if (cruce.length > 0) {
+        req.flash('danger', 'Esta area ya se encuentra apartada en el horario seleccionado');
+        res.redirect('/practicas/nueva_practica');
+    } else {
+        console.log(newPractica);
+        await conexion.query('INSERT INTO practica set ?', [newPractica]);
+        req.flash('exito', 'Registro agregado con éxito');
+        res.redirect('/practicas/practicas_registradas');
+    }
+    
 });
 
 router.get('/practicas_registradas', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const areas = await conexion.query('SELECT * FROM area');
-    const practicas = await conexion.query('SELECT practica.folio, practica.nombre as practicaname, practica.idgrupo, fecha, horainicio, duracion, practica.idarea, area.nombre as area, software.software FROM practica inner join area on practica.idarea=area.idarea inner join software on software.id_software = practica.id_software order by horainicio');
-    res.render('practicas/listar_practicas', {areas, practicas});
+    const practicasweek = await conexion.query(`SELECT folio, practica.nombre as practicaname, practica.idgrupo, fecha, horainicio, duracion, practica.idarea, area.nombre as area, software.software 
+    FROM practica inner join area on practica.idarea=area.idarea 
+    inner join software on software.id_software = practica.id_software 
+    WHERE yearweek(fecha) = yearweek(CURDATE()) AND practica.idarea = 'USUARIOS1'
+    order by fecha;`);
+
+    const practicasmonth = await conexion.query(`SELECT folio, practica.nombre as practicaname, practica.idgrupo, fecha, horainicio, duracion, practica.idarea, area.nombre as area, software.software 
+    FROM practica inner join area on practica.idarea=area.idarea 
+    inner join software on software.id_software = practica.id_software 
+    WHERE MONTH(fecha) = MONTH(CURDATE()) AND practica.idarea = 'USUARIOS1'
+    order by fecha;`);
+
+    const practicasday = await conexion.query(`SELECT folio, practica.nombre as practicaname, practica.idgrupo, fecha, horainicio, duracion, practica.idarea, area.nombre as area, software.software 
+    FROM practica inner join area on practica.idarea=area.idarea 
+    inner join software on software.id_software = practica.id_software 
+    WHERE fecha = CURDATE() AND practica.idarea = 'USUARIOS1'
+    order by fecha;`);
+
+
+    res.render('practicas/listar_practicas', {areas, practicasweek, practicasmonth, practicasday});
+});
+
+router.get('/practicas_registradas/:id', isLoggedIn, async (req, res) => {
+    const {id} = req.params; 
+    const { conexion } = require('../lib/passport');
+    var selectedArea = req.params.selectedOption;
+    console.log(id, selectedArea)
+
+    res.render('practicas/listar_practicas', {area, selectedArea});
+});
+
+router.get('/gestion', isLoggedIn, async (req, res) => {
+    res.render('practicas/menupracticas');
+});
+
+router.get('/listar', isLoggedIn, async (req, res) => {
+    const { conexion } = require('../lib/passport');
+    const areas = await conexion.query('SELECT @rownum:=@rownum+1 num,  idarea, nombre, capacidad FROM area, (SELECT @rownum:=0) r');
+    res.render('practicas/menuareas', {areas});
+});
+
+router.get('/listar/:id', isLoggedIn, async (req, res) => {
+    const {folio} = req.params;
+    const { conexion } = require('../lib/passport');
+    const practicas = await conexion.query('select * from practica');
+    console.log(practicas);
+    res.render('practicas/practicas_dia', {practicas});
 });
 
 module.exports = router;
