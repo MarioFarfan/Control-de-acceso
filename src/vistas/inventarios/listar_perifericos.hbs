@@ -12,11 +12,11 @@
 
                 <div class="col-sm-4">
                     <label for="" class="form-label">Tipo</label>
-                    <select class="form-select" id="tipo" onchange="table()" required>
-                    
-                    <option value="MOUSE">MOUSE</option>
-                    <option value="TECLADO">TECLADO</option>
-                    <option value="MONITOR">MONITOR</option>
+                    <select class="form-select" id="buscartipo" onchange="buscar()" required>
+                        <option value="">TODOS</option>
+                        <option value="MOUSE">MOUSE</option>
+                        <option value="TECLADO">TECLADO</option>
+                        <option value="MONITOR">MONITOR</option>
                     </select>
                     <div class="invalid-feedback">
                     Please select a valid area.
@@ -31,12 +31,10 @@
             </div>
         </div>
         </form>
-        <br>
-
-        <table class="table" id="mouse">
+    <hr>
+        <table class="table" id="tabla">
             <thead class="table-dark">
                 <tr>
-                    
                     <th scope="col" class="text-center">Num. Serie</th>
                     <th scope="col" class="text-center">Marca</th>
                     <th scope="col" class="text-center">Num inventario</th>
@@ -46,7 +44,7 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each equiposmouse}}
+                {{#each equipos}}
                     <tr>
                         <td class="text-center" scope="row">{{noserie}}</td>
                         <td class="text-center" >{{marca}}</td>
@@ -55,7 +53,6 @@
                         <td class="text-center"><a class="btn btn-secondary" href="listar_perifericos/editar/{{noserie}}"><i class="bi bi-pencil"></i></a></td>
                         <td class="text-center"><a class="btn btn-danger" href="listar_perifericos/eliminar/{{noserie}}"><i class="bi bi-trash3"></i></a></td>
                     </tr>
-                    <br><br>
                 {{else}}
                         <div class="alert alert-warning text-center" role="alert">
                              No se encontraron registros
@@ -65,84 +62,28 @@
             </tbody>
         </table>
 
-        <table class="table d-none" id="monitor">
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col" class="text-center">Num. Serie</th>
-                    <th scope="col" class="text-center">Marca</th>
-                    <th scope="col" class="text-center">Num inventario</th>
-                    <th scope="col" class="text-center">Tipo</th>
-                    <th scope="col" class="text-center">Editar registro</th>
-                    <th scope="col" class="text-center">Borrar registro</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each equiposmonitor}}
-                    <tr>
-                        <td class="text-center" scope="row">{{noserie}}</td>
-                        <td class="text-center" >{{marca}}</td>
-                        <td class="text-center">{{noinv}}</td>
-                        <td class="text-center">{{tipo}}</td>
-                        <td class="text-center"><a class="btn btn-secondary" href="listar_perifericos/editar/{{noserie}}"><i class="bi bi-pencil"></i></a></td>
-                        <td class="text-center"><a class="btn btn-danger" href="listar_perifericos/eliminar/{{noserie}}"><i class="bi bi-trash3"></i></a></td>
-                    </tr>
-                {{else}}
-                         <div class="alert alert-warning text-center" role="alert">
-                           No se encontraron registros
-                         </div>
-                {{/each}} 
-                
-            </tbody>
-        </table> 
+  <script>
+            function buscar() {
+                // Declare variables
+                var input, filter, table, tr, td, i, txtValue;
+                var searchcol = 3;
+                input = document.getElementById("buscartipo").value;
+                filter = input.toUpperCase();
+                filter = filter.trim();
+                table = document.getElementById("tabla");
+                tr = table.getElementsByTagName("tr");
 
-        <table class="table d-none" id="teclado">
-            <thead class="table-dark">
-                <tr>
-                <th scope="col" class="text-center">Num. Serie</th>
-                    <th scope="col" class="text-center">Marca</th>
-                    <th scope="col" class="text-center">Num inventario</th>
-                    <th scope="col" class="text-center">Tipo</th>
-                    <th scope="col" class="text-center">Ediitar registro</th>
-                    <th scope="col" class="text-center">Borrar registro</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each equiposteclado}}
-                    <tr>
-                    <td class="text-center" scope="row">{{noserie}}</td>
-                        <td class="text-center" >{{marca}}</td>
-                        <td class="text-center">{{noinv}}</td>
-                        <td class="text-center">{{tipo}}</td>
-                        <td class="text-center"><a class="btn btn-secondary" href="listar_perifericos/editar/{{noserie}}"><i class="bi bi-pencil"></i></a></td>
-                        <td class="text-center"><a class="btn btn-danger" href="listar_perifericos/eliminar/{{noserie}}"><i class="bi bi-trash3"></i></a></td>
-                    </tr>
-                {{else}}
-                    <div class="alert alert-warning text-center" role="alert">
-                         No se encontraron registros
-                    </div>
-                {{/each}} 
-                
-            </tbody>
-        </table> 
-
-
-        <script>
-            function table(){
-                var tipo = document.getElementById("tipo").value;
-                
-
-                if(tipo == "MONITOR"){
-                    document.getElementById("mouse").className = "table d-none";
-                    document.getElementById("teclado").className = "table d-none";
-                    document.getElementById("monitor").className = "table";
-                }else if(tipo == "MOUSE"){
-                    document.getElementById("mouse").className = "table";
-                    document.getElementById("teclado").className = "table d-none";
-                    document.getElementById("monitor").className = "table d-none";
-                }else if(tipo == "TECLADO"){
-                    document.getElementById("mouse").className = "table d-none";
-                    document.getElementById("teclado").className = "table";
-                    document.getElementById("monitor").className = "table d-none";
+                // Loop through all table rows, and hide those who don't match the search query
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[searchcol];
+                    if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                    }
                 }
-            } 
-        </script>
+            }
+</script>

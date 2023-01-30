@@ -180,10 +180,8 @@ router.post('/agregar_periferico', isLoggedIn, async(req, res) => {
 
 router.get('/listar_perifericos', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const equiposmonitor = await conexion.query('SELECT * FROM INSUMOS WHERE TIPO like "MONITOR"');
-    const equiposteclado = await conexion.query('SELECT * FROM INSUMOS WHERE TIPO like "TECLADO"');
-    const equiposmouse = await conexion.query('SELECT * FROM INSUMOS WHERE TIPO like "MOUSE"');
-    res.render('inventarios/listar_perifericos', {equiposmonitor, equiposteclado, equiposmouse });
+    const equipos = await conexion.query('SELECT * FROM INSUMOS');
+    res.render('inventarios/listar_perifericos', {equipos});
 });
 
 router.get('/listar_perifericos/eliminar/:id',  isLoggedIn, async (req, res) => {

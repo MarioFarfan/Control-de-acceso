@@ -4,11 +4,26 @@
         <form method="POST" action="">
            <h4 class="fw mb-3 text-uppercase">Listado de dispositivos auxiliares</h4>
             <div class="container">
-            <div class="row g-2">
-                <div class="col-sm-9">
+            <div class="row g-3">
+                <div class="col-sm-3">
                     <label for="campo" class="form-label">Buscar dispositivo</label>
                     <input type="text" class="form-control" name="campo" placeholder="" value="">
                 </div>
+                <div class="col-sm-3" id="filtrotipo">
+                        <label for="idtipo" class="form-label">Tipo de equipo</label>
+                        <select class="form-select" name="buscartipo" id="buscartipo" onchange="buscar()">
+                            <option value="">TODOS</option>
+                        <option value="ROUTER">ROUTER</option>
+                        <option value="SWITCH">SWITCH</option>
+                        <option value="CONCENTRADOR">CONCENTRADOR</option>
+                        <option value="PROYECTOR">PROYECTOR</option>
+                        <option value="IMPRESORA">IMPRESORA</option>
+                        <option value="MULTIFUNCIONAL">MULTIFUNCIONAL</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid area.
+                        </div>
+                    </div>
 
                 <div class="col-3 d-grid gap-2 d-md-block">
                     <br>
@@ -19,7 +34,7 @@
         </div>
         </form>
         <br>
-        <table class="table" id="mouse">
+        <table class="table" id="tabla">
             <thead class="table-dark">
                 <tr>
                     <th scope="col" class="text-center">Num. Serie</th>
@@ -49,3 +64,28 @@
             </tbody>
         </table>
 
+  <script>
+            function buscar() {
+                // Declare variables
+                var input, filter, table, tr, td, i, txtValue;
+                var searchcol = 3;
+                input = document.getElementById("buscartipo").value;
+                filter = input.toUpperCase();
+                filter = filter.trim();
+                table = document.getElementById("tabla");
+                tr = table.getElementsByTagName("tr");
+
+                // Loop through all table rows, and hide those who don't match the search query
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[searchcol];
+                    if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                    }
+                }
+            }
+</script>
