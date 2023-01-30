@@ -3,7 +3,7 @@
     <div class="bg-white p-5 rounded-5 container w-100" id="miContenedor">
         <form method="POST" action="">
             <div class="row g-3">
-                <h4 class="fw mb-3 text-uppercase">Practicas programadas</h4>
+                <h4 class="fw mb-3 text-uppercase">Practicas programadas del area </h4>
 
                  <div class="col-sm-4">
                     <label for="idarea" class="form-label">Periodo de tiempo</label>
@@ -27,25 +27,25 @@
 
             
         <div>
-            <div class="container p-4" class="scroldiv">
-                <div class="row">
-                    {{#each practicasday}}
-                    <div class="col-md-3">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <a href="{{url}}" target="_blank">
-                                    <h4 class="card-title text-uppercase">
-                                        {{practicaname}}
-                                    </h4>
-                                    <h5>
-                                        {{horainicio}}
-                                    </h5>
-                                </a>
-                                <p class="m-2">{{area}}</p>
-                                <a class="btn btn-primary" href="/practicas/edit/{{folio}}">
-                                    Detalles de practica
-                                </a>
-                            </div>
+            <div class="container p-4">
+                <div class="container">
+                    <div class="row" >
+                            <div class="text-center col-sm">Horario</div>
+                            <div class="text-center col-sm">Fecha</div>
+                            <div class="text-center col-sm">Nombre de la practica</div>
+                            <div class="text-center col-sm">Encargado</div>
+                            <div class="text-center col-sm">Software</div>
+                    </div>
+                </div>
+                <div class="row" style="width:100; height:550px; overflow: scroll;">
+                    {{#each practicas}}
+                    <div class="container">
+                        <div class="row" >
+                                <div class="text-center col-sm">{{horainicio}}</div>
+                                <div class="text-center col-sm">{{fecha}}</div>
+                                <div class="text-center col-sm">{{practicanombre}}</div>
+                                <div class="text-center col-sm">{{nombre}} {{apellidop}} {{apellidom}}</div>
+                                <div class="text-center col-sm">{{software}}</div>
                         </div>
                     </div>
                     {{else}}

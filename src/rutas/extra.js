@@ -11,15 +11,15 @@ router.get('/agregar_software', isLoggedIn,  (req, res) => {
 router.post('/agregar_software', isLoggedIn, async(req, res) => {
     const { conexion } = require('../lib/passport');
     const{ software, tipolicencia, licencia } = req.body;
-    const newInsert = { software, tipolicencia, licencia};  //validar los datos
-    await conexion.query('INSERT INTO SOFTWARE set ?', [newInsert]);
+    await conexion.query('INSERT INTO SOFTWARE set $1, $2, $3', [software, tipolicencia, licencia]);
     req.flash('mensaje', 'Software agregado con exito');
     res.redirect('/extra/listar_software');
 });
 
 router.get('/listar_software', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const soft = await conexion.query('SELECT * FROM SOFTWARE');
+    const consulta = await conexion.query('SELECT * FROM SOFTWARE');
+    const soft = consulta.rows;
     res.render('extras/listar_software', {soft});
 });
 
@@ -27,9 +27,10 @@ router.get('/listar_software', isLoggedIn, async (req, res) => {
 router.get('/listar_software/eliminar/:id', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params;
-    await conexion.query('DELETE FROM SOFTWARE WHERE ID_SOFTWARE = (?)', [id]);
+    await conexion.query('DELETE FROM SOFTWARE WHERE ID_SOFTWARE = $1', [id]);
     req.flash('mensaje', 'Software eliminado con exito');
-    const soft = await conexion.query('SELECT * FROM SOFTWARE');
+    const consulta = await conexion.query('SELECT * FROM SOFTWARE');
+    const soft = consulta.rows;
     res.render('extras/listar_software', {soft});
 });
 
@@ -37,7 +38,8 @@ router.get('/listar_software/eliminar/:id', isLoggedIn,  async (req, res) => {
 router.get('/listar_software/editar/:id', isLoggedIn,  async(req, res) => {
     const {id} = req.params;
     const { conexion } = require('../lib/passport');
-    const equipo = await conexion.query('SELECT * FROM SOFTWARE WHERE ID_SOFTWARE = ?', [id]);
+    const consulta = await conexion.query('SELECT * FROM SOFTWARE WHERE ID_SOFTWARE = $1', [id]);
+    const equipo = consulta.rows;
     res.render('extras/editar_software', {equipo: equipo[0]});
 });
 
@@ -45,34 +47,35 @@ router.post('/listar_software/editar/:id', isLoggedIn,  async(req, res) => {
     const {id} = req.params;
     const { conexion } = require('../lib/passport');
     const{ software, tipolicencia, licencia } = req.body;
-    const newInsert = { software, tipolicencia, licencia}; 
-
-    await  conexion.query('UPDATE SOFTWARE SET ? WHERE ID_SOFTWARE = ?', [newInsert, id]);
+    await  conexion.query('UPDATE SOFTWARE SET ($1, $2, $3) WHERE ID_SOFTWARE = $4', [software, tipolicencia, licencia, id]);
     req.flash('mensaje', 'Software editado con exito');
-    const soft = await conexion.query('SELECT * FROM SOFTWARE');
+    const consulta = await conexion.query('SELECT * FROM SOFTWARE');
+    const soft = consulta.rows;
     res.render('extras/listar_software', {soft});
 });
 
 
 router.get('/agregar_grupo', isLoggedIn,  async(req, res) => {
     const { conexion } = require('../lib/passport');
-    const mat = await conexion.query('SELECT * FROM MATERIA');
+    const consulta = await conexion.query('SELECT * FROM MATERIA');
+    const mat = consulta.rows;
     res.render('extras/agregar_grupo', {mat} )
 });
 
 router.post('/agregar_grupo', isLoggedIn, async(req, res) => {
     const { conexion } = require('../lib/passport');
     const{ grupo, clave, notarjeta, horario } = req.body;
-    const newInsert = { grupo, clave, notarjeta, horario};  //validar los datos
-    await conexion.query('INSERT INTO GRUPO set ?', [newInsert]);
+    await conexion.query('INSERT INTO GRUPO values ($1, $2, $3, $4)', [grupo, clave, notarjeta, horario]);
     req.flash('mensaje', 'Grupo agregado con exito');
     res.redirect('/extra/listar_grupo');
 });
 
 router.get('/grupos', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const carreras = await conexion.query('SELECT * FROM CARRERA');
-    const grupos = await conexion.query('SELECT GRUPO, CMATERIA, NOMBRE, APELLIDOP, APELLIDOM, N, HORARIO, NOALUMNOS FROM GRUPO INNER JOIN (SELECT CLAVE AS CMATERIA, NOMBRE, N, APELLIDOP, APELLIDOM FROM MATERIA INNER JOIN (SELECT NOTARJETA, NOMBRE AS N, APELLIDOP, APELLIDOM FROM PERSONAL) AS CON1) AS CON2');
+    const consulta1 = await conexion.query('SELECT * FROM CARRERA');
+    const consulta2 = await conexion.query('SELECT GRUPO, CMATERIA, NOMBRE, APELLIDOP, APELLIDOM, N, HORARIO, NOALUMNOS FROM GRUPO INNER JOIN (SELECT CLAVE AS CMATERIA, NOMBRE, N, APELLIDOP, APELLIDOM FROM MATERIA INNER JOIN (SELECT NOTARJETA, NOMBRE AS N, APELLIDOP, APELLIDOM FROM PERSONAL) AS CON1) AS CON2');
+    const carreras = consulta1.rows;
+    const grupos = consulta2.rows;
     res.render('extras/listar_grupos', {carreras, grupos});
 });
 

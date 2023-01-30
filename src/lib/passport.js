@@ -11,41 +11,20 @@ passport.use('local.login', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, async (req, username, password, done) => {
-    //const conexion = new ConexionDB(username, password);
-    //conexion.conectar();
-    //const user = {user: username, password};
-    //module.exports = { conexion };
-    //console.dir(conexion.getConnection());
-    //done(null, user, req.flash('mensaje', 'Hola ' + user.user));
-
     const { ConexionDB } = require('../ConexionDB.js');
-
     const conexion = new ConexionDB(username, password);
-    await conexion.conectar();                     
-    console.log('Esta conectado: ' + conexion.conectado);
-    if (conexion.isConnected()) {
+    conexion.checkConnection()
+    .then(isConnected => {
+      if (isConnected) {
         const user = {user: username, password};
         module.exports = { conexion };
         console.log('Conexión exitosa');
         done(null, user, req.flash('mensaje', 'bienveniodo ' + user.user));
-    } else {
+      } else {
         console.log('Error en la conexión');
         done(null, null, req.flash('danger', 'Credenciales incorrectas '));
-    }
-
-    //conexion.getConnection((err, connection) => {
-    //    if (err) {
-    //        done(null, null, req.flash('danger', 'Hola '));
-    //    }
-    //    if (connection) {
-    //        connection.release();
-    //        console.log('Base de datos conectada');
-    //        const user = {user: username, password};
-    //        done(null, user, req.flash('mensaje', 'Hola ' + user.user));
-    //        return;
-    //    }
-    //        
-    //});
+      }
+    });
     
 }));
 
