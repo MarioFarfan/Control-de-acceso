@@ -36,8 +36,8 @@ router.post('/agregar_materia', isLoggedIn,  async (req, res ) => {
 
 router.get('/materias', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM LABORATORIO.LABORATORIO.CARRERA');
-    const consulta2 = await conexion.query('SELECT CLAVE, MATERIA.NOMBRE, CARRERA.NOMBRE FROM LABORATORIO.LABORATORIO.MATERIA INNER JOIN CARRERA on carrera.idcarrera = materia.idcarrera');
+    const consulta1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM LABORATORIO.CARRERA');
+    const consulta2 = await conexion.query('SELECT CLAVE, MATERIA.NOMBRE, CARRERA.NOMBRE FROM LABORATORIO.MATERIA INNER JOIN LABORATORIO.CARRERA on carrera.idcarrera = materia.idcarrera');
     const carreras = consulta1.rows;
     const materias = consulta2.rows;
     res.render('practicas/listar_materias', { carreras, materias });
@@ -54,8 +54,8 @@ router.get('/materias/eliminar/:id',  isLoggedIn, async (req, res) => {
 
 router.get('/carreras', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta1 = await conexion.query('select idcarrera, nombre, alias from laboratorio.laboratorio.carrera inner join departamento');
-    const consulta2 = await conexion.query('SELECT * FROM LABORATORIO.LABORATORIO.DEPARTAMENTO');
+    const consulta1 = await conexion.query('select idcarrera, nombre, alias from laboratorio.carrera inner join LABORATORIO.departamento');
+    const consulta2 = await conexion.query('SELECT * FROM LABORATORIO.DEPARTAMENTO');
     const carreras = consulta1.rows;
     const departamentos = consulta2.rows;
     res.render('practicas/listar_carreras', { carreras, departamentos });

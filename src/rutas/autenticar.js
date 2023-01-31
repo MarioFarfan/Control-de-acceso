@@ -30,7 +30,7 @@ router.post('/login', isNotLoggedIn, async(req, res, next) => {
 
 router.get('/usuarios', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const docentes = await conexion.query('SELECT NOTARJETA, NOMBRE_PR, APPAT_PR, APMAT_PR, DEPARTAMENTO, USER FROM LABORATORIO.DOCENTES INNER JOIN DEPARTAMENTO ON DEPARTAMENTO.IDDEPTO = DOCENTES.IDDEPTO');
+    const docentes = await conexion.query('SELECT NOTARJETA, NOMBRE_PR, APPAT_PR, APMAT_PR, DEPARTAMENTO, USER FROM LABORATORIO.DOCENTES INNER JOIN LABORATORIO.DEPARTAMENTO ON DEPARTAMENTO.IDDEPTO = DOCENTES.IDDEPTO');
     const personal = await conexion.query('SELECT NOTARJETAP, NOMBRE_PER, APPAT_PER, APMAT_PER, PUESTO, TURNO, USER FROM LABORATORIO.PERSONAL;');
     res.render('usuarios/listar_usuarios',{ docentes, personal });
 });

@@ -21,7 +21,7 @@ router.post('/nuevo_personal', isLoggedIn, async (req, res) => {
 
 router.get('/personal_registrado', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta1 = await conexion.query('select * from laboratorio.personal inner join departamento on personal.iddepto = departamento.iddepto');
+    const consulta1 = await conexion.query('select * from laboratorio.personal inner join LABORATORIO.departamento on personal.iddepto = departamento.iddepto');
     const consulta2 = await conexion.query('select * from laboratorio.departamento');
     const personal = consulta1.rows;
     const departamentos = consulta2.rows;
