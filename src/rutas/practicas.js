@@ -29,7 +29,7 @@ router.post('/agregar_materia', isLoggedIn,  async (req, res ) => {
         idcarrera, 
         reticula
     }
-    await conexion.query('INSERT INTO MATERIA set ?', [newMateria]);
+    await conexion.query('INSERT INTO MATERIA set $1', [newMateria]);
     req.flash('exito', 'Materia agregada con éxito');
     res.redirect('/practicas/materias');
 });
@@ -47,7 +47,7 @@ router.get('/materias', isLoggedIn,  async (req, res) => {
 router.get('/materias/eliminar/:id',  isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params;
-    await conexion.query('DELETE FROM LABORATORIO.LABORATORIO.MATERIA WHERE CLAVEMATERIA = ?', [id]);
+    await conexion.query('DELETE FROM LABORATORIO.LABORATORIO.MATERIA WHERE CLAVEMATERIA = $1', [id]);
     req.flash('mensaje', 'Materia eliminada con éxito');
     res.redirect('/practicas/materias');
 });
@@ -76,7 +76,7 @@ router.post('/agregar_carrera', isLoggedIn,  async (req, res ) => {
         carrera, 
         iddepto
     }
-    await conexion.query('INSERT INTO carrera set ?', [newCarrera]);
+    await conexion.query('INSERT INTO carrera set $1', [newCarrera]);
     req.flash('exito', 'Carrera agregada con éxito');
     res.redirect('/practicas/carreras');
 });
@@ -84,7 +84,7 @@ router.post('/agregar_carrera', isLoggedIn,  async (req, res ) => {
 router.get('/carreras/eliminar/:id',  isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params; 
-    await conexion.query('DELETE FROM LABORATORIO.CARRERA WHERE IDCARRERA = ?', [id]);
+    await conexion.query('DELETE FROM LABORATORIO.CARRERA WHERE IDCARRERA = $1', [id]);
     req.flash('exito', 'Carrera eliminada con éxito');
     res.redirect('/practicas/carreras');
 });
@@ -109,7 +109,7 @@ router.post('/agregar_departamento', isLoggedIn,  async (req, res ) => {
         alias,
         departamento
     }
-    await conexion.query('INSERT INTO departamento set ?', [newDepto]);
+    await conexion.query('INSERT INTO departamento set $1', [newDepto]);
     req.flash('exito', 'Registro agregado con éxito');
     res.redirect('/practicas/departamentos');
 });
@@ -117,7 +117,7 @@ router.post('/agregar_departamento', isLoggedIn,  async (req, res ) => {
 router.get('/departamentos/eliminar/:id', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params; 
-    await conexion.query('DELETE FROM LABORATORIO.departamento WHERE iddepto = ?', [id]);
+    await conexion.query('DELETE FROM LABORATORIO.departamento WHERE iddepto = $1', [id]);
     req.flash('exito', 'registro eliminado con éxito');
     res.redirect('/practicas/departamentos');
 });
@@ -150,7 +150,7 @@ router.post('/nueva_practica', isLoggedIn, async (req, res) => {
         idarea,
         id_software
     }
-    const consulta = await conexion.query('select * from laboratorio.practica where idarea = ? and horainicio = ? and fecha = ?', [idarea, newPractica.horainicio, newPractica.fecha]);
+    const consulta = await conexion.query('select * from laboratorio.practica where idarea = $1 and horainicio = $2 and fecha = $3', [idarea, newPractica.horainicio, newPractica.fecha]);
     const cruce = consulta.rows;
     console.log(cruce);
     if (cruce.length > 0) {
@@ -158,7 +158,7 @@ router.post('/nueva_practica', isLoggedIn, async (req, res) => {
         res.redirect('/practicas/nueva_practica');
     } else {
         console.log(newPractica);
-        await conexion.query('INSERT INTO practica set ?', [newPractica]);
+        await conexion.query('INSERT INTO practica set $1', [newPractica]);
         req.flash('exito', 'Registro agregado con éxito');
         res.redirect('/practicas/practicas_registradas');
     }
@@ -191,9 +191,9 @@ router.get('/listar/:idarea', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const consulta = await conexion.query(`select folio, practica.nombre as practicanombre, fecha, horainicio, duracion, software, 
     area.idarea, area.nombre as areanombre, grupo, noalumnos, personal.notarjeta, personal.nombre, personal.apellidop, personal.apellidom
-    from laboratorio.practica inner join area on area.idarea = practica.idarea inner join grupo on grupo.idgrupo = practica.idgrupo 
-    inner join personal on personal.notarjeta = grupo.notarjeta inner join software on practica.id_software = practica.id_software
-    where practica.idarea = ? order by horainicio;`, [idarea]);
+    from laboratorio.practica inner join laboratorio.area on area.idarea = practica.idarea inner join laboratorio.grupo on grupo.idgrupo = practica.idgrupo 
+    inner join laboratorio.personal on personal.notarjeta = grupo.notarjeta inner join laboratorio.software on practica.id_software = practica.id_software
+    where practica.idarea = $1 order by horainicio;`, [idarea]);
     const practicas = consulta.rows;
     res.render('practicas/practicas_dia', {practicas});
 });
