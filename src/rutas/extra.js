@@ -11,7 +11,7 @@ router.get('/agregar_software', isLoggedIn,  (req, res) => {
 router.post('/agregar_software', isLoggedIn, async(req, res) => {
     const { conexion } = require('../lib/passport');
     const{ software, tipolicencia, licencia } = req.body;
-    await conexion.query('INSERT INTO SOFTWARE set $1, $2, $3', [software, tipolicencia, licencia]);
+    await conexion.query('INSERT INTO laboratorio.SOFTWARE (software, tipolicencia, licencia) values ($1, $2, $3)', [software, tipolicencia, licencia]);
     req.flash('mensaje', 'Software agregado con exito');
     res.redirect('/extra/listar_software');
 });
@@ -65,7 +65,7 @@ router.get('/agregar_grupo', isLoggedIn,  async(req, res) => {
 router.post('/agregar_grupo', isLoggedIn, async(req, res) => {
     const { conexion } = require('../lib/passport');
     const{ grupo, clave, notarjeta, horario } = req.body;
-    await conexion.query('INSERT INTO GRUPO values ($1, $2, $3, $4)', [grupo, clave, notarjeta, horario]);
+    await conexion.query('INSERT INTO laboratorio.GRUPO values ($1, $2, $3, $4)', [grupo, clave, notarjeta, horario]);
     req.flash('mensaje', 'Grupo agregado con exito');
     res.redirect('/extra/listar_grupo');
 });

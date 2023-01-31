@@ -11,7 +11,7 @@ router.post('/agregar_pc', isLoggedIn, async(req, res) => {
     const { conexion } = require('../lib/passport');
     const{ noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea } = req.body;
     const newDispositivo = { noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea };  //validar los datos
-    await conexion.query('INSERT INTO PC values ($1, $2, $3, $4, $5, $6, $7, $8) ?', [noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea]);
+    await conexion.query('INSERT INTO LABORATORIO.PC values ($1, $2, $3, $4, $5, $6, $7, $8) ?', [noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea]);
     req.flash('mensaje', 'PC agregada con exito');
     res.redirect('/inventarios/listar_equipos');
 });
@@ -73,7 +73,7 @@ router.post('/usuarios/agregar_alumno', isLoggedIn,  async (req, res ) => {
         status
     }
     const { conexion } = require('../lib/passport');
-    await conexion.query('INSERT INTO estudiante values ($1, $2, $3, $4, $5, $6, $7)', [nocontrol, nombre, apellidop, apellidom, idcarrera, semestre, status]);
+    await conexion.query('INSERT INTO LABORATORIO.estudiante values ($1, $2, $3, $4, $5, $6, $7)', [nocontrol, nombre, apellidop, apellidom, idcarrera, semestre, status]);
     req.flash('mensaje', 'Alumno agregado con exito');
     res.redirect('/inventarios/alumnos');
 });
@@ -134,7 +134,7 @@ router.post('/agregar_periferico', isLoggedIn, async(req, res) => {
     const{ noserie, noinv, tipo } = req.body;
     const newDispositivo = { noserie, noinv, tipo };  //validar los datos
     const { conexion } = require('../lib/passport');
-    await conexion.query('INSERT INTO insumos values ($1, $2, $3)', [noserie, noinv, tipo]);
+    await conexion.query('INSERT INTO LABORATORIO.insumos values ($1, $2, $3)', [noserie, noinv, tipo]);
     req.flash('mensaje', 'Periferico agregado con exito');
     res.redirect('/inventarios/listar_perifericos');
 });
@@ -193,7 +193,7 @@ router.post('/nuevo_dispositivoaux', isLoggedIn, async(req, res) => {
          descripcion, 
          noinv };  //validar los datos
     
-    await conexion.query('INSERT INTO DISPOSITIVO values ($1, $2, $3, $4, $5, $6)', [noserie, nombre, marca, tipo, descripcion, noinv]);
+    await conexion.query('INSERT INTO LABORATORIO.DISPOSITIVO values ($1, $2, $3, $4, $5, $6)', [noserie, nombre, marca, tipo, descripcion, noinv]);
     req.flash('mensaje', 'dispositivo agregado con exito');
     res.redirect('/inventarios/listar_dispositivos');
 });

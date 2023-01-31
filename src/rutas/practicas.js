@@ -152,9 +152,9 @@ router.post('/nueva_practica', isLoggedIn, async (req, res) => {
         res.redirect('/practicas/nueva_practica');
     } else {
         console.log(newPractica);
-        await conexion.query('INSERT INTO LABORATORIO.practica VALUES ($1, $2, $3, $4, $5)', [nombre, idgrupo, arr[0], arr[1], duracion, idarea, id_software]);
+        await conexion.query('INSERT INTO LABORATORIO.practica (nombre, idgrupo, fecha, horainicio, duracion, idarea, id_software) VALUES ($1, $2, $3, $4, $5, $6, $7)', [nombre, idgrupo, arr[0], arr[1], duracion, idarea, id_software]);
         req.flash('exito', 'Registro agregado con éxito');
-        res.redirect('/practicas/practicas_registradas');
+        res.redirect('/practicas/listar/:{{idarea}}');
     }
     
 });
