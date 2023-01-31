@@ -5,7 +5,7 @@ const {isLoggedIn, isNotLoggedIn} = require('../lib/auth')
 
 router.get('/signup',isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const departamentos = await conexion.query('select * from departamento');
+    const departamentos = await conexion.query('select * from laboratorio.departamento');
     res.render('usuarios/nvousuario', {departamentos});
 });
 
@@ -30,8 +30,8 @@ router.post('/login', isNotLoggedIn, async(req, res, next) => {
 
 router.get('/usuarios', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const docentes = await conexion.query('SELECT NOTARJETA, NOMBRE_PR, APPAT_PR, APMAT_PR, DEPARTAMENTO, USER FROM DOCENTES INNER JOIN DEPARTAMENTO ON DEPARTAMENTO.IDDEPTO = DOCENTES.IDDEPTO');
-    const personal = await conexion.query('SELECT NOTARJETAP, NOMBRE_PER, APPAT_PER, APMAT_PER, PUESTO, TURNO, USER FROM PERSONAL;');
+    const docentes = await conexion.query('SELECT NOTARJETA, NOMBRE_PR, APPAT_PR, APMAT_PR, DEPARTAMENTO, USER FROM LABORATORIO.DOCENTES INNER JOIN DEPARTAMENTO ON DEPARTAMENTO.IDDEPTO = DOCENTES.IDDEPTO');
+    const personal = await conexion.query('SELECT NOTARJETAP, NOMBRE_PER, APPAT_PER, APMAT_PER, PUESTO, TURNO, USER FROM LABORATORIO.PERSONAL;');
     res.render('usuarios/listar_usuarios',{ docentes, personal });
 });
 
@@ -39,7 +39,7 @@ router.get('/usuarios', isLoggedIn, async (req, res) => {
 router.get('/usuarios/eliminar/:id', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params;
-    await conexion.query('DELETE FROM USUARIO WHERE USER = ?', [id]);
+    await conexion.query('DELETE FROM LABORATORIO.USUARIO WHERE USER = ?', [id]);
     res.redirect('/usuarios');
 });
 
@@ -52,9 +52,9 @@ router.get('/usuarios/editar/:id', isLoggedIn, async (req, res) => {
 router.post('/usuarios/editar/:id', isLoggedIn, async(req, res, next) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params;
-    const usuario = await conexion.query('SELECT * FROM USUARIO WHERE USER = ?', [id]);
-    const esdocente = await conexion.query('SELECT * FROM docentes WHERE user = ?', [id]);
-    const espersonal = await conexion.query('SELECT * FROM personal WHERE user = ?', [id]);
+    const usuario = await conexion.query('SELECT * FROM LABORATORIO.USUARIO WHERE USER = ?', [id]);
+    const esdocente = await conexion.query('SELECT * FROM LABORATORIO.docentes WHERE user = ?', [id]);
+    const espersonal = await conexion.query('SELECT * FROM LABORATORIO.personal WHERE user = ?', [id]);
     if ( espersonal.length > 0 ) {
         res.render('/usuarios/editar', {espersonal: usuario[0]});
     } else if ( esdocente.length > 0 ) {

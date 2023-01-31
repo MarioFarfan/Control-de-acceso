@@ -15,7 +15,7 @@ function formatoFecha(fecha, formato) {
 
 router.get('/agregar_materia', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM CARRERA');
+    const consulta = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM LABORATORIO.LABORATORIO.CARRERA');
     const carreras = consulta.rows;
     res.render('practicas/nuevamateria', { carreras });
 });
@@ -36,8 +36,8 @@ router.post('/agregar_materia', isLoggedIn,  async (req, res ) => {
 
 router.get('/materias', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM CARRERA');
-    const consulta2 = await conexion.query('SELECT CLAVE, MATERIA.NOMBRE, CARRERA.NOMBRE FROM MATERIA INNER JOIN CARRERA on carrera.idcarrera = materia.idcarrera');
+    const consulta1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM LABORATORIO.LABORATORIO.CARRERA');
+    const consulta2 = await conexion.query('SELECT CLAVE, MATERIA.NOMBRE, CARRERA.NOMBRE FROM LABORATORIO.LABORATORIO.MATERIA INNER JOIN CARRERA on carrera.idcarrera = materia.idcarrera');
     const carreras = consulta1.rows;
     const materias = consulta2.rows;
     res.render('practicas/listar_materias', { carreras, materias });
@@ -47,15 +47,15 @@ router.get('/materias', isLoggedIn,  async (req, res) => {
 router.get('/materias/eliminar/:id',  isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params;
-    await conexion.query('DELETE FROM MATERIA WHERE CLAVEMATERIA = ?', [id]);
+    await conexion.query('DELETE FROM LABORATORIO.LABORATORIO.MATERIA WHERE CLAVEMATERIA = ?', [id]);
     req.flash('mensaje', 'Materia eliminada con éxito');
     res.redirect('/practicas/materias');
 });
 
 router.get('/carreras', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta1 = await conexion.query('select idcarrera, nombre, alias from carrera inner join departamento');
-    const consulta2 = await conexion.query('SELECT * FROM DEPARTAMENTO');
+    const consulta1 = await conexion.query('select idcarrera, nombre, alias from laboratorio.laboratorio.carrera inner join departamento');
+    const consulta2 = await conexion.query('SELECT * FROM LABORATORIO.LABORATORIO.DEPARTAMENTO');
     const carreras = consulta1.rows;
     const departamentos = consulta2.rows;
     res.render('practicas/listar_carreras', { carreras, departamentos });
@@ -63,7 +63,7 @@ router.get('/carreras', isLoggedIn,  async (req, res) => {
 
 router.get('/agregar_carrera', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta = await conexion.query('SELECT iddepto, departamento FROM departamento');
+    const consulta = await conexion.query('SELECT iddepto, departamento FROM LABORATORIO.departamento');
     const departamentos = consulta.rows;
     res.render('practicas/nuevacarrera', { departamentos });
 });
@@ -84,14 +84,14 @@ router.post('/agregar_carrera', isLoggedIn,  async (req, res ) => {
 router.get('/carreras/eliminar/:id',  isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params; 
-    await conexion.query('DELETE FROM CARRERA WHERE IDCARRERA = ?', [id]);
+    await conexion.query('DELETE FROM LABORATORIO.CARRERA WHERE IDCARRERA = ?', [id]);
     req.flash('exito', 'Carrera eliminada con éxito');
     res.redirect('/practicas/carreras');
 });
 
 router.get('/departamentos', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta = await conexion.query('SELECT * FROM departamento');
+    const consulta = await conexion.query('SELECT * FROM LABORATORIO.departamento');
     const departamentos = consulta.rows;
     res.render('practicas/listar_departamentos', { departamentos });
 });
@@ -117,23 +117,23 @@ router.post('/agregar_departamento', isLoggedIn,  async (req, res ) => {
 router.get('/departamentos/eliminar/:id', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params; 
-    await conexion.query('DELETE FROM departamento WHERE iddepto = ?', [id]);
+    await conexion.query('DELETE FROM LABORATORIO.departamento WHERE iddepto = ?', [id]);
     req.flash('exito', 'registro eliminado con éxito');
     res.redirect('/practicas/departamentos');
 });
 
 router.get('/nueva_practica', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta1 = await conexion.query('Select * from area');
-    const consulta2 = await conexion.query('Select * from personal');
-    const consulta3 = await conexion.query('Select * from software');
+    const consulta1 = await conexion.query('Select * from laboratorio.area');
+    const consulta2 = await conexion.query('Select * from laboratorio.personal');
+    const consulta3 = await conexion.query('Select * from laboratorio.software');
     const fecha = formatoFecha(new Date(), "dd/mm/yyyy");
 
     const areas = consulta1.rows;
     const personal = consulta2.rows;
     const programas = consulta3.rows;
     console.log(fecha);
-    //const grupos = conexion.query('select * from grupo');
+    //const grupos = conexion.query('select * from laboratorio.grupo');
     res.render('practicas/nueva_practica', {areas, personal, programas} );
 });
 
@@ -150,7 +150,7 @@ router.post('/nueva_practica', isLoggedIn, async (req, res) => {
         idarea,
         id_software
     }
-    const consulta = await conexion.query('select * from practica where idarea = ? and horainicio = ? and fecha = ?', [idarea, newPractica.horainicio, newPractica.fecha]);
+    const consulta = await conexion.query('select * from laboratorio.practica where idarea = ? and horainicio = ? and fecha = ?', [idarea, newPractica.horainicio, newPractica.fecha]);
     const cruce = consulta.rows;
     console.log(cruce);
     if (cruce.length > 0) {
@@ -181,7 +181,7 @@ router.get('/gestion', isLoggedIn, async (req, res) => {
 
 router.get('/listar', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta = await conexion.query('SELECT row_number() OVER (ORDER BY idarea) AS num, idarea, nombre, capacidad FROM area');
+    const consulta = await conexion.query('SELECT row_number() OVER (ORDER BY idarea) AS num, idarea, nombre, capacidad FROM LABORATORIO.area');
     const areas = consulta.rows;
     res.render('practicas/menuareas', {areas});
 });
@@ -191,7 +191,7 @@ router.get('/listar/:idarea', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const consulta = await conexion.query(`select folio, practica.nombre as practicanombre, fecha, horainicio, duracion, software, 
     area.idarea, area.nombre as areanombre, grupo, noalumnos, personal.notarjeta, personal.nombre, personal.apellidop, personal.apellidom
-    from practica inner join area on area.idarea = practica.idarea inner join grupo on grupo.idgrupo = practica.idgrupo 
+    from laboratorio.practica inner join area on area.idarea = practica.idarea inner join grupo on grupo.idgrupo = practica.idgrupo 
     inner join personal on personal.notarjeta = grupo.notarjeta inner join software on practica.id_software = practica.id_software
     where practica.idarea = ? order by horainicio;`, [idarea]);
     const practicas = consulta.rows;

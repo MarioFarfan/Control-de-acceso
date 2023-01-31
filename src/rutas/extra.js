@@ -18,7 +18,7 @@ router.post('/agregar_software', isLoggedIn, async(req, res) => {
 
 router.get('/listar_software', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta = await conexion.query('SELECT * FROM SOFTWARE');
+    const consulta = await conexion.query('SELECT * FROM LABORATORIO.SOFTWARE');
     const soft = consulta.rows;
     res.render('extras/listar_software', {soft});
 });
@@ -27,9 +27,9 @@ router.get('/listar_software', isLoggedIn, async (req, res) => {
 router.get('/listar_software/eliminar/:id', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params;
-    await conexion.query('DELETE FROM SOFTWARE WHERE ID_SOFTWARE = $1', [id]);
+    await conexion.query('DELETE FROM LABORATORIO.SOFTWARE WHERE ID_SOFTWARE = $1', [id]);
     req.flash('mensaje', 'Software eliminado con exito');
-    const consulta = await conexion.query('SELECT * FROM SOFTWARE');
+    const consulta = await conexion.query('SELECT * FROM LABORATORIO.SOFTWARE');
     const soft = consulta.rows;
     res.render('extras/listar_software', {soft});
 });
@@ -38,7 +38,7 @@ router.get('/listar_software/eliminar/:id', isLoggedIn,  async (req, res) => {
 router.get('/listar_software/editar/:id', isLoggedIn,  async(req, res) => {
     const {id} = req.params;
     const { conexion } = require('../lib/passport');
-    const consulta = await conexion.query('SELECT * FROM SOFTWARE WHERE ID_SOFTWARE = $1', [id]);
+    const consulta = await conexion.query('SELECT * FROM LABORATORIO.SOFTWARE WHERE ID_SOFTWARE = $1', [id]);
     const equipo = consulta.rows;
     res.render('extras/editar_software', {equipo: equipo[0]});
 });
@@ -49,7 +49,7 @@ router.post('/listar_software/editar/:id', isLoggedIn,  async(req, res) => {
     const{ software, tipolicencia, licencia } = req.body;
     await  conexion.query('UPDATE SOFTWARE SET ($1, $2, $3) WHERE ID_SOFTWARE = $4', [software, tipolicencia, licencia, id]);
     req.flash('mensaje', 'Software editado con exito');
-    const consulta = await conexion.query('SELECT * FROM SOFTWARE');
+    const consulta = await conexion.query('SELECT * FROM LABORATORIO.SOFTWARE');
     const soft = consulta.rows;
     res.render('extras/listar_software', {soft});
 });
@@ -57,7 +57,7 @@ router.post('/listar_software/editar/:id', isLoggedIn,  async(req, res) => {
 
 router.get('/agregar_grupo', isLoggedIn,  async(req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta = await conexion.query('SELECT * FROM MATERIA');
+    const consulta = await conexion.query('SELECT * FROM LABORATORIO.MATERIA');
     const mat = consulta.rows;
     res.render('extras/agregar_grupo', {mat} )
 });
@@ -72,8 +72,8 @@ router.post('/agregar_grupo', isLoggedIn, async(req, res) => {
 
 router.get('/grupos', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta1 = await conexion.query('SELECT * FROM CARRERA');
-    const consulta2 = await conexion.query('SELECT GRUPO, CMATERIA, NOMBRE, APELLIDOP, APELLIDOM, N, HORARIO, NOALUMNOS FROM GRUPO INNER JOIN (SELECT CLAVE AS CMATERIA, NOMBRE, N, APELLIDOP, APELLIDOM FROM MATERIA INNER JOIN (SELECT NOTARJETA, NOMBRE AS N, APELLIDOP, APELLIDOM FROM PERSONAL) AS CON1) AS CON2');
+    const consulta1 = await conexion.query('SELECT * FROM LABORATORIO.CARRERA');
+    const consulta2 = await conexion.query('SELECT GRUPO, CMATERIA, NOMBRE, APELLIDOP, APELLIDOM, N, HORARIO, NOALUMNOS FROM LABORATORIO.GRUPO INNER JOIN (SELECT CLAVE AS CMATERIA, NOMBRE, N, APELLIDOP, APELLIDOM FROM LABORATORIO.MATERIA INNER JOIN (SELECT NOTARJETA, NOMBRE AS N, APELLIDOP, APELLIDOM FROM LABORATORIO.PERSONAL) AS CON1) AS CON2');
     const carreras = consulta1.rows;
     const grupos = consulta2.rows;
     res.render('extras/listar_grupos', {carreras, grupos});

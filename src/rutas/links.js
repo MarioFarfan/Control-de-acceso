@@ -19,8 +19,8 @@ router.post('/agregar_pc', isLoggedIn, async(req, res) => {
 router.get('/listar_equipos', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {filtro, idarea, tipo}= req.body;
-    const equpos1 = await conexion.query('SELECT * FROM PC INNER JOIN AREA on PC.idarea = AREA.idarea');
-    const areas1 = await conexion.query('select idarea, nombre from area');
+    const equpos1 = await conexion.query('SELECT * FROM LABORATORIO.PC INNER JOIN AREA on PC.idarea = AREA.idarea');
+    const areas1 = await conexion.query('select idarea, nombre from laboratorio.area');
     const equipos = equpos1.rows;
     const areas = areas1.rows;
     res.render('inventarios/listar_equipos', { equipos, areas });
@@ -30,7 +30,7 @@ router.get('/listar_equipos', isLoggedIn, async (req, res) => {
 router.get('/listar_equipos/eliminar/:id', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params;
-    await conexion.query('DELETE FROM PC WHERE NOSERIE = ($1)', [id]);
+    await conexion.query('DELETE FROM LABORATORIO.PC WHERE NOSERIE = ($1)', [id]);
     req.flash('mensaje', 'Equipo eliminado con exito');
     res.redirect('/inventarios/listar_equipos');
 });
@@ -39,7 +39,7 @@ router.get('/listar_equipos/eliminar/:id', isLoggedIn,  async (req, res) => {
 router.get('/listar_equipos/editar/:id', isLoggedIn,  async(req, res) => {
     const {id} = req.params;
     const { conexion } = require('../lib/passport');
-    const equipo = await conexion.query('SELECT * FROM PC WHERE NOSERIE = $1', [id]);
+    const equipo = await conexion.query('SELECT * FROM LABORATORIO.PC WHERE NOSERIE = $1', [id]);
     res.render('inventarios/editar', {equipo: equipo[0]});
 });
 
@@ -56,7 +56,7 @@ router.post('/listar_equipos/editar/:id', isLoggedIn,  async(req, res) => {
 //  OPERACIONES PARA ESTUDIANTES, LISTAR, AGREGAR, EDITAR Y ELIMIAR
 router.get('/usuarios/agregar_alumno', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const carreras1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE FROM CARRERA');
+    const carreras1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE FROM LABORATORIO.CARRERA');
     const carreras = carreras1.rows;
     res.render('usuarios/agregar_alumno',{carreras});
 }); 
@@ -81,8 +81,8 @@ router.post('/usuarios/agregar_alumno', isLoggedIn,  async (req, res ) => {
 router.get('/alumnos', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
     const { campo, idcarrera } = req.body;
-    const alumnos1 = await conexion.query('SELECT NOCONTROL, ESTUDIANTE.NOMBRE AS NOMBRE, APELLIDOP, APELLIDOM, CARRERA.NOMBRE AS CARRERA, SEMESTRE, STATUS FROM ESTUDIANTE INNER JOIN CARRERA ON ESTUDIANTE.IDCARRERA = CARRERA.IDCARRERA WHERE CARRERA.NOMBRE= ?',[idcarrera]);
-    const carreras1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM CARRERA');
+    const alumnos1 = await conexion.query('SELECT NOCONTROL, ESTUDIANTE.NOMBRE AS NOMBRE, APELLIDOP, APELLIDOM, CARRERA.NOMBRE AS CARRERA, SEMESTRE, STATUS FROM LABORATORIO.ESTUDIANTE INNER JOIN CARRERA ON ESTUDIANTE.IDCARRERA = CARRERA.IDCARRERA WHERE CARRERA.NOMBRE= ?',[idcarrera]);
+    const carreras1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM LABORATORIO.CARRERA');
     const alumnos = alumnos1.rows;
     const carreras = carreras1.rows;
     res.render('usuarios/listar_alumnos', { alumnos, carreras });
@@ -92,7 +92,7 @@ router.get('/alumnos', isLoggedIn,  async (req, res) => {
 router.get('/alumnos/eliminar/:id', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params;
-    await conexion.query('DELETE FROM ESTUDIANTE WHERE NOCONTROL = $1', [id]);
+    await conexion.query('DELETE FROM LABORATORIO.ESTUDIANTE WHERE NOCONTROL = $1', [id]);
     req.flash('exito', 'Alumno eliminado con éxito');
     res.redirect('/inventarios/alumnos');
 });
@@ -101,8 +101,8 @@ router.get('/alumnos/eliminar/:id', isLoggedIn,  async (req, res) => {
 router.get('/alumnos/editar/:id', isLoggedIn,  async(req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params;
-    const alumnos1 = await conexion.query('SELECT * FROM ESTUDIANTE WHERE NOCONTROL = $1', [id]);
-    const carreras1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM CARRERA');
+    const alumnos1 = await conexion.query('SELECT * FROM LABORATORIO.ESTUDIANTE WHERE NOCONTROL = $1', [id]);
+    const carreras1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM LABORATORIO.CARRERA');
     const alumnos = alumnos1.rows;
     const carreras = carreras1.rows;
     res.render('usuarios/editar_alumno', {carreras, alumno: alumnos[0]});
@@ -128,7 +128,7 @@ router.post('/alumnos/editar/:id', isLoggedIn,  async(req, res) => {
 
 router.get('/agregar_materia', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const carreras1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM CARRERA');
+    const carreras1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM LABORATORIO.CARRERA');
     const carreras = carreras1.rows;
     res.render('inventarios/nuevamateria', { carreras });
 });
@@ -148,8 +148,8 @@ router.post('/agregar_materia', isLoggedIn,  async (req, res ) => {
 
 router.get('/materias', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const carreras1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM CARRERA');
-    const materias1 = await conexion.query('SELECT CLAVE, NOMBRE, IDCARRERA FROM MATERIA INNER JOIN CARRERA on carrera.idcarrera = materia.idcarrera');
+    const carreras1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM LABORATORIO.CARRERA');
+    const materias1 = await conexion.query('SELECT CLAVE, NOMBRE, IDCARRERA FROM LABORATORIO.MATERIA INNER JOIN CARRERA on carrera.idcarrera = materia.idcarrera');
     const carreras = carreras1.rows;
     const materias = materias1.rows;
     res.render('inventarios/listar_materias', { carreras, materias });
@@ -158,7 +158,7 @@ router.get('/materias', isLoggedIn,  async (req, res) => {
 router.get('/materias/eliminar/:id',  isLoggedIn, async (req, res) => {
     const {id} = req.params;
     const { conexion } = require('../lib/passport');
-    await conexion.query('DELETE FROM MATERIA WHERE CLAVE = $1', [id]);
+    await conexion.query('DELETE FROM LABORATORIO.MATERIA WHERE CLAVE = $1', [id]);
     req.flash('mensaje', 'Materia eliminada con éxito');
     res.redirect('/inventarios/materias');
 });
@@ -167,8 +167,8 @@ router.post('/materias', isLoggedIn,  async (req, res) => {
     const {mat, carr } = req.body;
     console.log('datos del formulario' + mat + carr);
     const { conexion } = require('../lib/passport');
-    const carreras1 = await conexion.query('SELECT IDCARRERA, NOMBRE FROM CARRERA where idcarrera = $1', [carr]);
-    const materias1 = await conexion.query('SELECT CLAVE, NOMBRE, IDCARRERA FROM MATERIA INNER JOIN CARRERA on carrera.idcarrera = materia.idcarrera');
+    const carreras1 = await conexion.query('SELECT IDCARRERA, NOMBRE FROM LABORATORIO.CARRERA where idcarrera = $1', [carr]);
+    const materias1 = await conexion.query('SELECT CLAVE, NOMBRE, IDCARRERA FROM LABORATORIO.MATERIA INNER JOIN CARRERA on carrera.idcarrera = materia.idcarrera');
     const carreras = carreras1.rows;
     const materias = materias1.rows;
     res.render('inventarios/listar_materias', { carreras, materias });
@@ -189,7 +189,7 @@ router.post('/agregar_periferico', isLoggedIn, async(req, res) => {
 
 router.get('/listar_perifericos', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const equipos1 = await conexion.query('SELECT * FROM INSUMOS');
+    const equipos1 = await conexion.query('SELECT * FROM LABORATORIO.INSUMOS');
     const equipos = equipos1.rows;
     res.render('inventarios/listar_perifericos', {equipos});
 });
@@ -197,7 +197,7 @@ router.get('/listar_perifericos', isLoggedIn,  async (req, res) => {
 router.get('/listar_perifericos/eliminar/:id',  isLoggedIn, async (req, res) => {
     const {id} = req.params;
     const { conexion } = require('../lib/passport');
-    await conexion.query('DELETE FROM INSUMOS WHERE noserie = $1', [id]);
+    await conexion.query('DELETE FROM LABORATORIO.INSUMOS WHERE noserie = $1', [id]);
     req.flash('mensaje', 'Periferico eliminado con éxito');
     res.redirect('/inventarios/listar_perifericos');
 });
@@ -205,7 +205,7 @@ router.get('/listar_perifericos/eliminar/:id',  isLoggedIn, async (req, res) => 
 router.get('/listar_perifericos/editar/:id', isLoggedIn,  async(req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params;
-    const perifericos1 = await conexion.query('SELECT * FROM INSUMOS WHERE noserie = $1', [id]);
+    const perifericos1 = await conexion.query('SELECT * FROM LABORATORIO.INSUMOS WHERE noserie = $1', [id]);
     const perifericos = perifericos1.rows;
     res.render('inventarios/editar_periferico', {periferico: perifericos[0]});
 });
@@ -250,7 +250,7 @@ router.post('/nuevo_dispositivoaux', isLoggedIn, async(req, res) => {
 
 router.get('/listar_dispositivos', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const equipos1 = await conexion.query('SELECT * FROM DISPOSITIVO');
+    const equipos1 = await conexion.query('SELECT * FROM LABORATORIO.DISPOSITIVO');
     const equipos = equipos1.rows;
     res.render('inventarios/listar_dispositivos', { equipos });
 });

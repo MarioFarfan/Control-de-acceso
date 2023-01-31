@@ -6,7 +6,7 @@ const { isLoggedIn } = require('../lib/auth');
 
 router.get('/nuevo_personal', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta = await conexion.query('Select * from departamento');
+    const consulta = await conexion.query('Select * from laboratorio.departamento');
     const departamentos = consulta.rows;
     res.render('practicas/nuevo_profesor', {departamentos} );
 });
@@ -21,8 +21,8 @@ router.post('/nuevo_personal', isLoggedIn, async (req, res) => {
 
 router.get('/personal_registrado', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta1 = await conexion.query('select * from personal inner join departamento on personal.iddepto = departamento.iddepto');
-    const consulta2 = await conexion.query('select * from departamento');
+    const consulta1 = await conexion.query('select * from laboratorio.personal inner join departamento on personal.iddepto = departamento.iddepto');
+    const consulta2 = await conexion.query('select * from laboratorio.departamento');
     const personal = consulta1.rows;
     const departamentos = consulta2.rows;
     res.render('practicas/listar_personal', {personal, departamentos} );
@@ -31,7 +31,7 @@ router.get('/personal_registrado', isLoggedIn, async (req, res) => {
 router.get('/personal/eliminar/:id',  isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params; 
-    await conexion.query('DELETE FROM personal WHERE notarjeta = $1', [id]);
+    await conexion.query('DELETE FROM LABORATORIO.personal WHERE notarjeta = $1', [id]);
     req.flash('exito', 'registro eliminado con éxito');
     res.redirect('/usuarios/personal_registrado');
 });
@@ -39,8 +39,8 @@ router.get('/personal/eliminar/:id',  isLoggedIn, async (req, res) => {
 router.get('/personal/editar/:id',  isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params; 
-    const consulta1 = await conexion.query('select * from personal where notarjeta = $1', [id]);
-    const consulta2 = await conexion.query('Select * from departamento');
+    const consulta1 = await conexion.query('select * from laboratorio.personal where notarjeta = $1', [id]);
+    const consulta2 = await conexion.query('Select * from laboratorio.departamento');
     const profes = consulta1.rows;
     const departamentos = consulta2.rows;
     res.render('practicas/editar_personal', {personal: profes[0], departamentos});
