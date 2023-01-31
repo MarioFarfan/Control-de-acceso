@@ -81,7 +81,7 @@ router.post('/usuarios/agregar_alumno', isLoggedIn,  async (req, res ) => {
 router.get('/alumnos', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
     const { campo, idcarrera } = req.body;
-    const alumnos1 = await conexion.query('SELECT NOCONTROL, ESTUDIANTE.NOMBRE AS NOMBRE, APELLIDOP, APELLIDOM, CARRERA.NOMBRE AS CARRERA, SEMESTRE, STATUS FROM LABORATORIO.ESTUDIANTE INNER JOIN LABORATORIO.CARRERA ON ESTUDIANTE.IDCARRERA = CARRERA.IDCARRERA WHERE CARRERA.NOMBRE = $1',[idcarrera]);
+    const alumnos1 = await conexion.query('SELECT NOCONTROL, ESTUDIANTE.NOMBRE AS NOMBRE, APELLIDOP, APELLIDOM, CARRERA.NOMBRE AS CARRERA, SEMESTRE, STATUS FROM LABORATORIO.LABORATORIO.ESTUDIANTE INNER JOIN LABORATORIO.LABORATORIO.CARRERA ON LABORATORIO.ESTUDIANTE.IDCARRERA = LABORATORIO.CARRERA.IDCARRERA WHERE CARRERA.NOMBRE = $1',[idcarrera]);
     const carreras1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM LABORATORIO.CARRERA');
     const alumnos = alumnos1.rows;
     const carreras = carreras1.rows;
@@ -200,7 +200,7 @@ router.post('/nuevo_dispositivoaux', isLoggedIn, async(req, res) => {
 
 router.get('/listar_dispositivos', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const equipos1 = await conexion.query('SELECT * FROM LABORATORIO.DISPOSITIVO');
+    const equipos1 = await conexion.query('SELECT * FROM LABORATORIO.LABORATORIO.DISPOSITIVO');
     const equipos = equipos1.rows;
     console.log(equipos);
     res.render('inventarios/listar_dispositivos', { equipos });
