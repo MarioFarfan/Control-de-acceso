@@ -7,13 +7,13 @@
             <div class="row row-cols-2">            
                     <div class="mb-3">
                         <label for="clavemat" class="form-label">Clave de materia: </label>
-                         <input type="text" class="form-control" name="clavemat" placeholder="" value="" required onkeyup="this.value = this.value.toUpperCase();">
+                         <input type="text" class="form-control" name="clave" placeholder="" value="" required onkeyup="this.value = this.value.toUpperCase();">
                         <div id="nocontrolHelp" class="form-text">Ingrese la clave de la materia.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="materia" class="form-label">Materia: </label>
-                        <input type="text" class="form-control" name="nombremat" placeholder="" value="" required onkeyup="this.value = this.value.toUpperCase();">
+                        <input type="text" class="form-control" name="nombre" placeholder="" value="" required onkeyup="this.value = this.value.toUpperCase();">
                         <div id="nombreHelp" class="form-text">Ingrese el nombre de la materia.</div>
                     </div>
 
@@ -21,7 +21,7 @@
                         <label for="idcarrera" class="form-label">Carrera: </label>
                         <select class="form-select" name="idcarrera" required>
                             {{#each carreras}}
-                              <option value="{{IDCARRERA}}">{{CARRERA}}</option>
+                              <option value="{{idcarrera}}">{{nombre}}</option>
                             {{/each}} 
                         </select>
                         <div id="carreraHelp" class="form-text">Ingrese una carrera valida.</div>

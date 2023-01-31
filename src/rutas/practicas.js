@@ -15,21 +15,15 @@ function formatoFecha(fecha, formato) {
 
 router.get('/agregar_materia', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM LABORATORIO.LABORATORIO.CARRERA');
+    const consulta = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM LABORATORIO.CARRERA');
     const carreras = consulta.rows;
     res.render('practicas/nuevamateria', { carreras });
 });
 
 router.post('/agregar_materia', isLoggedIn,  async (req, res ) => {
     const { conexion } = require('../lib/passport');
-    const { clavemat, nombremat, idcarrera, reticula } = req.body;
-    const newMateria = {
-        clavemateria: clavemat, 
-        nombremat, 
-        idcarrera, 
-        reticula
-    }
-    await conexion.query('INSERT INTO MATERIA set $1', [newMateria]);
+    const { clave, nombre, idcarrera } = req.body;
+    await conexion.query('INSERT INTO LABORATORIO.MATERIA values ($1, $2, $3)', [clave, nombre, idcarrera ]);
     req.flash('exito', 'Materia agregada con éxito');
     res.redirect('/practicas/materias');
 });
@@ -37,7 +31,7 @@ router.post('/agregar_materia', isLoggedIn,  async (req, res ) => {
 router.get('/materias', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
     const consulta1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM LABORATORIO.CARRERA');
-    const consulta2 = await conexion.query('SELECT CLAVE, MATERIA.NOMBRE, CARRERA.NOMBRE FROM LABORATORIO.MATERIA INNER JOIN LABORATORIO.CARRERA on carrera.idcarrera = materia.idcarrera');
+    const consulta2 = await conexion.query('SELECT CLAVE, MATERIA.NOMBRE AS MATERIA, CARRERA.NOMBRE AS CARRERA FROM LABORATORIO.MATERIA INNER JOIN LABORATORIO.CARRERA on carrera.idcarrera = materia.idcarrera');
     const carreras = consulta1.rows;
     const materias = consulta2.rows;
     res.render('practicas/listar_materias', { carreras, materias });
@@ -54,7 +48,7 @@ router.get('/materias/eliminar/:id',  isLoggedIn, async (req, res) => {
 
 router.get('/carreras', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const consulta1 = await conexion.query('select idcarrera, nombre, alias from laboratorio.carrera inner join LABORATORIO.departamento');
+    const consulta1 = await conexion.query('select idcarrera, nombre, alias from laboratorio.carrera');
     const consulta2 = await conexion.query('SELECT * FROM LABORATORIO.DEPARTAMENTO');
     const carreras = consulta1.rows;
     const departamentos = consulta2.rows;
@@ -76,7 +70,7 @@ router.post('/agregar_carrera', isLoggedIn,  async (req, res ) => {
         carrera, 
         iddepto
     }
-    await conexion.query('INSERT INTO carrera set $1', [newCarrera]);
+    await conexion.query('INSERT INTO LABORATORIO.carrera VALUES ($1, $2, $3)', [idcarrera, carrera, iddepto]);
     req.flash('exito', 'Carrera agregada con éxito');
     res.redirect('/practicas/carreras');
 });
@@ -109,7 +103,7 @@ router.post('/agregar_departamento', isLoggedIn,  async (req, res ) => {
         alias,
         departamento
     }
-    await conexion.query('INSERT INTO departamento set $1', [newDepto]);
+    await conexion.query('INSERT INTO LABORATORIO.departamento VALUES ($1, $2, $3)', [iddepto, alias, departamento]);
     req.flash('exito', 'Registro agregado con éxito');
     res.redirect('/practicas/departamentos');
 });
@@ -158,7 +152,7 @@ router.post('/nueva_practica', isLoggedIn, async (req, res) => {
         res.redirect('/practicas/nueva_practica');
     } else {
         console.log(newPractica);
-        await conexion.query('INSERT INTO practica set $1', [newPractica]);
+        await conexion.query('INSERT INTO LABORATORIO.practica VALUES ($1, $2, $3, $4, $5)', [nombre, idgrupo, arr[0], arr[1], duracion, idarea, id_software]);
         req.flash('exito', 'Registro agregado con éxito');
         res.redirect('/practicas/practicas_registradas');
     }
