@@ -59,7 +59,11 @@
                         <td class="text-center"><a class="btn btn-secondary" href="listar_dispositivos/editar/{{noserie}}"><i class="bi bi-pencil"></i></a></td>
                         <td class="text-center"><a class="btn btn-danger" href="listar_perifericos/eliminar/{{noserie}}"><i class="bi bi-trash3"></i></a></td>
                     </tr>
-                {{/each}} 
+                {{else}}
+                    <div class="alert alert-warning text-center" role="alert">
+                       No se encontraron registros
+                      </div>
+             {{/each}} 
                 
             </tbody>
         </table>
