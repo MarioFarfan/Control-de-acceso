@@ -1,0 +1,37 @@
+ <body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-5 rounded-5 container">
+      <h2 class="text-center fw mb-2 text-uppercase">Control General</h2>
+        <h4 class="text-center fw mb-3 text-uppercase">Configuración de semestre</h4>
+        <form class="needs-validation" action="" method="POST">
+            <h5 class="fw mb-2">Ingresa los datos del semestre</h5>
+            <div class="row row-cols-2">            
+                    <div class="mb-3">
+                        <label for="semestre" class="form-label">Semestre: </label>
+                        <input type="text" class="form-control" id="semestre" name="semestre" required onkeyup="this.value = this.value.toUpperCase();">
+                        <div id="semestreHelp" class="form-text">Ingrese el periodo que abarca</div>
+                    </div>
+
+                     <div class="mb-3">
+                        <label for="clave" class="form-label">Fecha de inicio: </label>    
+                        <input type="date" class="form-control" id="inicio" name="inicio" required onkeyup="this.value = this.value.toUpperCase();"></inputtype>                 
+                        <div id="tipoHelp" class="form-text">Ingrese la fecha de inicio.</div>
+                        <div class="invalid-feedback">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="clave" class="form-label">Fecha de inicio: </label>    
+                        <input type="date" class="form-control" id="final" name="final" required onkeyup="this.value = this.value.toUpperCase();"></inputtype>                 
+                        <div id="finalHelp" class="form-text">Ingrese la fecha de término.</div>
+                        <div class="invalid-feedback">
+                        </div>
+                    </div>
+                
+           </div>
+            <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>
+          </div>  
+        </form>
+      </div>
+    </div>
+  </main>
+</body>

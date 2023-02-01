@@ -79,4 +79,25 @@ router.get('/grupos', isLoggedIn, async (req, res) => {
     res.render('extras/listar_grupos', {carreras, grupos});
 });
 
+router.get('/nuevosemestre', isLoggedIn,  async(req, res) => {
+    const { conexion } = require('../lib/passport');
+    res.render('extras/nuevosemestre')
+});
+
+
+router.post('/nuevosemestre', isLoggedIn, async(req, res) => {
+    const { conexion } = require('../lib/passport');
+    const{ semestre, inicio, final } = req.body;
+    await conexion.query('INSERT INTO laboratorio.SEMESTRE(PERIODO,FECHAINICIO,FECHAFINAL) values ($1, $2, $3)', [semestre, inicio, final]);
+    req.flash('mensaje', 'Semestre agregado con exito');
+    res.redirect('/extra/semestres');
+});
+
+router.get('/semestres', isLoggedIn, async (req, res) => {
+    const { conexion } = require('../lib/passport');
+    const consulta1 = await conexion.query('SELECT * FROM LABORATORIO.SEMESTRE');
+    const sem = consulta1.rows;
+    res.render('extras/semestres', {sem});
+});
+
 module.exports = router;
