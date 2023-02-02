@@ -58,22 +58,29 @@ router.post('/listar_software/editar/:id', isLoggedIn,  async(req, res) => {
 router.get('/agregar_grupo', isLoggedIn,  async(req, res) => {
     const { conexion } = require('../lib/passport');
     const consulta = await conexion.query('SELECT * FROM LABORATORIO.MATERIA');
+    const consulta2 = await conexion.query('SELECT * FROM LABORATORIO.PERSONAL');
     const mat = consulta.rows;
-    res.render('extras/agregar_grupo', {mat} )
+    const personal = consulta2.rows;
+    res.render('extras/agregar_grupo', {mat, personal} )
 });
 
 router.post('/agregar_grupo', isLoggedIn, async(req, res) => {
     const { conexion } = require('../lib/passport');
-    const{ grupo, clave, notarjeta, horario } = req.body;
-    await conexion.query('INSERT INTO laboratorio.GRUPO values ($1, $2, $3, $4)', [grupo, clave, notarjeta, horario]);
+    const{ grupo, clave, notarjeta, horario, noalumnos } = req.body;
+    console.log(clave);
+    await conexion.query('INSERT INTO laboratorio.GRUPO (grupo, clave, notarjeta, horario, noalumnos) values ($1, $2, $3, $4, $5)', [grupo, clave, notarjeta, horario, noalumnos]);
     req.flash('mensaje', 'Grupo agregado con exito');
-    res.redirect('/extra/listar_grupo');
+    res.redirect('/extra/grupos');
 });
 
 router.get('/grupos', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const consulta1 = await conexion.query('SELECT * FROM LABORATORIO.CARRERA');
-    const consulta2 = await conexion.query('SELECT GRUPO, CMATERIA, NOMBRE, APELLIDOP, APELLIDOM, N, HORARIO, NOALUMNOS FROM LABORATORIO.GRUPO INNER JOIN (SELECT CLAVE AS CMATERIA, NOMBRE, N, APELLIDOP, APELLIDOM FROM LABORATORIO.MATERIA INNER JOIN (SELECT NOTARJETA, NOMBRE AS N, APELLIDOP, APELLIDOM FROM LABORATORIO.PERSONAL) AS CON1) AS CON2');
+    const consulta2 = await conexion.query(`select grupo.idgrupo, grupo.grupo, grupo.clave, materia.nombre as materia,
+    personal.apellidop, personal.apellidom, personal.nombre,
+    grupo.horario, grupo.noalumnos
+    from laboratorio.grupo inner join laboratorio.materia on grupo.clave = materia.clave
+    inner join laboratorio.personal on grupo.notarjeta = personal.notarjeta`);
     const carreras = consulta1.rows;
     const grupos = consulta2.rows;
     res.render('extras/listar_grupos', {carreras, grupos});

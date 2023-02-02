@@ -25,9 +25,13 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="notarjeta" class="form-label">No. de Tarjeta: </label>
-                        <input type="text" class="form-control" id="notarjeta" name="notarjeta"  onkeyup="this.value = this.value.toUpperCase();">
-                        <div id="descripcionHelp" class="form-text">Ingrese el numero de tarjeta del docente.</div>
+                        <label for="personal" class="form-label">Profesor: </label>
+                        <select class="form-select" id="notarjeta" name="notarjeta" required>
+                          {{#each personal}}
+                                <option value="{{notarjeta}}">{{nombre}} {{apellidop}} {{apellidom}}</option>
+                          {{/each}} 
+                        </select>
+                        <div id="descripcionHelp" class="form-text">Seleccione el docente a cargo del grupo.</div>
                     </div>
 
                      <div class="mb-3">
@@ -48,6 +52,11 @@
                           <option value="19:00">7:00 PM</option>
                         </select>
                         <div id="descripcionHelp" class="form-text">Ingrese el horario de clase de este grupo.</div>
+                    </div>
+                    <div>
+                      <label for="notarjeta" class="form-label">No. de alumnos: </label>
+                      <input type="numbre" class="form-control" id="noalumnos" name="noalumnos" max="60" min="5">
+                      <div id="descripcionHelp" class="form-text">Ingrese el numero de alumnos que tiene el grupo.</div>
                     </div>
            </div>
             <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>

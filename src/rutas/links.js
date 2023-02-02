@@ -54,24 +54,15 @@ router.post('/listar_equipos/editar/:id', isLoggedIn,  async(req, res) => {
 });
 
 //  OPERACIONES PARA ESTUDIANTES, LISTAR, AGREGAR, EDITAR Y ELIMIAR
-router.get('/usuarios/agregar_alumno', isLoggedIn,  async (req, res) => {
+router.get('/agregar_alumno', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
     const carreras1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE FROM LABORATORIO.CARRERA');
     const carreras = carreras1.rows;
     res.render('usuarios/agregar_alumno',{carreras});
 }); 
 
-router.post('/usuarios/agregar_alumno', isLoggedIn,  async (req, res ) => {
+router.post('/agregar_alumno', isLoggedIn,  async (req, res ) => {
     const { nocontrol, nombre, apellidop, apellidom, idcarrera, semestre, status } = req.body;
-    const newAlumno = {
-        nocontrol,
-        nombre,
-        apellidop,
-        apellidom,
-        idcarrera,
-        semestre,
-        status
-    }
     const { conexion } = require('../lib/passport');
     await conexion.query('INSERT INTO LABORATORIO.estudiante values ($1, $2, $3, $4, $5, $6, $7)', [nocontrol, nombre, apellidop, apellidom, idcarrera, semestre, status]);
     req.flash('mensaje', 'Alumno agregado con exito');
@@ -81,7 +72,7 @@ router.post('/usuarios/agregar_alumno', isLoggedIn,  async (req, res ) => {
 router.get('/alumnos', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
     const { campo, idcarrera } = req.body;
-    const alumnos1 = await conexion.query('SELECT NOCONTROL, ESTUDIANTE.NOMBRE AS NOMBRE, APELLIDOP, APELLIDOM, CARRERA.NOMBRE AS CARRERA, SEMESTRE, STATUS FROM LABORATORIO.LABORATORIO.ESTUDIANTE INNER JOIN LABORATORIO.LABORATORIO.CARRERA ON LABORATORIO.ESTUDIANTE.IDCARRERA = LABORATORIO.CARRERA.IDCARRERA WHERE CARRERA.NOMBRE = $1',[idcarrera]);
+    const alumnos1 = await conexion.query('SELECT NOCONTROL, ESTUDIANTE.NOMBRE AS NOMBRE, APELLIDOP, APELLIDOM, CARRERA.NOMBRE AS CARRERA, SEMESTRE, STATUS FROM LABORATORIO.LABORATORIO.ESTUDIANTE INNER JOIN LABORATORIO.LABORATORIO.CARRERA ON LABORATORIO.ESTUDIANTE.IDCARRERA = LABORATORIO.CARRERA.IDCARRERA');
     const carreras1 = await conexion.query('SELECT IDCARRERA, ALIAS, NOMBRE, DEPARTAMENTO FROM LABORATORIO.CARRERA');
     const alumnos = alumnos1.rows;
     const carreras = carreras1.rows;

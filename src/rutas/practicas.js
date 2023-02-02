@@ -64,13 +64,8 @@ router.get('/agregar_carrera', isLoggedIn,  async (req, res) => {
 
 router.post('/agregar_carrera', isLoggedIn,  async (req, res ) => {
     const { conexion } = require('../lib/passport');
-    const { idcarrera, carrera, iddepto } = req.body;
-    const newCarrera = {
-        idcarrera, 
-        carrera, 
-        iddepto
-    }
-    await conexion.query('INSERT INTO LABORATORIO.carrera VALUES ($1, $2, $3)', [idcarrera, carrera, iddepto]);
+    const { alias, nombre, departamento } = req.body;
+    await conexion.query('INSERT INTO LABORATORIO.carrera (alias, nombre, departamento) VALUES ($1, $2, $3)', [alias, nombre, departamento]);
     req.flash('exito', 'Carrera agregada con éxito');
     res.redirect('/practicas/carreras');
 });
@@ -91,19 +86,13 @@ router.get('/departamentos', isLoggedIn,  async (req, res) => {
 });
 
 router.get('/agregar_departamento', isLoggedIn,  async (req, res) => {
-    const { conexion } = require('../lib/passport');
     res.render('practicas/nuevodepartamento');
 });
 
 router.post('/agregar_departamento', isLoggedIn,  async (req, res ) => {
     const { conexion } = require('../lib/passport');
-    const { iddepto, alias, departamento } = req.body;
-    const newDepto = {
-        iddepto,
-        alias,
-        departamento
-    }
-    await conexion.query('INSERT INTO LABORATORIO.departamento VALUES ($1, $2, $3)', [iddepto, alias, departamento]);
+    const { departamento } = req.body;
+    await conexion.query('INSERT INTO LABORATORIO.departamento (departamento) VALUES ($1)', [ departamento]);
     req.flash('exito', 'Registro agregado con éxito');
     res.redirect('/practicas/departamentos');
 });

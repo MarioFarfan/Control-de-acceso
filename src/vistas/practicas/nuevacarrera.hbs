@@ -13,13 +13,13 @@
 
                     <div class="mb-3">
                         <label for="carrera" class="form-label">Carrera: </label>
-                        <input type="text" class="form-control" name="carrera" placeholder="" value="" required onkeyup="this.value = this.value.toUpperCase();">
+                        <input type="text" class="form-control" name="nombre" placeholder="" value="" required onkeyup="this.value = this.value.toUpperCase();">
                         <div id="carreraHelp" class="form-text">Ingrese el nombre completo de la carrera.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="idcarrera" class="form-label">Carrera: </label>
-                        <select class="form-select" name="idcarrera" required>
+                        <select class="form-select" name="departamento" required>
                             {{#each departamentos}}
                               <option value="{{iddepto}}">{{departamento}}</option>
                             {{/each}} 

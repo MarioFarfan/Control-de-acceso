@@ -14,7 +14,7 @@ router.get('/nuevo_personal', isLoggedIn, async (req, res) => {
 router.post('/nuevo_personal', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const { notarjeta, nombre, apellidop, apellidom, iddepto, tipo } = req.body;
-    await conexion.query('INSERT INTO personal values ($1, $2, $3, $4, $5, $6)', [notarjeta, nombre, apellidop, apellidom, iddepto, tipo]);
+    await conexion.query('INSERT INTO laboratorio.personal values ($1, $2, $3, $4, $5, $6)', [notarjeta, nombre, apellidop, apellidom, iddepto, tipo]);
     req.flash('exito', 'Registro agregado con éxito');
     res.redirect('/usuarios/personal_registrado');
 });
