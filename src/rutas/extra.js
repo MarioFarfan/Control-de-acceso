@@ -100,4 +100,11 @@ router.get('/semestres', isLoggedIn, async (req, res) => {
     res.render('extras/semestres', {sem});
 });
 
+router.get('/horariolab', isLoggedIn, async (req, res) => {
+    const { conexion } = require('../lib/passport');
+    //const consulta1 = await conexion.query('SELECT * FROM LABORATORIO.SEMESTRE');
+    //const sem = consulta1.rows;
+    res.render('extras/horariolab');
+});
+
 module.exports = router;

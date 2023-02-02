@@ -101,4 +101,8 @@ router.get('/menupracticas', isLoggedIn, (req, res) => {
     res.render('menupracticas');
 });
 
+router.get('/menugeneral', isLoggedIn, (req, res) => {
+    res.render('menugeneral');
+});
+
 module.exports = router;
