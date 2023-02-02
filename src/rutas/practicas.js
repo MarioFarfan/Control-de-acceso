@@ -192,4 +192,43 @@ router.get('/listar/:idarea', isLoggedIn, async (req, res) => {
     res.render('practicas/practicas_dia', {practicas});
 });
 
+router.get('/programar_practica', isLoggedIn,  async (req, res) => {
+    const { conexion } = require('../lib/passport');
+    const consulta1 = await conexion.query('Select * from laboratorio.area');
+    const consulta2 = await conexion.query('Select * from laboratorio.personal');
+    const consulta3 = await conexion.query('Select * from laboratorio.software');
+    const consulta4 = await conexion.query(`select grupo.idgrupo, grupo.grupo, materia.clave, materia.nombre as materia, 
+            personal.nombre as maestroname, personal.apellidop as maestroapellidop, 
+            personal.apellidom as maestroapellidom
+            from laboratorio.grupo inner join laboratorio.materia on grupo.clave = materia.clave
+            inner join laboratorio.personal on personal.notarjeta = grupo.notarjeta`);
+    const fecha = formatoFecha(new Date(), "dd/mm/yyyy");
+
+    const areas = consulta1.rows;
+    const personal = consulta2.rows;
+    const programas = consulta3.rows;
+    const grupos = consulta4.rows;
+    console.log(personal);
+    //const grupos = conexion.query('select * from laboratorio.grupo');
+    res.render('practicas/programar_practica', {areas, personal, programas, grupos} );
+});
+
+router.post('/programar_practica', isLoggedIn,  async (req, res) => {
+    const { conexion } = require('../lib/passport');
+    const { nombre, idgrupo, dia, hora, duracion, idarea, id_software } = req.body;
+
+    const consulta = await conexion.query('select * from laboratorio.practicaprogramada where idarea = $1 and dia = $2 and hora = $3', [idarea, dia, hora]);
+    const cruce = consulta.rows;
+    console.log(cruce);
+    if (cruce.length > 0) {
+        req.flash('danger', 'Esta area ya se encuentra apartada en el horario seleccionado');
+        res.redirect('/practicas/nueva_practica');
+    } else {
+        console.log(newPractica);
+        await conexion.query('INSERT INTO LABORATORIO.practicaprogramada (nombre, idgrupo, dia, hora, duracion, idarea, id_software) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)', [nombre, idgrupo, dia, hora, duracion, idarea, id_softwares]);
+        req.flash('exito', 'Registro agregado con éxito');
+        res.redirect('/practicas/listar/:{{idarea}}');
+    }
+});
+
 module.exports = router;

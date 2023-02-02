@@ -1,0 +1,104 @@
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-5 rounded-5 container">
+      <h2 class="text-center fw mb-2 text-uppercase">Practicas programadas</h2>
+        <h4 class="fw mb-3 text-uppercase">Programar practica para todo el semestre</h4>
+        <form class="needs-validation" action="" method="POST">
+            <h5 class="fw mb-2">Ingresa los datos de la materia</h5>
+            <div class="container">    
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label for="clavemat" class="form-label">Nombre de la practica: </label>
+                         <input type="text" class="form-control" name="nombre" placeholder="" value="" required onkeyup="this.value = this.value.toUpperCase();">
+                        <div id="nocontrolHelp" class="form-text">¿Como se llama la practica?</div>
+                    </div>
+                    <div class="col-sm-8">
+                        <label for="clavemat" class="form-label"> Grupo: </label>
+                        <select class="form-select" name="idgrupo" id="grupo" >
+                            <option value="">Seleccione un grupo</option>
+                            {{#each grupos}}
+                                <option value="{{idgrupo}}">{{grupo}} {{materia}} {{maestroname}} {{maestroapellidop}} {{maestroapellidom}}</option>
+                            {{/each}} 
+                        </select>
+                        <div id="nocontrolHelp" class="form-text">Seleccione el grupo.</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label for="materia" class="form-label">Día: </label>
+                        <select class="form-select" name="dia" required>
+                            <option value="LUNES">Lunes</option>
+                            <option value="MARTES">Marters</option>
+                            <option value="MIERCOLES">Miercoles </option>
+                            <option value="JUEVES">Jueves</option>
+                            <option value="VIERNES">Viernes</option>
+                        </select>
+                        <div id="nombreHelp" class="form-text">Ingrese el día en que desea programar la practica</div>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="hora" class="form-label">Hora: </label>
+                        <select class="form-select" name="hora" required>
+                          <option value="07:00:00">07:00</option>
+                          <option value="08:00:00">08:00</option>
+                          <option value="09:00:00">09:00</option>
+                          <option value="10:00:00">10:00</option>
+                          <option value="11:00:00">11:00</option>
+                          <option value="12:00:00">12:00</option>
+                          <option value="13:00:00">13:00</option>
+                          <option value="14:00:00">14:00</option>
+                          <option value="15:00:00">15:00</option>
+                          <option value="16:00:00">16:00</option>
+                          <option value="17:00:00">17:00</option>
+                          <option value="18:00:00">18:00</option>
+                        </select>
+                        <div id="carreraHelp" class="form-text">¿A que hora inicia la practica?</div>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="duracion" class="form-label">Duracion: </label>
+                        <input type="time" class="form-control" name="duracion" placeholder="" value="01:00:00" required max="3:00:00" min="01:00:00" step="01:00:00">
+                        <div id="carreraHelp" class="form-text">¿Cuanto dura la practica?</div>
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="idcarrera" class="form-label">¿Se utilizará algun programa? </label>
+                        <select class="form-select" name="id_software" required>
+                          <option value="null">Ninguno</option>
+                            {{#each programas}}
+                              <option value="{{id_software}}">{{software}}</option>
+                            {{/each}} 
+                        </select>
+                        <div id="carreraHelp" class="form-text">¿La practica requiere de algún software especial?</div>
+                    </div>
+                    <div class="col-sm">
+                        <label for="idcarrera" class="form-label">Area </label>
+                        <select class="form-select" name="idarea" required>
+                            {{#each areas}}
+                              <option value="{{idarea}}">{{nombre}}</option>
+                            {{/each}} 
+                        </select>
+                        <div id="carreraHelp" class="form-text">Escoga un area de acuerdo al numero de estudiantes que tiene en su grupo</div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>
+          </form>
+    </div>
+    <script>
+        var personal = {{personal}};
+
+        function selectprofesor() {
+          var select = document.getElementById("grupo");
+          var selectedOption = select.options[select.selectedIndex];
+          var profesor = selectedOption.text;
+          var materia = "";
+          for (var i = 0; i < personal.length; i++) {
+            if (personal[i].notarjeta === profesor) {
+              materia = personal[i].notarjeta;
+              break;
+            }
+          }
+          document.getElementById("txtprofesor").value = materia;
+        }
+    </script>
+  </body>
+
+  

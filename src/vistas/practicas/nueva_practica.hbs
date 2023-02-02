@@ -1,7 +1,7 @@
 <body class="bg-dark d-flex justify-content-center align-items-center vh-100">
     <div class="bg-white p-5 rounded-5 container">
-      <h2 class="text-center fw mb-2 text-uppercase">Practicas</h2>
-        <h4 class="fw mb-3 text-uppercase">Programar practica</h4>
+      <h2 class="text-center fw mb-2 text-uppercase">Practicas no programadas</h2>
+        <h4 class="fw mb-3 text-uppercase">Registrar practica</h4>
         <form class="needs-validation" action="" method="POST">
             <h5 class="fw mb-2">Ingresa los datos de la materia</h5>
             <div class="row row-cols-2">            
@@ -30,10 +30,10 @@
                     </div>
 
                     <div class="sm-1">
-                        <label for="idcarrera" class="form-label">Profesor : </label>
+                        <label for="idcarrera" class="form-label">Profesor: </label>
                         <select class="form-select" name="profesor" required>
                             {{#each personal}}
-                              <option value="{{notarjeta}}">{{nombre}} {{apellikdop}} {{apellidom}}</option>
+                              <option value="{{notarjeta}}">{{nombre}} {{apellidop}} {{apellidom}}</option>
                             {{/each}} 
                         </select>
                         <div id="carreraHelp" class="form-text">El horario del laboratorio es de 7:00 a 17:00 hrs</div>
