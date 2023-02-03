@@ -37,7 +37,11 @@
                     <div id="compuesto" class="mb-3 d-none">
                       <div class="col-12">
                         <label for="" class="form-label">Folio del Monitor: </label>
-                        <input type="text" class="form-control" name="monitor" onkeyup="this.value = this.value.toUpperCase();">
+                        <select class="form-select" name="carr" required>
+                        {{#each monitores}}
+                          <option value="{{noserie}}">{{tipo}} Num inventario: {{noinv}}</option>
+                        {{/each}} 
+                      </select>
                         <div class="invalid-feedback">
                           Introduce el Folio del monitor.
                         </div>
@@ -46,7 +50,11 @@
                   
                     <div class="mb-3">
                       <label for="" class="form-label">Folio del Mouse: </label>
-                      <input type="text" class="form-control" name="mouse" placeholder="" onkeyup="this.value = this.value.toUpperCase();">
+                      <select class="form-select" name="carr" required>
+                        {{#each mouse}}
+                          <option value="{{noserie}}">{{tipo}} Num inventario: {{noinv}}</option>
+                        {{/each}} 
+                      </select>
                       <div class="invalid-feedback">
                         Introduce el Folio del mouse
                       </div>
@@ -54,7 +62,11 @@
 
                     <div class="mb-3">
                       <label for="" class="form-label">Folio del Teclado: </label>
-                      <input type="text" class="form-control" name="teclado" placeholder="" onkeyup="this.value = this.value.toUpperCase();">
+                      <select class="form-select" name="carr" required>
+                        {{#each teclados}}
+                          <option value="{{noserie}}">{{tipo}} Num inventario: {{noinv}}</option>
+                        {{/each}} 
+                      </select>
                       <div class="invalid-feedback">
                         Introduce el Folio del teclado.
                       </div>
@@ -63,15 +75,11 @@
 
                     <div class="mb-3">
                         <label for="tipo" class="form-label">Area a la que pertenece: </label>
-                        <select class="form-select form-select mb-3"  aria-label=".form-select-lg example" id="area" name="idarea">
-                            <option value="US1">USUARIOS 1</option>
-                            <option value="US2">USUARIOS 2</option>
-                            <option value="US3">USUARIOS 3</option>
-                            <option value="US4">USUARIOS 4</option>
-                            <option value="LABBD">LABORATORIO DE BASES DE DATOS</option>
-                            <option value="LABRED">LABORATORIO DE REDES</option>
-                            <option value="ALMACEN">ALMACEN</option>
-                         </select>
+                        <select class="form-select" name="carr" required>
+                        {{#each areas}}
+                          <option value="{{idarea}}">{{nombre}}</option>
+                        {{/each}} 
+                      </select>
                     </div>
                      <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>
             </div>

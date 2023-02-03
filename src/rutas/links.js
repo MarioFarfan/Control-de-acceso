@@ -3,8 +3,18 @@ const router = express.Router();
 const { isLoggedIn } = require('../lib/auth');
 
 
-router.get('/agregar_pc', isLoggedIn,  (req, res) => {
-    res.render('inventarios/agregar')
+router.get('/agregar_pc', isLoggedIn,  async(req, res) => {
+    const { conexion } = require('../lib/passport');
+    const querymouse = await conexion.query("select * from laboratorio.insumos where tipo = 'MOUSE'");
+    const querykeyboard = await conexion.query("select * from laboratorio.insumos where tipo = 'TECLADO'");
+    const querymonitor = await conexion.query("select * from laboratorio.insumos where tipo = 'MONITOR'");
+    const queryareas = await conexion.query("select * from laboratorio.area");
+    const mouse = querymouse.rows;
+    const teclados = querykeyboard.rows;
+    const monitores = querymonitor.rows;
+    const areas = queryareas.rows;
+    console.log(teclados)
+    res.render('inventarios/agregar', {mouse, teclados, monitores, areas});
 });
 
 router.post('/agregar_pc', isLoggedIn, async(req, res) => {
