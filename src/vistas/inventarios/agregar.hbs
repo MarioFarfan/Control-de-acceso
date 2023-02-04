@@ -50,7 +50,7 @@
                   
                     <div class="mb-3">
                       <label for="" class="form-label">Folio del Mouse: </label>
-                      <select class="form-select" name="carr" required>
+                      <select class="form-select" name="mouse" required>
                         {{#each mouse}}
                           <option value="{{noserie}}">{{tipo}} Num inventario: {{noinv}}</option>
                         {{/each}} 
@@ -62,7 +62,7 @@
 
                     <div class="mb-3">
                       <label for="" class="form-label">Folio del Teclado: </label>
-                      <select class="form-select" name="carr" required>
+                      <select class="form-select" name="teclado" required>
                         {{#each teclados}}
                           <option value="{{noserie}}">{{tipo}} Num inventario: {{noinv}}</option>
                         {{/each}} 
@@ -75,7 +75,7 @@
 
                     <div class="mb-3">
                         <label for="tipo" class="form-label">Area a la que pertenece: </label>
-                        <select class="form-select" name="carr" required>
+                        <select class="form-select" name="idarea" required>
                         {{#each areas}}
                           <option value="{{idarea}}">{{nombre}}</option>
                         {{/each}} 

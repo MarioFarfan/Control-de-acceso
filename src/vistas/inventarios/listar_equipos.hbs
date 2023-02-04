@@ -17,14 +17,9 @@
                     <div class="col-sm-3" id="filtroarea">
                         <label for="idarea" class="form-label">Area a la que pertenece</label>
                         <select class="form-select" name="idarea" onchange="buscar()" id="areabuscar">
-                        <option value="TODAS">TODAS</option>
-                        <option value="USUARIOS1">USUARIOS 1</option>
-                        <option value="USUARIOS2">USUARIOS 2</option>
-                        <option value="USUARIOS3">USUARIOS 3</option>
-                        <option value="USUARIOS4">USUARIOS 4</option>
-                        <option value="LABORATORIO DE REDES">Laboratorio de Bases de datos</option>
-                        <option value="LABORATORIO DE BASE DE DATOS">Laboratorio de redes</option>
-                        <option value="ALMACEN">Almacenamiento de equipos en desuso</option>
+                        {{#each areas}}
+                          <option value="{{idarea}}">{{nombre}}</option>
+                        {{/each}} 
                         </select>
                         <div class="invalid-feedback">
                             Please select a valid area.

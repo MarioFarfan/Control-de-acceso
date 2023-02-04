@@ -19,9 +19,11 @@ router.get('/agregar_pc', isLoggedIn,  async(req, res) => {
 
 router.post('/agregar_pc', isLoggedIn, async(req, res) => {
     const { conexion } = require('../lib/passport');
-    const{ noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea } = req.body;
-    const newDispositivo = { noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea };  //validar los datos
-    await conexion.query('INSERT INTO LABORATORIO.PC values ($1, $2, $3, $4, $5, $6, $7, $8) ?', [noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea]);
+    var{ noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea } = req.body;
+    if (tipo === 'ALL IN ONE') {
+        monitor = noserie;
+    }
+    await conexion.query('INSERT INTO LABORATORIO.PC values ($1, $2, $3, $4, $5, $6, $7, $8)', [noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea]);
     req.flash('mensaje', 'PC agregada con exito');
     res.redirect('/inventarios/listar_equipos');
 });
