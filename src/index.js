@@ -51,6 +51,7 @@ app.use(require('./rutas/autenticar'));
 app.use('/inventarios', require('./rutas/links'));
 app.use('/practicas', require('./rutas/practicas'));
 app.use('/extra', require('./rutas/extra'));
+app.use('/reportes', require('./rutas/reportes'));
 app.use('/usuarios', require('./rutas/users'));
 
 //public

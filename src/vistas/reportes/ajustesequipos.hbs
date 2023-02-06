@@ -1,0 +1,67 @@
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+  <div class="album py-5 bg-dark vh-100">
+    <div class="bg-white p-5 rounded-5 container">
+        <a href="/home" class="d-flex" aria-current="true">
+            <i class="bi-arrow-left-circle" style="font-size: 2rem; color: #000000;"></i>
+        </a>
+       <h4 class="text-center fw-bold mb-2 text-uppercase">Reportes</h4>
+       <h3 class="text-center fw-bold mb-2 text-uppercase">equipos de cómputo</h3>
+       <hr>
+       <p class="mb-0 opacity-65">Selecciona las opciones que desees y genera reportes sobre los equipos de cómputos</p>
+       <hr>
+        <div class="row row-cols-3">
+            <div>
+                <p>
+                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        Filtrar por marca
+                    </a>
+                </p>
+                <div class="collapse" id="collapseExample">
+                    <label for="clave" class="form-label">Marcas disponibles: </label>
+                        <select class="form-select" id="clave" name="clave" required>
+                          {{#each mat}}
+                                <option value="{{clave}}">{{nombre}}</option>
+                          {{/each}} 
+                        </select>
+                </div>
+            </div>
+
+             <div>
+                <p>
+                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        Filtrar por areas
+                    </a>
+                </p>
+                <div class="collapse" id="collapseExample">
+                    <div class="">
+                        <label for="tipo" class="form-label">Area a la que pertenece: </label>
+                        <select class="form-select" name="idarea" required>
+                        {{#each areas}}
+                          <option value="{{idarea}}">{{nombre}}</option>
+                        {{/each}} 
+                      </select>
+                    </div>
+                </div>
+             </div>
+
+            <div>
+                <p>
+                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        Filtrar por tipo
+                    </a>
+                </p>
+                <div class="collapse" id="collapseExample">
+                    <div class="">
+                        <label for="tipo" class="form-label">Tipo</label>
+                        <select class="form-select" id="tipo" name="tipo" required>
+                            <option value="ALL IN ONE">All in One</option>
+                            <option value="COMPUESTO">Compuesto</option>
+                        </select>
+                    </div>
+                </div>
+             </div>
+            
+            
+        </div>
+  </div>
+</body>

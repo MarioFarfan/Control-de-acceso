@@ -4,7 +4,6 @@ const { isLoggedIn } = require('../lib/auth');
 
 
 router.get('/agregar_software', isLoggedIn,  (req, res) => {
-    
     res.render('extras/agregar_software')
 });
 

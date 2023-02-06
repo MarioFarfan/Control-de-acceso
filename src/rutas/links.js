@@ -167,15 +167,14 @@ router.get('/listar_perifericos/editar/:id', isLoggedIn,  async(req, res) => {
 //===============================================================================================================
 router.post('/listar_perifericos/editar/:id', isLoggedIn,  async(req, res) => {
     const {id} = req.params;
-    const { noserieper, marca, tipo, noinventario } = req.body;
+    const { noserieper, noinv, tipo } = req.body;
     const newPeriferico = {
         noserieper, 
-        marca,
-        estado, 
+        noinv,
         tipo
     }
     const { conexion } = require('../lib/passport');
-    await  conexion.query('UPDATE INSUMOS SET ($1, $2, $3, $4) WHERE noserie = $5', [newPeriferico, id]);
+    await  conexion.query('UPDATE INSUMOS SET ($1, $2, $3) WHERE noserie = $4', [newPeriferico, id]);
     req.flash('exito', 'Alumno agregado con éxito');
     res.redirect('/inventarios/listar_perifericos');
 });
