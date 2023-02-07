@@ -37,6 +37,8 @@
                         <th scope="col" class="text-center">Profesor a cargo</th>
                         <th scope="col" class="text-center">Horario</th>
                         <th scope="col" class="text-center">No. de Alumnos</th>
+                        <th scope="col" class="text-center">Editar</th>
+                        <th scope="col" class="text-center">Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,6 +50,8 @@
                             <td class="text-center" >{{nombre}} {{apellidop}} {{apellidom}}</td>
                             <td class="text-center" >{{horario}} HRS</td>
                             <td class="text-center" >{{noalumnos}}</td>
+                            <td class="text-center"><a class="btn btn-secondary" href="grupos/editar/{{idgrupo}}"><i class="bi bi-pencil"></i></a></td>
+                            <td class="text-center"><a class="btn btn-danger" href="grupos/eliminar/{{idgrupo}}"><i class="bi bi-trash3"></i></a></td>
                         </tr>
 
                         {{else}}

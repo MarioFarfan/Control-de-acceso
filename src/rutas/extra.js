@@ -104,11 +104,44 @@ router.get('/grupos', isLoggedIn, async (req, res) => {
     res.render('extras/listar_grupos', {carreras, grupos});
 });
 
+router.get('/grupos/eliminar/:id', isLoggedIn,  async (req, res) => {
+    const { conexion } = require('../lib/passport');
+    const {id} = req.params;
+    try{
+        await conexion.query('DELETE FROM LABORATORIO.grupo WHERE idgrupo = $1', [id]);
+        req.flash('exito', 'grupo eliminado con exito');
+    } catch (error){
+        req.flash('danger', 'Error al eliminar registros');
+    }
+    res.redirect('/extra/grupos');
+});
+
+router.get('/grupos/editar/:id', isLoggedIn,  async(req, res) => {
+    const {id} = req.params;
+    const { conexion } = require('../lib/passport');
+    const consulta = await conexion.query('SELECT * FROM LABORATORIO.grupo WHERE idgrupo = $1', [id]);
+    const resultados = consulta.rows;
+    //res.render('extras/editar_software', {resultado: resultados[0]});
+    res.send('Falta opciones para editar los grupos')
+});
+
+router.post('/grupos/editar/:id', isLoggedIn,  async(req, res) => {
+    const {id} = req.params;
+    const { conexion } = require('../lib/passport');
+    const{ software, tipolicencia, licencia } = req.body;
+    try{
+        await  conexion.query('UPDATE grupo SET ($1, $2, $3) WHERE idgrupo = $4', [software, tipolicencia, licencia, id]);
+        req.flash('exito', 'Grupo editado con exito');
+    } catch (error) {
+        req.flash('danger', 'Error al actualizar registro: ' + error.message)
+    }
+    res.redirect('/extra/listar_software');
+});
+
 router.get('/nuevosemestre', isLoggedIn,  async(req, res) => {
     const { conexion } = require('../lib/passport');
     res.render('extras/nuevosemestre')
 });
-
 
 router.post('/nuevosemestre', isLoggedIn, async(req, res) => {
     const { conexion } = require('../lib/passport');
