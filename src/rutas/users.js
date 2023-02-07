@@ -11,9 +11,32 @@ router.get('/nuevo_personal', isLoggedIn, async (req, res) => {
 
 router.post('/nuevo_personal', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const { notarjeta, nombre, apellidop, apellidom, iddepto, tipo } = req.body;
+    const { notarjeta, nombre, apellidop, apellidom, iddepto, tipo, user, pass, puesto } = req.body;
     try{
         await conexion.query('INSERT INTO laboratorio.personal values ($1, $2, $3, $4, $5, $6)', [notarjeta, nombre, apellidop, apellidom, iddepto, tipo]);
+        if(tipo!='ADMINISTRATIVO')
+        {
+            await conexion.query('CREATE USER '+user+' PASSWORD \''+pass+'\' nosuperuser nocreatedb nocreaterole inherit login;');
+            let grupo;
+            if(tipo=='PERSONAL')
+            {
+                switch (puesto)
+                {
+                    case "GENERAL" : grupo = "admingeneral";
+                    break;
+                    case "ENCARGADO" : grupo = "encargado";
+                    break;
+                    case "AUXILIAR": grupo = "auxiliar";
+                    break;
+                }
+            } 
+            //
+            if(tipo=="DOCENTE")
+            {
+                grupo = "docente";
+            }
+            await conexion.query('GRANT '+grupo+' to '+user+";");
+        }
         req.flash('exito', 'Registro agregado con éxito');
         res.redirect('/usuarios/personal_registrado');
     } catch(error) {
