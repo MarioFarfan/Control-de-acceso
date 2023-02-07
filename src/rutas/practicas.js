@@ -47,7 +47,7 @@ router.get('/materias/eliminar/:id',  isLoggedIn, async (req, res) => {
     const {id} = req.params;
     try{
         await conexion.query('DELETE FROM LABORATORIO.MATERIA WHERE CLAVE = $1', [id]);
-        req.flash('mensaje', 'Materia eliminada con éxito');
+        req.flash('exito', 'Materia eliminada con éxito');
     } catch (error){
         req.flash('danger', 'Error, no se puede eliminar: ' + error.message);
     }

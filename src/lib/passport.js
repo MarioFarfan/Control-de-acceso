@@ -19,7 +19,7 @@ passport.use('local.login', new LocalStrategy({
         const user = {user: username, password};
         module.exports = { conexion };
         console.log('Conexión exitosa');
-        done(null, user, req.flash('mensaje', 'bienveniodo ' + user.user));
+        done(null, user, req.flash('exito', 'bienveniodo ' + user.user));
       } else {
         console.log('Error en la conexión');
         done(null, null, req.flash('danger', 'Credenciales incorrectas '));

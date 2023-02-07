@@ -22,7 +22,7 @@ router.get('/ajustesinsumos', isLoggedIn, async(req, res) => {
     const { conexion } = require('../lib/passport');
     var{tipo} = req.body;
     await conexion.query('SELECT * FROM LABORATORIO.INSUMOS WHERE TIPO =($1)', [tipo]);
-    req.flash('mensaje', 'PC agregada con exito');
+    req.flash('exito', 'PC agregada con exito');
     res.redirect('reportes/ajustesinsumos');
 });
 

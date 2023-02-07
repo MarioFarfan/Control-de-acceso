@@ -18,7 +18,7 @@ router.post('/agregar_software', isLoggedIn, async(req, res) => {
     } else {
         try{
             await conexion.query('INSERT INTO laboratorio.SOFTWARE (software, tipolicencia, licencia) values ($1, $2, $3)', [software, tipolicencia, licencia]);
-            req.flash('mensaje', 'Software agregado con exito');
+            req.flash('exito', 'Software agregado con exito');
         } catch (error){
             req.flash('danger', 'Error al eliminar registro:' + error );
         }
@@ -39,7 +39,7 @@ router.get('/listar_software/eliminar/:id', isLoggedIn,  async (req, res) => {
     const {id} = req.params;
     try{
         await conexion.query('DELETE FROM LABORATORIO.SOFTWARE WHERE ID_SOFTWARE = $1', [id]);
-        req.flash('mensaje', 'Software eliminado con exito');
+        req.flash('exito', 'Software eliminado con exito');
     } catch (error){
         req.flash('danger', 'Error al eliminar registros');
     }
@@ -61,7 +61,7 @@ router.post('/listar_software/editar/:id', isLoggedIn,  async(req, res) => {
     const{ software, tipolicencia, licencia } = req.body;
     try{
         await  conexion.query('UPDATE SOFTWARE SET ($1, $2, $3) WHERE ID_SOFTWARE = $4', [software, tipolicencia, licencia, id]);
-        req.flash('mensaje', 'Software editado con exito');
+        req.flash('exito', 'Software editado con exito');
     } catch (error) {
         req.flash('danger', 'Error al actualizar registro: ' + error.message)
     }
@@ -83,7 +83,7 @@ router.post('/agregar_grupo', isLoggedIn, async(req, res) => {
     const{ grupo, clave, notarjeta, horario, noalumnos } = req.body;
     try{
         await conexion.query('INSERT INTO laboratorio.GRUPO (grupo, clave, notarjeta, horario, noalumnos) values ($1, $2, $3, $4, $5)', [grupo, clave, notarjeta, horario, noalumnos]);
-        req.flash('mensaje', 'Grupo agregado con exito');
+        req.flash('exito', 'Grupo agregado con exito');
         res.redirect('/extra/grupos');
     } catch(error){
         req.flash('danger', 'Error al insertar registro: ' + error.message);
@@ -120,7 +120,7 @@ router.post('/nuevosemestre', isLoggedIn, async(req, res) => {
         req.redirect('/extra/nuevosemestre')
     } else{
         await conexion.query('INSERT INTO laboratorio.SEMESTRE(PERIODO,FECHAINICIO,FECHAFINAL) values ($1, $2, $3)', [semestre, inicio, final]);
-        req.flash('mensaje', 'Semestre agregado con exito');
+        req.flash('exito', 'Semestre agregado con exito');
         res.redirect('/extra/semestres');
     }
 });

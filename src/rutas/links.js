@@ -30,7 +30,7 @@ router.post('/agregar_pc', isLoggedIn, async(req, res) => {
     } else {
         try{
             await conexion.query('INSERT INTO LABORATORIO.PC values ($1, $2, $3, $4, $5, $6, $7, $8)', [noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea]);
-            req.flash('mensaje', 'PC agregada con exito');
+            req.flash('exito', 'PC agregada con exito');
             res.redirect('/inventarios/listar_equipos');
         } catch (error) {
             req.flash('danger', 'Error al insertar registro: ' + error.message);
@@ -55,7 +55,7 @@ router.get('/listar_equipos/eliminar/:id', isLoggedIn,  async (req, res) => {
     const {id} = req.params;
     try{
         await conexion.query('DELETE FROM LABORATORIO.PC WHERE NOSERIE = ($1)', [id]);
-        req.flash('mensaje', 'Equipo eliminado con exito');
+        req.flash('exito', 'Equipo eliminado con exito');
     } catch (error) {
         req.flash('danger', 'Error al eliminar registro: '+ error.message);
     }
@@ -81,7 +81,7 @@ router.post('/listar_equipos/editar/:id', isLoggedIn,  async(req, res) => {
     } else {
         try{
             await  conexion.query('UPDATE PC SET ($1, $2, $3, $4, $5, $6, $7) WHERE NOSERIE = $8', [noserie, marca, tipo, noinv, monitor, teclado, mouse, noserie]);
-            req.flash('mensaje', 'Dispositivo editado con exito');
+            req.flash('exito', 'Dispositivo editado con exito');
             res.redirect('/inventarios/listar_equipos');
         } catch (error) {
             req.flash('danger', '')
@@ -108,7 +108,7 @@ router.post('/agregar_alumno', isLoggedIn,  async (req, res ) => {
     } else {
         try{
             await conexion.query('INSERT INTO LABORATORIO.estudiante values ($1, $2, $3, $4, $5, $6, $7)', [nocontrol, nombre, apellidop, apellidom, idcarrera, semestre, status]);
-            req.flash('mensaje', 'Alumno agregado con exito');
+            req.flash('exito', 'Alumno agregado con exito');
         } catch (error) {
             req.flash('danger', 'Error: ' + error.message);
         }
@@ -185,7 +185,7 @@ router.post('/agregar_periferico', isLoggedIn, async(req, res) => {
     } else{ 
         try{
             await conexion.query('INSERT INTO LABORATORIO.insumos values ($1, $2, $3)', [noserie, noinv, tipo]);
-            req.flash('mensaje', 'Periferico agregado con exito');
+            req.flash('exito', 'Periferico agregado con exito');
         }catch (error){
             req.flash('danger', 'Error al insertar registro: ' + error.message);
         }
@@ -204,7 +204,7 @@ router.get('/listar_perifericos/eliminar/:id',  isLoggedIn, async (req, res) => 
     const {id} = req.params;
     const { conexion } = require('../lib/passport');
     await conexion.query('DELETE FROM LABORATORIO.INSUMOS WHERE noserie = $1', [id]);
-    req.flash('mensaje', 'Periferico eliminado con éxito');
+    req.flash('exito', 'Periferico eliminado con éxito');
     res.redirect('/inventarios/listar_perifericos');
 });
 
@@ -244,7 +244,7 @@ router.post('/nuevo_dispositivoaux', isLoggedIn, async(req, res) => {
     } else {
         try{
             await conexion.query('INSERT INTO LABORATORIO.DISPOSITIVO values ($1, $2, $3, $4, $5, $6)', [noserie, nombre, marca, tipo, descripcion, noinv]);
-            req.flash('mensaje', 'dispositivo agregado con exito');
+            req.flash('exito', 'dispositivo agregado con exito');
         } catch (error){
             req.flash('danger', 'Error: ' + error.message);
         }
