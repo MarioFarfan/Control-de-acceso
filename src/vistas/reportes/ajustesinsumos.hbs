@@ -1,0 +1,42 @@
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+  <div class="album py-5 bg-dark vh-100">
+    <div class="bg-white p-5 rounded-5 container">
+        <a href="/home" class="d-flex" aria-current="true">
+            <i class="bi-arrow-left-circle" style="font-size: 2rem; color: #000000;"></i>
+        </a>
+       <h4 class="text-center fw-bold mb-2 text-uppercase">Reportes</h4>
+       <h3 class="text-center fw-bold mb-2 text-uppercase">Insumos</h3>
+       <hr>
+       <p class="mb-0 opacity-65">Selecciona las opciones que desees y genera reportes sobre los insumos disponibles</p>
+       <hr>
+        <div class="row row-cols-1">
+            <div>
+                <p>
+                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        Filtrar por tipo
+                    </a>
+                </p>
+                <div class="collapse row row-cols-2" id="collapseExample">
+                    <div class="">
+                        <label for="tipo" class="form-label">Tipo</label>
+                        <select class="form-select" id="tipo" name="tipo" required>
+                            <option value="MOUSE">Mouse</option>
+                            <option value="TECLADO">Teclado</option>
+                            <option value="MONITOR">Monitor</option>
+                            <option value="SILLA">Silla</option>
+                            <option value="MESA">Mesa</option>
+                            <option value="OTROS">Otros</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <br>
+                        <a class="btn btn-primary" href="">
+                            Generar Reporte
+                        </a>
+                    </div>
+                </div>
+             </div>          
+        </div>
+  </div>
+</body>
