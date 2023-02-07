@@ -38,8 +38,16 @@ router.get('/reportesusuarios', (req, res) => {
 
 router.get('/ajustesestudiantes', isLoggedIn, async(req, res) => {
     const { conexion } = require('../lib/passport');
-    res.render("reportes/ajustesestudiantes");
+    const querycarreras = await conexion.query("SELECT * FROM laboratorio.laboratorio.carrera");
+    const carr = querycarreras.rows;
+    res.render("reportes/ajustesestudiantes", {carr});
 });
 
+router.get('/ajustesdocentes', isLoggedIn, async(req, res) => {
+    const { conexion } = require('../lib/passport');
+    const querydep = await conexion.query("SELECT * FROM laboratorio.laboratorio.departamento");
+    const dep = querydep.rows;
+    res.render("reportes/ajustesdocentes", {dep});
+});
 
 module.exports = router;

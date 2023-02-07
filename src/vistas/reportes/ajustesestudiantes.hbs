@@ -1,0 +1,50 @@
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+  <div class="album py-5 bg-dark vh-100">
+    <div class="bg-white p-5 rounded-5 container">
+        <a href="/reportes/reportesusuarios" class="d-flex" aria-current="true">
+            <i class="bi-arrow-left-circle" style="font-size: 2rem; color: #000000;"></i>
+        </a>
+       <h4 class="text-center fw-bold mb-2 text-uppercase">Reportes</h4>
+       <h3 class="text-center fw-bold mb-2 text-uppercase">Estudiantes</h3>
+       <hr>
+       <p class="mb-0 opacity-65">Selecciona las opciones que desees y genera reportes sobre los estudiantes de la institución.</p>
+       <hr>
+    <div class="row row-cols-2">
+        <div class="col-sm-6">
+            <label for="clave" class="form-label">Carreras: </label>
+                        <select class="form-select" id="carrera" name="carrera" required>
+                          {{#each carr}}
+                                <option value="{{idcarrera}}">{{nombre}}</option>
+                          {{/each}} 
+                        </select>
+        </div>
+
+        <div class="col-sm-6">
+            <label for="tipo" class="form-label">Semestre: </label>
+                        <select class="form-select" name="idarea" required>
+                            <option value="">Todos</option>
+                            <option value="1">1°</option>
+                            <option value="2">2°</option>
+                            <option value="3">3°</option>
+                            <option value="4">4°</option>
+                            <option value="5">5°</option>
+                            <option value="6">6°</option>
+                            <option value="7">7°</option>
+                            <option value="8">8°</option>
+                            <option value="9">9°</option>
+                            <option value="10">10°</option>
+                            <option value="11">11°</option>
+                            <option value="12">12°</option>
+                            <option value="13">13°</option>
+                      </select>
+        </div>
+  </div>
+  <br>
+        <div class="row row-col-5 ">
+            <label class="col-sm-2"></label>
+            <label class="col-sm-3"></label>
+            <a class="btn btn-primary btn-sm d-flex justify-content-center" style="width: 8rem;">Generar reporte</a>
+            <label class="col-sm-4"></label>
+            <label class="col-sm-4"></label>
+        </div>
+</body>

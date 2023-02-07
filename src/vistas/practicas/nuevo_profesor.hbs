@@ -3,8 +3,8 @@
       <h2 class="text-center fw mb-2 text-uppercase">Control de Personal</h2>
         <h4 class="fw mb-3 text-uppercase">Registro de personal</h4>
         <form class="needs-validation" action="" method="POST">
-            <h5 class="fw mb-2">Ingresa los datos del miembro que desea agreegar</h5>
-            <div class="row row-cols-2">            
+            <h5 class="fw mb-2">Ingresa los datos del miembro que desea agregar</h5>
+          <div class="row row-cols-2">            
                     <div class="sm-2">
                         <label for="clavemat" class="form-label">Número de tarjeta: </label>
                          <input type="text" class="form-control" name="notarjeta" placeholder="" value="" required onkeyup="this.value = this.value.toUpperCase();">
@@ -40,18 +40,59 @@
                     </div>
 
                     <div class="sm-1">
-                        <label for="idcarrera" class="form-label">Tipo</label>
-                        <select class="form-select" name="tipo" required>
-                          <option value="PROFESOR">PROFESOR</option>
+                        <label for="tipo" class="form-label">Tipo:</label>
+                        <select class="form-select" name="tipo" onchange="tipouser()" id="tipousuario" required>
+                          <option value="DOCENTE">DOCENTE</option>
                           <option value="ADMINISTRATIVO">ADMINISTRATIVO</option>
                           <option value="PERSONAL">PERSONAL DEL LABORATORIO</option>
                         </select>
                         <div id="carreraHelp" class="form-text">Seleccione el tipo de personal que se registra</div>
                     </div>
+
+                    <div class="sm-1"></div>
+                    <div class="sm-1 d-none" id="puestodiv">
+                      <label for="puesto" class="form-label">Puesto: </label>
+                        <select class="form-select" name="puesto" onchange="tipouser()" id="puesto" required>
+                          <option value="GENERAL">ADMINISTRADOR GENERAL</option>
+                          <option value="ENCARGADO">ADMINISTRADOR ENCARGADO</option>
+                          <option value="AUXILIAR">ADMINISTRADOR AUXILIAR</option>
+                        </select>
+                        <div id="carreraHelp" class="form-text">Seleccione el puesto del personal que se registra</div>
+                    </div>
             </div>
+            <hr>
+            <div class="row row-cols-2" id="credenciales">
+              <div class="sm-1">
+                        <label for="usuario" class="form-label">CURP: </label>
+                         <input type="text" class="form-control" name="nombre" placeholder="" value="" required onkeyup="this.value = this.value.toUpperCase();">
+                        <div id="nocontrolHelp" class="form-text">Ingrese la curp para establecerla como su nombre de usuario.</div>
+              </div>
+              <div class="sm-1">
+                       <label for="pass" class="form-label">Contraseña: </label>
+                         <input type="text" class="form-control" name="pass" placeholder="" value="" required>
+                        <div id="passHelp" class="form-text">Ingrese la contraseña</div>
+              </div>
+            </div>
+<br>
             <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>
           </form>
     </div>
   </body>
+<script>
+  function tipouser(){
+    const tipo=document.getElementById("tipousuario").value;
 
-  
+    if(tipo=='PERSONAL'){
+       document.getElementById("puestodiv").className = "sm-1";
+    } else {
+      document.getElementById("puestodiv").className = "sm-1 d-none";
+    }
+
+    if(tipo=='PERSONAL' || tipo=='DOCENTE'){
+       document.getElementById("credenciales").className = "sm-1";
+    } else {
+      document.getElementById("credenciales").className = "sm-1 d-none";
+    }
+  }
+</script>
+
