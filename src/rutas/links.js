@@ -23,9 +23,20 @@ router.post('/agregar_pc', isLoggedIn, async(req, res) => {
     if (tipo === 'ALL IN ONE') {
         monitor = noserie;
     }
-    await conexion.query('INSERT INTO LABORATORIO.PC values ($1, $2, $3, $4, $5, $6, $7, $8)', [noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea]);
-    req.flash('mensaje', 'PC agregada con exito');
-    res.redirect('/inventarios/listar_equipos');
+    const consulta = await conexion.query('SELECT * FROM LABORATORIO.pc where noserie = $1 or monitor = $2 or teclado = $3 or mouse = $4 or noinv = $5', [noserie, monitor, teclado, mouse, noinv]);
+    const result = consulta.rows;
+    if (result.length > 0) {
+        req.flash('danger', 'Error: existe al menos una computadora con datos similares a los que desea registrar');
+    } else {
+        try{
+            await conexion.query('INSERT INTO LABORATORIO.PC values ($1, $2, $3, $4, $5, $6, $7, $8)', [noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea]);
+            req.flash('mensaje', 'PC agregada con exito');
+            res.redirect('/inventarios/listar_equipos');
+        } catch (error) {
+            req.flash('danger', 'Error al insertar registro: ' + error.message);
+            res.redirect('/inventarios/agregar_pc');
+        }
+    }  
 });
 
 router.get('/listar_equipos', isLoggedIn, async (req, res) => {
@@ -42,8 +53,12 @@ router.get('/listar_equipos', isLoggedIn, async (req, res) => {
 router.get('/listar_equipos/eliminar/:id', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params;
-    await conexion.query('DELETE FROM LABORATORIO.PC WHERE NOSERIE = ($1)', [id]);
-    req.flash('mensaje', 'Equipo eliminado con exito');
+    try{
+        await conexion.query('DELETE FROM LABORATORIO.PC WHERE NOSERIE = ($1)', [id]);
+        req.flash('mensaje', 'Equipo eliminado con exito');
+    } catch (error) {
+        req.flash('danger', 'Error al eliminar registro: '+ error.message);
+    }
     res.redirect('/inventarios/listar_equipos');
 });
 
@@ -59,10 +74,20 @@ router.post('/listar_equipos/editar/:id', isLoggedIn,  async(req, res) => {
     const {id} = req.params;
     const { conexion } = require('../lib/passport');
     const{ noserie, marca, tipo, noinv, monitor, teclado, mouse } = req.body;
-    const newDispositivo = {noserie, marca, tipo, noinv, monitor, teclado, mouse};
-    await  conexion.query('UPDATE PC SET ($1, $2, $3, $4, $5, $6, $7) WHERE NOSERIE = $8', [noserie, marca, tipo, noinv, monitor, teclado, mouse, noserie]);
-    req.flash('mensaje', 'Dispositivo editado con exito');
-    res.redirect('/inventarios/listar_equipos');
+    const consulta = await conexion.query('SELECT * FROM LABORATORIO.pc where noserie = $1 or monitor = $2 or teclado = $3 or mouse = $4 or noinv = $5', [noserie, monitor, teclado, mouse, noinv]);
+    const result = consulta.rows;
+    if (result.length > 0) {
+        req.flash('danger', 'Error: existen registros con datos similares');
+    } else {
+        try{
+            await  conexion.query('UPDATE PC SET ($1, $2, $3, $4, $5, $6, $7) WHERE NOSERIE = $8', [noserie, marca, tipo, noinv, monitor, teclado, mouse, noserie]);
+            req.flash('mensaje', 'Dispositivo editado con exito');
+            res.redirect('/inventarios/listar_equipos');
+        } catch (error) {
+            req.flash('danger', '')
+        }
+    }
+    
 });
 
 //  OPERACIONES PARA ESTUDIANTES, LISTAR, AGREGAR, EDITAR Y ELIMIAR
@@ -76,8 +101,18 @@ router.get('/agregar_alumno', isLoggedIn,  async (req, res) => {
 router.post('/agregar_alumno', isLoggedIn,  async (req, res ) => {
     const { nocontrol, nombre, apellidop, apellidom, idcarrera, semestre, status } = req.body;
     const { conexion } = require('../lib/passport');
-    await conexion.query('INSERT INTO LABORATORIO.estudiante values ($1, $2, $3, $4, $5, $6, $7)', [nocontrol, nombre, apellidop, apellidom, idcarrera, semestre, status]);
-    req.flash('mensaje', 'Alumno agregado con exito');
+    const consulta = await conexion.query('SELECT * FROM LABORATORIO.ESTUDIANTE WHERE NOCONTROL = $1', [nocontrol]);
+    const resultado = consulta.rows;
+    if (resultado.length > 0) {
+        req.flash('danger', 'Ya existe un estudiante registrado con este número de control');
+    } else {
+        try{
+            await conexion.query('INSERT INTO LABORATORIO.estudiante values ($1, $2, $3, $4, $5, $6, $7)', [nocontrol, nombre, apellidop, apellidom, idcarrera, semestre, status]);
+            req.flash('mensaje', 'Alumno agregado con exito');
+        } catch (error) {
+            req.flash('danger', 'Error: ' + error.message);
+        }
+    }
     res.redirect('/inventarios/alumnos');
 });
 
@@ -95,8 +130,13 @@ router.get('/alumnos', isLoggedIn,  async (req, res) => {
 router.get('/alumnos/eliminar/:id', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params;
-    await conexion.query('DELETE FROM LABORATORIO.ESTUDIANTE WHERE NOCONTROL = $1', [id]);
-    req.flash('exito', 'Alumno eliminado con éxito');
+    try{
+        await conexion.query('DELETE FROM LABORATORIO.ESTUDIANTE WHERE NOCONTROL = $1', [id]);
+        req.flash('exito', 'Alumno eliminado con éxito');
+    } catch (error){
+        req.flash('danger', 'Error al eliminar registro: ' + error.message);
+    }
+    
     res.redirect('/inventarios/alumnos');
 });
 
@@ -114,19 +154,20 @@ router.get('/alumnos/editar/:id', isLoggedIn,  async(req, res) => {
 router.post('/alumnos/editar/:id', isLoggedIn,  async(req, res) => {
     const {id} = req.params;
     const { nocontrol, nombre, appelidop, appelidom, idcarrera, semestre, status = 'ALTA' } = req.body;
-    const newAlumno = {
-        nocontrol,
-        nombre,
-        appelidop,
-        appelidom,
-        idcarrera,
-        semestre,
-        status: 'ALTA'
+    const consulta = await conexion.query('SELECT * FROM LABORATORIO.ESTUDIANTE WHERE NOCONTROL = $1', [nocontrol]);
+    const resultado = consulta.rows;
+    if (resultado.length > 0) {
+        req.flash('danger', 'Ya existe un estudiante registrado con este número de control');
+    } else {
+        try{
+            const { conexion } = require('../lib/passport');
+            await  conexion.query('UPDATE ESTUDIANTE SET ($1, $2, $3, $4, $5, $6, $7) WHERE NOCONTROL = $8', [nocontrol, nombre, appelidop, appelidom, idcarrera, semestre, status, id]);
+            req.flash('exito', 'Alumno agregado con éxito');
+        } catch (error){
+            req.flash('danger', 'Error al editar registro: ' + error.message);
+        }
+        res.redirect('/inventarios/alumnos');
     }
-    const { conexion } = require('../lib/passport');
-    await  conexion.query('UPDATE ESTUDIANTE SET ($1, $2, $3, $4, $5, $6, $7) WHERE NOCONTROL = $8', [nocontrol, nombre, appelidop, appelidom, idcarrera, semestre, status, id]);
-    req.flash('exito', 'Alumno agregado con éxito');
-    res.redirect('/inventarios/alumnos');
 });
 
 router.get('/agregar_periferico', isLoggedIn,  (req, res) => {
@@ -135,11 +176,21 @@ router.get('/agregar_periferico', isLoggedIn,  (req, res) => {
 
 router.post('/agregar_periferico', isLoggedIn, async(req, res) => {
     const{ noserie, noinv, tipo } = req.body;
-    const newDispositivo = { noserie, noinv, tipo };  //validar los datos
     const { conexion } = require('../lib/passport');
-    await conexion.query('INSERT INTO LABORATORIO.insumos values ($1, $2, $3)', [noserie, noinv, tipo]);
-    req.flash('mensaje', 'Periferico agregado con exito');
-    res.redirect('/inventarios/listar_perifericos');
+    const consulta = await conexion.query('select * from laboratorio.insumos where noserie = $1, or noinv = $2', [noserie, noinv])
+    const resultado = consulta.rows;
+    if (resultado.length > 0) {
+        req.flash('danger', 'Error: Existen perifericos registrados con datos similares');
+        res.redirect('/inventarios/agregar_periferico');
+    } else{ 
+        try{
+            await conexion.query('INSERT INTO LABORATORIO.insumos values ($1, $2, $3)', [noserie, noinv, tipo]);
+            req.flash('mensaje', 'Periferico agregado con exito');
+        }catch (error){
+            req.flash('danger', 'Error al insertar registro: ' + error.message);
+        }
+        res.redirect('/inventarios/listar_perifericos');
+    }
 });
 
 router.get('/listar_perifericos', isLoggedIn,  async (req, res) => {
@@ -164,18 +215,17 @@ router.get('/listar_perifericos/editar/:id', isLoggedIn,  async(req, res) => {
     const perifericos = perifericos1.rows;
     res.render('inventarios/editar_periferico', {periferico: perifericos[0]});
 });
-//===============================================================================================================
+
 router.post('/listar_perifericos/editar/:id', isLoggedIn,  async(req, res) => {
     const {id} = req.params;
     const { noserieper, noinv, tipo } = req.body;
-    const newPeriferico = {
-        noserieper, 
-        noinv,
-        tipo
-    }
     const { conexion } = require('../lib/passport');
-    await  conexion.query('UPDATE INSUMOS SET ($1, $2, $3) WHERE noserie = $4', [newPeriferico, id]);
-    req.flash('exito', 'Alumno agregado con éxito');
+    try{
+        await  conexion.query('UPDATE INSUMOS SET ($1, $2, $3) WHERE noserie = $4', [noserieper, noinv, tipo, id]);
+        req.flash('exito', 'Alumno agregado con éxito');
+    } catch (error){
+        req.flash('danger', 'Error al editar registro: ' + error.message);
+    }
     res.redirect('/inventarios/listar_perifericos');
 });
 
@@ -187,17 +237,19 @@ router.get('/nuevo_dispositivoaux', isLoggedIn,  (req, res) => {
 router.post('/nuevo_dispositivoaux', isLoggedIn, async(req, res) => {
     const { conexion } = require('../lib/passport');
     const{ noserie, nombre, marca, tipo, descripcion, noinv } = req.body;
-    const newDispositivo = 
-       { noserie,
-         nombre, 
-         marca, 
-         tipo, 
-         descripcion, 
-         noinv };  //validar los datos
-    
-    await conexion.query('INSERT INTO LABORATORIO.DISPOSITIVO values ($1, $2, $3, $4, $5, $6)', [noserie, nombre, marca, tipo, descripcion, noinv]);
-    req.flash('mensaje', 'dispositivo agregado con exito');
-    res.redirect('/inventarios/listar_dispositivos');
+    const consulta = await conexion.query('select * from LABORATORIO.DISPOSITIVO where noserie = $1 or noinv = $2', [noserie, noinv]);
+    const resultado = consulta.rows;
+    if (resultado.length > 0) {
+        req.flash('danger', 'Error: Existen registros con datos similares');
+    } else {
+        try{
+            await conexion.query('INSERT INTO LABORATORIO.DISPOSITIVO values ($1, $2, $3, $4, $5, $6)', [noserie, nombre, marca, tipo, descripcion, noinv]);
+            req.flash('mensaje', 'dispositivo agregado con exito');
+        } catch (error){
+            req.flash('danger', 'Error: ' + error.message);
+        }
+        res.redirect('/inventarios/listar_dispositivos');
+    }
 });
 
 router.get('/listar_dispositivos', isLoggedIn, async (req, res) => {

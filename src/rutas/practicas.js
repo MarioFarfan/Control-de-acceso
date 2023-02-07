@@ -23,8 +23,12 @@ router.get('/agregar_materia', isLoggedIn,  async (req, res) => {
 router.post('/agregar_materia', isLoggedIn,  async (req, res ) => {
     const { conexion } = require('../lib/passport');
     const { clave, nombre, idcarrera } = req.body;
-    await conexion.query('INSERT INTO LABORATORIO.MATERIA values ($1, $2, $3)', [clave, nombre, idcarrera ]);
-    req.flash('exito', 'Materia agregada con éxito');
+    try {
+        await conexion.query('INSERT INTO LABORATORIO.MATERIA values ($1, $2, $3)', [clave, nombre, idcarrera ]);
+        req.flash('exito', 'Materia agregada con éxito');
+    } catch(error){
+        req.flash('danger', 'Error al registrar materia, verifique que los datos sean validos y que la clave de la materia se única')
+    }
     res.redirect('/practicas/materias');
 });
 
@@ -41,8 +45,12 @@ router.get('/materias', isLoggedIn,  async (req, res) => {
 router.get('/materias/eliminar/:id',  isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params;
-    await conexion.query('DELETE FROM LABORATORIO.LABORATORIO.MATERIA WHERE CLAVEMATERIA = $1', [id]);
-    req.flash('mensaje', 'Materia eliminada con éxito');
+    try{
+        await conexion.query('DELETE FROM LABORATORIO.MATERIA WHERE CLAVE = $1', [id]);
+        req.flash('mensaje', 'Materia eliminada con éxito');
+    } catch (error){
+        req.flash('danger', 'Error, no se puede eliminar: ' + error.message);
+    }
     res.redirect('/practicas/materias');
 });
 
@@ -65,16 +73,32 @@ router.get('/agregar_carrera', isLoggedIn,  async (req, res) => {
 router.post('/agregar_carrera', isLoggedIn,  async (req, res ) => {
     const { conexion } = require('../lib/passport');
     const { alias, nombre, departamento } = req.body;
-    await conexion.query('INSERT INTO LABORATORIO.carrera (alias, nombre, departamento) VALUES ($1, $2, $3)', [alias, nombre, departamento]);
-    req.flash('exito', 'Carrera agregada con éxito');
+    const consulta = await conexion.query('SELECT * from LABORATORIO.carrera where alias = $1 or nombre = $2', [alias, nombre]);
+    const resultado = consulta.rows;
+    if(resultado.length > 0){
+        req.flash('danger', 'Error: Alunos datos estan duplicados con datos ya existentes');
+    }
+    else {
+        try{
+            await conexion.query('INSERT INTO LABORATORIO.carrera (alias, nombre, departamento) VALUES ($1, $2, $3)', [alias, nombre, departamento]);
+            req.flash('exito', 'Carrera agregada con éxito');
+        } catch (error){
+            req.flash('danger', 'Error: ' + error.message);
+        }
+    }
     res.redirect('/practicas/carreras');
 });
 
 router.get('/carreras/eliminar/:id',  isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     const {id} = req.params; 
-    await conexion.query('DELETE FROM LABORATORIO.CARRERA WHERE IDCARRERA = $1', [id]);
-    req.flash('exito', 'Carrera eliminada con éxito');
+    try{
+        await conexion.query('DELETE FROM LABORATORIO.CARRERA WHERE IDCARRERA = $1', [id]);
+        req.flash('exito', 'Carrera eliminada con éxito');
+    } catch (error){
+        req.flash('danger', 'Error al eliminar el registro: ' + error.message)
+    }
+    
     res.redirect('/practicas/carreras');
 });
 
@@ -92,18 +116,28 @@ router.get('/agregar_departamento', isLoggedIn,  async (req, res) => {
 router.post('/agregar_departamento', isLoggedIn,  async (req, res ) => {
     const { conexion } = require('../lib/passport');
     const { departamento } = req.body;
-    await conexion.query('INSERT INTO LABORATORIO.departamento (departamento) VALUES ($1)', [ departamento]);
-    req.flash('exito', 'Registro agregado con éxito');
-    res.redirect('/practicas/departamentos');
+    const consulta = await conexion.query('select * from laboratorio.departamento where departamento = $1', [departamento]);
+    const resultados = consulta.rows;
+    if (resultados.length > 0) {
+        req.flash('danger', 'Ya existe un departamento con este nombre');
+    } else {
+        await conexion.query('INSERT INTO LABORATORIO.departamento (departamento) VALUES ($1)', [ departamento]);
+        req.flash('exito', 'Registro agregado con éxito');
+    }
+    res.redirect('/practicas/agregar_departamento');
 });
 
 router.get('/departamentos/eliminar/:id', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const {id} = req.params; 
-    await conexion.query('DELETE FROM LABORATORIO.departamento WHERE iddepto = $1', [id]);
-    req.flash('exito', 'registro eliminado con éxito');
+    const { id } = req.params; 
+    try {
+      await conexion.query('DELETE FROM LABORATORIO.departamento WHERE iddepto = $1', [id]);
+      req.flash('exito', 'registro eliminado con éxito');
+    } catch (error) {
+      req.flash('danger', 'Error al eliminar el registro: ' + error.message);
+    }
     res.redirect('/practicas/departamentos');
-});
+  });
 
 router.get('/nueva_practica', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
@@ -140,9 +174,13 @@ router.post('/nueva_practica', isLoggedIn, async (req, res) => {
         req.flash('danger', 'Esta area ya se encuentra apartada en el horario seleccionado');
         res.redirect('/practicas/nueva_practica');
     } else {
-        console.log(newPractica);
-        await conexion.query('INSERT INTO LABORATORIO.practica (nombre, idgrupo, fecha, horainicio, duracion, idarea, id_software) VALUES ($1, $2, $3, $4, $5, $6, $7)', [nombre, idgrupo, arr[0], arr[1], duracion, idarea, id_software]);
-        req.flash('exito', 'Registro agregado con éxito');
+        try{
+            await conexion.query('INSERT INTO LABORATORIO.practica (nombre, idgrupo, fecha, horainicio, duracion, idarea, id_software) VALUES ($1, $2, $3, $4, $5, $6, $7)', [nombre, idgrupo, arr[0], arr[1], duracion, idarea, id_software]);
+            req.flash('exito', 'Registro agregado con éxito');
+        } catch(error) {
+            req.flash('danger', 'Error: ' + error.message);
+        }
+        
         res.redirect('/practicas/listar/:{{idarea}}');
     }
     
@@ -213,10 +251,14 @@ router.post('/programar_practica', isLoggedIn,  async (req, res) => {
         req.flash('danger', 'Esta area ya se encuentra apartada en el horario seleccionado');
         res.redirect('/practicas/nueva_practica');
     } else {
-        console.log(newPractica);
-        await conexion.query('INSERT INTO LABORATORIO.practicaprogramada (nombre, idgrupo, dia, hora, duracion, idarea, id_software) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)', [nombre, idgrupo, dia, hora, duracion, idarea, id_softwares]);
-        req.flash('exito', 'Registro agregado con éxito');
-        res.redirect('/practicas/listar/:{{idarea}}');
+        try{
+            await conexion.query('INSERT INTO LABORATORIO.practicaprogramada (nombre, idgrupo, dia, hora, duracion, idarea, id_software) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)', [nombre, idgrupo, dia, hora, duracion, idarea, id_softwares]);
+            req.flash('exito', 'Registro agregado con éxito');
+            res.redirect('/practicas/listar/:{{idarea}}');
+        } catch (error) {
+            req.flash('danger', 'Error: ' + error.message);
+            res.redirect('/practicas/nueva_practica');
+        }
     }
 });
 
