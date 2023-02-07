@@ -14,14 +14,18 @@ passport.use('local.login', new LocalStrategy({
     const { ConexionDB } = require('../ConexionDB.js');
     const conexion = new ConexionDB(username, password);
     conexion.checkConnection()
-    .then(isConnected => {
+    .then(async isConnected => {
       if (isConnected) {
+        const consulta = await conexion.query('SELECT session_user;');
+        const rol = consulta.rows[0].session_user;
+        console.dir('ROL: ' + rol);
         const user = {user: username, password};
         req.session.user = user;
         module.exports = { conexion };
         console.log('Conexión exitosa');
         done(null, user, req.flash('exito', 'Bienveniodo ' + req.session.user.user));
         console.log('Usuario: ' + req.session.user.user);
+        console.dir(req.session.user);
       } else {
         console.log('Error en la conexión');
         done(null, null, req.flash('danger', 'Credenciales incorrectas '));
