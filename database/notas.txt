@@ -1,7 +1,8 @@
 Notas para el proyecto:
 
-Agregar un campo para la marca de los perifericos (insumos)
-Agregar un campo para el estado (En uso asignados a un pc, insumos disponibles para usarse) o implementar de alguna forma si se esta disponible o en uso un perifericos
+-Agregar un campo para la marca de los perifericos (insumos)
+-Agregar un campo para el estado (En uso asignados a un pc, insumos disponibles para usarse) o implementar de alguna forma si se esta disponible o en uso un perifericos
+
 bloquear partes del sistema en base al rol 
 arreglar visualización de mensajes de exito y error
 

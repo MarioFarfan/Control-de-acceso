@@ -1,0 +1,61 @@
+<body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-5 rounded-5 container">
+      <h2 class="text-center fw mb-2 text-uppercase">Control de inventario</h2>
+        <h4 class="text-center fw mb-3 text-uppercase">Registro de dispositivos</h4>
+        <form class="needs-validation" action="/inventarios/listar_dispositivos/editar/{{dispositivo.noserie}}" method="POST">
+            <h5 class="fw mb-2">Ingresa los datos del material</h5>
+            <div class="row row-cols-2">            
+                    <div class="mb-3">
+                        <label for="noserie" class="form-label">No. de serie: </label>
+                        <input type="text" class="form-control" id="noserie" name="noserie" required onkeyup="this.value = this.value.toUpperCase();" value="{{dispositivo.noserie}}">
+                        <div id="noserieHelp" class="form-text">Ingrese el numero de serie que incluye el equipo.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre: </label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required onkeyup="this.value = this.value.toUpperCase();" value="{{dispositivo.nombre}}">
+                        <div id="nombreHelp" class="form-text">Ingrese el numero de inventario proporcionado por la institución.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="marca" class="form-label">Marca: </label>
+                        <input type="text" class="form-control" id="marca" name="marca" required onkeyup="this.value = this.value.toUpperCase();" value="{{dispositivo.marca}}">
+                        <div id="marcaHelp" class="form-text">Ingrese la marca del dispositivo.</div>
+                    </div>
+
+                     <div class="mb-3">
+                        <label for="tipo" class="form-label">Tipo</label>
+                        <select class="form-select" id="tipo" name="tipo" required>
+                          <option value="ROUTER">ROUTER</option>
+                          <option value="SWITCH">SWITCH</option>
+                          <option value="CONCENTRADOR">CONCENTRADOR</option>
+                          <option value="PROYECTOR">PROYECTOR</option>
+                          <option value="IMPRESORA">IMPRESORA</option>
+                          <option value="MULTIFUNCIONAL">MULTIFUNCIONAL</option>
+                          <option value="OTROS">OTROS</option>
+                        </select>
+                        <div class="invalid-feedback">
+                          <div id="tipoHelp" class="form-text">Ingrese el tipo de equipo a agregar.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción: </label>
+                        <input type="text" class="form-control" id="descripcion" name="descripcion" required onkeyup="this.value = this.value.toUpperCase();" value="{{dispositivo.descripcion}}">
+                        <div id="descripcionHelp" class="form-text">Ingrese una breve descripcion del dispositivo.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="noinv" class="form-label">Numero de inventario: </label>
+                        <input type="text" class="form-control" id="noinv" name="noinv" onkeyup="this.value = this.value.toUpperCase();" value="{{dispositivo.noinv}}">
+                        <div id="noinvHelp" class="form-text">Ingrese el numero de inventario proporcionado por la institución.</div>
+                    </div>
+           </div>
+            <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>
+          </div>
+          
+        </form>
+      </div>
+    </div>
+  </main>
+</body>

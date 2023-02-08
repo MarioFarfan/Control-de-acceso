@@ -210,8 +210,12 @@ router.get('/listar_perifericos', isLoggedIn,  async (req, res) => {
 router.get('/listar_perifericos/eliminar/:id',  isLoggedIn, async (req, res) => {
     const {id} = req.params;
     const { conexion } = require('../lib/passport');
-    await conexion.query('DELETE FROM LABORATORIO.INSUMOS WHERE noserie = $1', [id]);
-    req.flash('exito', 'Periferico eliminado con éxito');
+    try{
+        await conexion.query('DELETE FROM LABORATORIO.INSUMOS WHERE noserie = $1', [id]);
+        req.flash('exito', 'Periferico eliminado con éxito');
+    } catch (e) {
+        req.flash('Error: ', e.message);
+    }
     res.redirect('/inventarios/listar_perifericos');
 });
 
@@ -261,10 +265,43 @@ router.post('/nuevo_dispositivoaux', isLoggedIn, async(req, res) => {
 
 router.get('/listar_dispositivos', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const equipos1 = await conexion.query('SELECT * FROM LABORATORIO.LABORATORIO.DISPOSITIVO');
+    const equipos1 = await conexion.query('SELECT * FROM LABORATORIO.DISPOSITIVO');
     const equipos = equipos1.rows;
     console.log(equipos);
     res.render('inventarios/listar_dispositivos', { equipos });
+});
+
+router.get('/listar_dispositivos/eliminar/:id',  isLoggedIn, async (req, res) => {
+    const {id} = req.params;
+    const { conexion } = require('../lib/passport');
+    try{
+        await conexion.query('DELETE FROM LABORATORIO.DISPOSITIVO WHERE noserie = $1', [id]);
+        req.flash('exito', 'Dispositivo eliminado con éxito');
+    } catch (e) {
+        req.flash('danger', 'Error: ' + e.message);
+    }
+    res.redirect('/inventarios/listar_dispositivos');
+});
+
+router.get('/listar_dispositivos/editar/:id', isLoggedIn,  async(req, res) => {
+    const { conexion } = require('../lib/passport');
+    const {id} = req.params;
+    const perifericos1 = await conexion.query('SELECT * FROM LABORATORIO.DISPOSITIVO WHERE noserie = $1', [id]);
+    const perifericos = perifericos1.rows;
+    res.render('inventarios/editar_dispositivo', {dispositivo: perifericos[0]});
+});
+
+router.post('/listar_dispositivos/editar/:id', isLoggedIn,  async(req, res) => {
+    const {id} = req.params;
+    const { noserie, nombre, marca, tipo, descripcion, noinv } = req.body;
+    const { conexion } = require('../lib/passport');
+    try{
+        await  conexion.query('UPDATE LABORATORIO.DISPOSITIVO SET noserie = $1, nombre = $2, marca = $3, tipo = $4, descripcion = $5, noinv = $6 WHERE noserie = $7', [noserie, nombre, marca, tipo, descripcion, noinv, id]);
+        req.flash('exito', 'Dispositivo editado con éxito');
+    } catch (error){
+        req.flash('danger', 'Error al editar registro: ' + error.message);
+    }
+    res.redirect('/inventarios/listar_dispositivos');
 });
 
 module.exports = router;
