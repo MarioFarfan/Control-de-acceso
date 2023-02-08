@@ -1,5 +1,5 @@
 <body class="bg-dark d-flex justify-content-center align-items-center vh-100">
-    <div class="bg-white p-5 rounded-5 container">
+    <div class="bg-white p-5 rounded-5 container w-100">
       <h2 class="text-center fw mb-2 text-uppercase">Control de inventario</h2>
         <h4 class="text-center fw mb-3 text-uppercase">Registro de insumos</h4>
         <form class="needs-validation" action="/inventarios/listar_perifericos/editar/{{periferico.noserie}}" method="POST">
@@ -7,13 +7,13 @@
             <div class="row row-cols-2">            
                     <div class="mb-3">
                         <label for="noserie" class="form-label">No. de serie: </label>
-                        <input type="text" class="form-control" id="noserie"  placeholder="" value="{{periferico.noserie}}"required>
+                        <input type="text" class="form-control" id="noserie" name="noserie" placeholder="" value="{{periferico.noserie}}"required onkeyup="this.value = this.value.toUpperCase();">
                         <div id="noserieHelp" class="form-text">Ingrese el numero de serie que incluye el equipo.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="noinv" class="form-label">Numero de inventario: </label>
-                        <input type="text" class="form-control" id="noinv" placeholder="" value="{{periferico.noinv}}" required>
+                        <input type="text" class="form-control" id="noinv" name="noinv" placeholder="" value="{{periferico.noinv}}" required onkeyup="this.value = this.value.toUpperCase();">
                         <div id="noinvHelp" class="form-text">Ingrese el numero de inventario proporcionado por la institución.</div>
                     </div>
 
@@ -24,9 +24,24 @@
                           <option value="TECLADO">Teclado</option>
                           <option value="MONITOR">Monitor</option>
                         </select>
-                        <div class="invalid-feedback">
-                          <div id="areaHelp" class="form-text">Ingrese el tipo de equipo a agregar.</div>
-                        </div>
+                        <div id="areaHelp" class="form-text">Ingrese el tipo de equipo a agregar.</div>
+                      </div>
+                  
+
+                    
+                    <div class="mb-3">
+                        <label for="marca" class="form-label">Marca: </label>
+                        <input type="text" class="form-control" id="marca" name="marca" required onkeyup="this.value = this.value.toUpperCase();">
+                        <div id="marcaHelp" class="form-text">Ingrese la marca del insumo a registrar.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="estado" class="form-label">Estado: </label>
+                          <select class="form-select" id="estado" name="estado" required>
+                          <option value="OCUPADO">OCUPADO</option>
+                          <option value="LIBRE">LIBRE</option>
+                        </select>
+                        <div id="estadoHelp" class="form-text">Indique si el insumo esta asignado o no a un equipo </div>
                     </div>
           </div>
             <button type="submit" class="btn btn-primary d-flex justify-content-center">¡Listo!</button>

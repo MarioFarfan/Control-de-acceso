@@ -7,34 +7,34 @@
             <div class="row row-cols-2">            
                     <div class="mb-3">
                         <label for="nocontrol" class="form-label">No. de control: </label>
-                        <input type="text" class="form-control" id="nocontrol"  value="{{alumno.nocontrol}}" required maxlength="9" minlength="8" pattern="[0-9]" onkeyup="this.value = this.value.toUpperCase();"
+                        <input type="text" class="form-control" id="nocontrol" name="nocontrol"  value="{{alumno.nocontrol}}" required maxlength="9" minlength="8" pattern="T?[0-9]+" onkeyup="this.value = this.value.toUpperCase();"
                         title="El número de control solo pueden tener 8 caracteres núericos y en caso de los alumnos de traslado la letra 'T' al inicio">
                         <div id="nocontrolHelp" class="form-text">Ingrese el numero de control del estudiante.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre(s): </label>
-                        <input type="text" class="form-control" id="nombre" value="{{alumno.nombre}}" required id="espacios" onkeyup="this.value = this.value.toUpperCase();">
+                        <input type="text" class="form-control" id="nombre" value="{{alumno.nombre}}" name="nombre" required onkeyup="this.value = this.value.toUpperCase();">
                         <div id="nombreHelp" class="form-text">Ingrese el/los nombre/s del estudiante.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="apellidop" class="form-label">Apellido Paterno: </label>
-                        <input type="text" class="form-control" id="apellidop" value="{{alumno.apellidop}}" required id="espacios" onkeyup="this.value = this.value.toUpperCase();">
+                        <input type="text" class="form-control" id="apellidop" value="{{alumno.apellidop}}" name="apellidop"  required  onkeyup="this.value = this.value.toUpperCase();">
                         <div id="apellidopHelp" class="form-text">Ingrese el apellido paterno del estudiante.</div>
                     </div>
                     
                     <div class="mb-3">
                         <label for="apellidom" class="form-label">Apellido Materno: </label>
-                        <input type="text" class="form-control" id="apellidom" value="{{alumno.apellidom}}" required id="espacios" onkeyup="this.value = this.value.toUpperCase();">
+                        <input type="text" class="form-control" id="apellidom" value="{{alumno.apellidom}}" required name="apellidom"  nkeyup="this.value = this.value.toUpperCase();">
                         <div id="apellidomHelp" class="form-text">Ingrese el apellido materno del estudiante.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="carrera" class="form-label">Carrera: </label>
-                         <select class="form-select form-select-lg mb-3"  aria-label=".form-select-lg example" id="carrera">
+                         <select class="form-select form-select-lg mb-3"  aria-label=".form-select-lg example" id="carrera" name="carrera">
                             {{#each carreras}}
-                                <option value="{{IDCARRERA}}">{{CARRERA}}</option>
+                                <option value="{{idcarrera}}">{{nombre}}</option>
                             {{/each}}
                          </select>
                         <div id="noinvHelp" class="form-text">Ingrese la carrera a la que pertenece.</div>
@@ -42,7 +42,7 @@
 
                     <div class="mb-3">
                         <label for="tipo" class="form-label">Semestre: </label>
-                        <select class="form-select form-select-lg mb-3"  aria-label=".form-select-lg example" aria-valuetext="{{alumno.semestre}}" id="tipo">
+                        <select class="form-select form-select-lg mb-3" name="semestre"  aria-label=".form-select-lg example" aria-valuetext="{{alumno.semestre}}" id="tipo">
                             <option value="1">1°</option>
                             <option value="2">2°</option>
                             <option value="3">3°</option>
@@ -62,7 +62,7 @@
                 
                     <div class="mb-3">
                         <label for="tipo" class="form-label">Status: </label>
-                        <select class="form-select" aria-label="Default select example" for="status">
+                        <select class="form-select" aria-label="Default select example" for="status" name="status">
                             <option value="ALTA">ALTA</option>
                             <option value="BAJA">BAJA</option>
                         </select>
