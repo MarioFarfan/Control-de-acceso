@@ -5,9 +5,9 @@ const { isLoggedIn } = require('../lib/auth');
 
 router.get('/agregar_pc', isLoggedIn,  async(req, res) => {
     const { conexion } = require('../lib/passport');
-    const querymouse = await conexion.query("select * from laboratorio.insumos where tipo = 'MOUSE'");
-    const querykeyboard = await conexion.query("select * from laboratorio.insumos where tipo = 'TECLADO'");
-    const querymonitor = await conexion.query("select * from laboratorio.insumos where tipo = 'MONITOR'");
+    const querymouse = await conexion.query("select * from laboratorio.insumos where tipo = 'MOUSE' and estado = 'LIBRE'");
+    const querykeyboard = await conexion.query("select * from laboratorio.insumos where tipo = 'TECLADO' and estado = 'LIBRE'");
+    const querymonitor = await conexion.query("select * from laboratorio.insumos where tipo = 'MONITOR'  and estado = 'LIBRE'");
     const queryareas = await conexion.query("select * from laboratorio.area");
     const mouse = querymouse.rows;
     const teclados = querykeyboard.rows;
@@ -19,17 +19,17 @@ router.get('/agregar_pc', isLoggedIn,  async(req, res) => {
 
 router.post('/agregar_pc', isLoggedIn, async(req, res) => {
     const { conexion } = require('../lib/passport');
-    var{ noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea } = req.body;
-    if (tipo === 'ALL IN ONE') {
-        monitor = noserie;
-    }
+    var{ noserie, noinv, marca, tipo, monitor, teclado, mouse, idarea } = req.body;
+    //if (tipo === 'ALL IN ONE') {
+     //   monitor = noserie;
+    //}
     const consulta = await conexion.query('SELECT * FROM LABORATORIO.pc where noserie = $1 or monitor = $2 or teclado = $3 or mouse = $4 or noinv = $5', [noserie, monitor, teclado, mouse, noinv]);
     const result = consulta.rows;
     if (result.length > 0) {
         req.flash('danger', 'Error: existe al menos una computadora con datos similares a los que desea registrar');
     } else {
         try{
-            await conexion.query('INSERT INTO LABORATORIO.PC values ($1, $2, $3, $4, $5, $6, $7, $8)', [noserie, marca, tipo, noinv, monitor, teclado, mouse, idarea]);
+            await conexion.query('INSERT INTO LABORATORIO.PC values ($1, $2, $3, $4, $5, $6, $7, $8)', [noserie, noinv, marca, tipo, monitor, teclado, mouse, idarea]);
             req.flash('exito', 'PC agregada con exito');
             res.redirect('/inventarios/listar_equipos');
         } catch (error) {
