@@ -60,7 +60,7 @@ router.post('/listar_software/editar/:id', isLoggedIn,  async(req, res) => {
     const { conexion } = require('../lib/passport');
     const{ software, tipolicencia, licencia } = req.body;
     try{
-        await  conexion.query('UPDATE SOFTWARE SET ($1, $2, $3) WHERE ID_SOFTWARE = $4', [software, tipolicencia, licencia, id]);
+        await  conexion.query('UPDATE laboratorio.SOFTWARE SET software = $1, tipolicencia = $2, licencia = $3 WHERE ID_SOFTWARE = $4', [software, tipolicencia, licencia, id]);
         req.flash('exito', 'Software editado con exito');
     } catch (error) {
         req.flash('danger', 'Error al actualizar registro: ' + error.message)
@@ -75,7 +75,7 @@ router.get('/agregar_grupo', isLoggedIn,  async(req, res) => {
     const consulta2 = await conexion.query('SELECT * FROM LABORATORIO.PERSONAL');
     const mat = consulta.rows;
     const personal = consulta2.rows;
-    res.render('extras/agregar_grupo', {mat, personal} )
+    res.render('extras/agregar_grupo', {mat, personal} );
 });
 
 router.post('/agregar_grupo', isLoggedIn, async(req, res) => {
@@ -119,23 +119,26 @@ router.get('/grupos/eliminar/:id', isLoggedIn,  async (req, res) => {
 router.get('/grupos/editar/:id', isLoggedIn,  async(req, res) => {
     const {id} = req.params;
     const { conexion } = require('../lib/passport');
-    const consulta = await conexion.query('SELECT * FROM LABORATORIO.grupo WHERE idgrupo = $1', [id]);
-    const resultados = consulta.rows;
-    //res.render('extras/editar_software', {resultado: resultados[0]});
-    res.send('Falta opciones para editar los grupos')
+    const consulta = await conexion.query('SELECT * FROM LABORATORIO.MATERIA');
+    const consulta2 = await conexion.query('SELECT * FROM LABORATORIO.PERSONAL');
+    const consulta3 = await conexion.query('SELECT * FROM LABoratorio.grupo WHERE idgrupo = $1', [id]);
+    const mat = consulta.rows;
+    const personal = consulta2.rows;
+    const grupos = consulta3.rows;
+    res.render('extras/editar_grupo', {mat, personal, grupo:grupos[0]} );
 });
 
 router.post('/grupos/editar/:id', isLoggedIn,  async(req, res) => {
     const {id} = req.params;
     const { conexion } = require('../lib/passport');
-    const{ software, tipolicencia, licencia } = req.body;
+    const{ grupo, clave, notarjeta, horario, noalumnos } = req.body;
     try{
-        await  conexion.query('UPDATE grupo SET ($1, $2, $3) WHERE idgrupo = $4', [software, tipolicencia, licencia, id]);
+        await  conexion.query('UPDATE laboratorio.grupo SET grupo = $1, clave = $2, notarjeta = $3, horario = $4, noalumnos = $5 WHERE idgrupo = $6', [grupo, clave, notarjeta, horario, noalumnos, id]);
         req.flash('exito', 'Grupo editado con exito');
     } catch (error) {
         req.flash('danger', 'Error al actualizar registro: ' + error.message)
     }
-    res.redirect('/extra/listar_software');
+    res.redirect('/extra/grupos');
 });
 
 router.get('/nuevosemestre', isLoggedIn,  async(req, res) => {
