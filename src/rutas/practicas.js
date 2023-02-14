@@ -142,16 +142,18 @@ router.get('/departamentos/eliminar/:id', isLoggedIn, async (req, res) => {
 router.get('/nueva_practica', isLoggedIn,  async (req, res) => {
     const { conexion } = require('../lib/passport');
     const consulta1 = await conexion.query('Select * from laboratorio.area');
-    const consulta2 = await conexion.query('Select * from laboratorio.personal');
+    const consulta2 = await conexion.query(`Select idgrupo, grupo, grupo.clave, horario, noalumnos, materia.nombre as materia, personal.nombre as nombrep, apellidop, apellidom 
+    from laboratorio.grupo inner join laboratorio.materia on grupo.clave = materia.clave 
+    inner join laboratorio.personal on grupo.notarjeta = personal.notarjeta`);
     const consulta3 = await conexion.query('Select * from laboratorio.software');
+    const consulta4 = await conexion.query('select * from laboratorio.semestre');
     const fecha = formatoFecha(new Date(), "dd/mm/yyyy");
 
     const areas = consulta1.rows;
-    const personal = consulta2.rows;
+    const grupos = consulta2.rows;
     const programas = consulta3.rows;
-    console.log(fecha);
-    //const grupos = conexion.query('select * from laboratorio.grupo');
-    res.render('practicas/nueva_practica', {areas, personal, programas} );
+    const semestre = consulta4.rows;
+    res.render('practicas/nueva_practica', {areas, grupos, programas, semestre} );
 });
 
 router.post('/nueva_practica', isLoggedIn, async (req, res) => {
@@ -224,7 +226,7 @@ router.get('/programar_practica', isLoggedIn,  async (req, res) => {
     const consulta1 = await conexion.query('Select * from laboratorio.area');
     const consulta2 = await conexion.query('Select * from laboratorio.personal');
     const consulta3 = await conexion.query('Select * from laboratorio.software');
-    const consulta4 = await conexion.query(`select grupo.idgrupo, grupo.grupo, materia.clave, materia.nombre as materia, 
+    const consulta4 = await conexion.query(`select grupo.idgrupo, grupo.grupo, materia.clave, materia.nombre as materia, horario,
             personal.nombre as maestroname, personal.apellidop as maestroapellidop, 
             personal.apellidom as maestroapellidom
             from laboratorio.grupo inner join laboratorio.materia on grupo.clave = materia.clave
@@ -249,15 +251,15 @@ router.post('/programar_practica', isLoggedIn,  async (req, res) => {
     console.log(cruce);
     if (cruce.length > 0) {
         req.flash('danger', 'Esta area ya se encuentra apartada en el horario seleccionado');
-        res.redirect('/practicas/nueva_practica');
+        res.redirect('/practicas/programar_practica');
     } else {
         try{
-            await conexion.query('INSERT INTO LABORATORIO.practicaprogramada (nombre, idgrupo, dia, hora, duracion, idarea, id_software) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)', [nombre, idgrupo, dia, hora, duracion, idarea, id_softwares]);
+            await conexion.query('INSERT INTO LABORATORIO.practicaprogramada (nombre, idgrupo, dia, hora, duracion, idarea, id_software) VALUES ($1, $2, $3, $4, $5, $6, $7)', [nombre, idgrupo, dia, hora, duracion, idarea, id_software]);
             req.flash('exito', 'Registro agregado con éxito');
-            res.redirect('/practicas/listar/:{{idarea}}');
+            res.redirect('/practicas/listar/:' + idarea);
         } catch (error) {
             req.flash('danger', 'Error: ' + error.message);
-            res.redirect('/practicas/nueva_practica');
+            res.redirect('/practicas/programar_practica');
         }
     }
 });

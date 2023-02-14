@@ -19,7 +19,7 @@
 
                     <div class="sm-1">
                         <label for="materia" class="form-label">Fecha y hora: </label>
-                        <input type="datetime-local" class="form-control" min="" max="2018-12-31" name="fecha" placeholder="" id="fecha" onchange="validar()" name="fecha">
+                        <input type="date" class="form-control" name="fecha" placeholder="" id="fecha" name="fecha" min="{{semestre.fechainicio}}" max="{{semestre.fechafinal}}" value="{{semestre.fechainicio}}">
                         <div id="nombreHelp" class="form-text">Ingrese la fecha en la que desea programar la practica</div>
                     </div>
 
@@ -30,10 +30,10 @@
                     </div>
 
                     <div class="sm-1">
-                        <label for="idcarrera" class="form-label">Profesor: </label>
+                        <label for="idcarrera" class="form-label">Grupo: </label>
                         <select class="form-select" name="profesor" required>
-                            {{#each personal}}
-                              <option value="{{notarjeta}}">{{nombre}} {{apellidop}} {{apellidom}}</option>
+                            {{#each grupos}}
+                              <option value="{{idgrupo}}">{{grupo}} {{horario}} {{materia}} {{nombrep}} {{apellidop}} {{apellidom}}</option>
                             {{/each}} 
                         </select>
                         <div id="carreraHelp" class="form-text">El horario del laboratorio es de 7:00 a 17:00 hrs</div>

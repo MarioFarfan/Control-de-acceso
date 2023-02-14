@@ -16,7 +16,7 @@
                         <select class="form-select" name="idgrupo" id="grupo" >
                             <option value="">Seleccione un grupo</option>
                             {{#each grupos}}
-                                <option value="{{idgrupo}}">{{grupo}} {{materia}} {{maestroname}} {{maestroapellidop}} {{maestroapellidom}}</option>
+                                <option value="{{idgrupo}}">{{grupo}} {{materia}} {{horario}} {{maestroname}} {{maestroapellidop}} {{maestroapellidom}}</option>
                             {{/each}} 
                         </select>
                         <div id="nocontrolHelp" class="form-text">Seleccione el grupo.</div>
@@ -54,7 +54,7 @@
                         <div id="carreraHelp" class="form-text">¿A que hora inicia la practica?</div>
                     </div>
                     <div class="col-sm-2">
-                        <label for="duracion" class="form-label">Duracion: </label>
+                        <label for="duracion" class="form-label">Duración: </label>
                         <input type="time" class="form-control" name="duracion" placeholder="" value="01:00:00" required max="3:00:00" min="01:00:00" step="01:00:00">
                         <div id="carreraHelp" class="form-text">¿Cuanto dura la practica?</div>
                     </div>

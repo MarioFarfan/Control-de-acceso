@@ -1,0 +1,259 @@
+<html>
+  <head>
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+        vertical-align: top;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      .today {
+        background-color: #2196F3;
+        color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .day-number {
+        font-weight: bold;
+        font-size: 24px;
+        color: #555;
+        margin-bottom: 8px;
+      }
+
+      .events {
+        font-size: 12px;
+        text-align: left;
+        padding: 5px;
+        color: #999;
+      }
+
+      #previousMonth, #nextMonth {
+        background-color: #fff;
+        border: none;
+        color: #999;
+        font-size: 16px;
+        cursor: pointer;
+        margin-bottom: 16px;
+      }
+
+      #previousMonth:hover, #nextMonth:hover {
+        color: #555;
+      }
+
+      .mdc-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #6200ee;
+        color: #fff;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .mdc-button:hover {
+        background-color: #5e00d3;
+      }
+
+      .mdc-button:active {
+        background-color: #4400a6;
+      }
+
+      .mdc-button__label {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+      }
+      #calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      #previousMonth,
+      #nextMonth {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      #nextMonth {
+        margin-left: auto;
+      }
+
+      /* Estilos de la tabla y las celdas */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+        vertical-align: top;
+      }
+
+      th {
+        background-color: lightgray;
+      }
+
+      .today {
+        background-color: yellow;
+      }
+
+      .day-number {
+        font-weight: bold;
+      }
+
+      .events {
+        font-size: smaller;
+        text-align: left;
+        padding: 5px;
+      }
+
+      /* Estilos de los botones */
+      .button-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px;
+        background-color: #f2f2f2;
+      }
+
+      .button-bar button {
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        padding: 10px 20px;
+        background-color: #4285f4;
+        color: white;
+        cursor: pointer;
+      }
+
+      .button-bar button:hover {
+        background-color: #3c78d8;
+      }
+
+      /* Estilos del nombre del mes */
+      .month-name {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin: 0;
+      }
+      #month {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5em;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="button-bar">
+      <button id="previousMonth">Mes anterior</button>
+      <div id="month">
+        <h1 id="monthName"></h1>
+      </div>
+      <button id="nextMonth">Mes siguiente</button>
+    </div>
+    
+    <table id="calendar">
+      <tr>
+        <th>Lunes</th>
+        <th>Martes</th>
+        <th>Miércoles</th>
+        <th>Jueves</th>
+        <th>Viernes</th>
+        <th>Sábado</th>
+        <th>Domingo</th>
+      </tr>
+    </table>
+
+    <script>
+      var date = new Date();
+      var today = date.getDate();
+      var month = date.getMonth();
+      var year = date.getFullYear();
+      var daysInMonth = new Date(year, month+1, 0).getDate();
+      var firstDay = new Date(year, month, 1).getDay();
+      var calendar = document.getElementById("calendar");
+      var previousMonthButton = document.getElementById("previousMonth");
+      var nextMonthButton = document.getElementById("nextMonth");
+
+      function updateCalendar() {
+        daysInMonth = new Date(year, month+1, 0).getDate();
+        firstDay = new Date(year, month, 1).getDay();
+
+        // Elimina todas las filas de la tabla excepto la primera
+        while (calendar.rows.length > 1) {
+          calendar.deleteRow(1);
+        }
+      
+        // Actualiza el nombre del mes
+        var monthNameElement = document.getElementById("monthName");
+        var monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        monthNameElement.innerHTML = monthNames[month] + " " + year;
+
+        // Agrega filas para cada día del mes
+        var row = calendar.insertRow();
+        for (var i = 0; i < firstDay; i++) {
+          var cell = row.insertCell();
+        }
+        for (var i = 1; i <= daysInMonth; i++) {
+          if (row.cells.length === 7) {
+            row = calendar.insertRow();
+          }
+          var cell = row.insertCell();
+          cell.innerHTML = "<div class='day-number'>" + i + "</div><div class='events'>Eventos programados</div>";
+          if (i === today && month === date.getMonth()) {
+            cell.classList.add("today");
+          }
+        }
+      }
+
+
+      previousMonthButton.addEventListener("click", function() {
+        if (month === 0) {
+          month = 11;
+          year--;
+        } else {
+          month--;
+        }
+        updateCalendar();
+      });
+
+      nextMonthButton.addEventListener("click", function() {
+        if (month === 11) {
+          month = 0;
+          year++;
+        } else {
+          month++;
+        }
+        updateCalendar();
+      });
+
+      updateCalendar();
+    </script>
+  </body>
+</

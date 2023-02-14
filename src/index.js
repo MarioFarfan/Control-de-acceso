@@ -61,3 +61,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.listen(app.get('port'),() => {
     console.log('Server listening on port',app.get('port'));
 });
+
+const Swal = require('sweetalert2');
+
+function sweetAlertMiddleware(req, res, next) {
+  res.swal = function (params) {
+    const options = { ...params };
+    if (!options.title && !options.text && !options.html) {
+      return res.status(400).send('Invalid parameters: title, text or html is required.');
+    }
+    Swal.fire(options);
+    return res;
+  };
+  next();
+}
+
+app.use(sweetAlertMiddleware);

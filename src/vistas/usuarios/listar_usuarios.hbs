@@ -49,7 +49,7 @@
                 <td class="text-center">{{DEPARTAMENTO}}</td>
                 <td class="text-center">{{USER}}</td>
                 <td class="text-center"><a class="btn btn-secondary" href="/usuarios/editar/{{NOTARJETA}}"><i class="bi bi-pencil"></i></a></td>
-                <td class="text-center"><a class="btn btn-danger" href="/usuarios/eliminar/{{NOTARJETA}}"><i class="bi bi-trash3"></i></a></td>
+                <td class="text-center"><a class="btn btn-danger" onclick="return confirm('¿Estas seguro de eliminar?');" href="/usuarios/eliminar/{{NOTARJETA}}"><i class="bi bi-trash3"></i></a></td>
               </tr>
 
             {{else}}
@@ -90,17 +90,17 @@
                 <td class="text-center">{{TURNO}}</td>
                 <td class="text-center">{{USER}}</td>
                 <td class="text-center"><a class="btn btn-secondary" href="/usuarios/editar/{{NOTARJETAP}}"><i class="bi bi-pencil"></i></a></td>
-                <td class="text-center"><a class="btn btn-danger" href="/usuarios/eliminar/{{NOTARJETAP}}"><i class="bi bi-trash3"></i></a></td>
-              </tr>
+                <td class="text-center"><a class="btn btn-danger" onclick="return confirm('¿Estas seguro de eliminar?');" href="/usuarios/eliminar/{{NOTARJETAP}}"><i class="bi bi-trash3"></i></a></td>
+            </tr>
 
             {{else}}
-                    <div class="container col-md-3 mx-auto"> 
-                        <div class="card card-warning text-center">
-                            <p>No se encontraron registros</p>
-                            <a href="/inventarios/agregar_dispositivo">Agrega uno</a>
-                        </div>
+                <div class="container col-md-3 mx-auto"> 
+                    <div class="card card-warning text-center">
+                        <p>No se encontraron registros</p>
+                        <a href="/inventarios/agregar_dispositivo">Agrega uno</a>
                     </div>
-                 {{/each}} 
+                </div>
+        {{/each}} 
         
     </tbody>
 </table> 

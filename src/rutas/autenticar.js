@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const {isLoggedIn, isNotLoggedIn} = require('../lib/auth')
+const Swal = require('sweetalert2')
 
 router.get('/signup',isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
@@ -76,6 +77,12 @@ function formatoFecha(fecha, formato) {
 
 router.get('/home', isLoggedIn, (req, res) => {
     res.render('home');
+    Swal.fire({
+        title: 'Error!',
+        text: 'Credenciales incorrectas',
+        icon: 'error',
+        confirmButtonText: 'Reintentar'
+      })
 });
 
 router.get('/logout', (req, res) => {
