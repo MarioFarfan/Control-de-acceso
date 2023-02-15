@@ -172,7 +172,22 @@ router.get('/horariolab', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
     //const consulta1 = await conexion.query('SELECT * FROM LABORATORIO.SEMESTRE');
     //const sem = consulta1.rows;
-    res.render('extras/horariolab');
+    const consuareas = await conexion.query('SELECT * FROM LABORATORIO.area');
+    const areas = consuareas.rows;
+    const consu1 = await conexion.query('SELECT * FROM LABORATORIO.practica WHERE idarea = $1', [areas[0].idarea]);
+    const consu2 = await conexion.query('SELECT * FROM LABORATORIO.practica WHERE idarea = $1', [areas[1].idarea]);
+    const consu3 = await conexion.query('SELECT * FROM LABORATORIO.practica WHERE idarea = $1', [areas[2].idarea]);
+    const consu4 = await conexion.query('SELECT * FROM LABORATORIO.practica WHERE idarea = $1', [areas[3].idarea]);
+    const consu5 = await conexion.query('SELECT * FROM LABORATORIO.practica WHERE idarea = $1', [areas[4].idarea]);
+    const consu6 = await conexion.query('SELECT * FROM LABORATORIO.practica WHERE idarea = $1', [areas[5].idarea]);
+    const area1= consu1.rows;
+    const area2= consu2.rows;
+    const area3= consu3.rows;
+    const area4= consu4.rows;
+    const area5= consu5.rows;
+    const area6= consu6.rows;
+
+    res.render('extras/horariolab', {area1, area2, area3, area4, area5, area6});
 });
 
 module.exports = router;

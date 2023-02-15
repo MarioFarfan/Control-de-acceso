@@ -21,13 +21,35 @@ router.get('/login', isNotLoggedIn, (req, res) => {
     res.render('../vistas/autenticar/login');
 });
 
-router.post('/login', isNotLoggedIn, async(req, res, next) => {
+router.post('/login', isNotLoggedIn, async (req, res, next) => {
     passport.authenticate('local.login', {
         successRedirect: '/home',
         failureRedirect: '/login',
         failureFlash: true
-    })(req, res, next);
+    })(req, res, (err) => {
+        if (err) {
+            // Si hay un error durante la autenticación, se muestra una alerta de SweetAlert2
+            Swal.fire({
+                title: '¡Error!',
+                text: 'Credenciales incorrectas',
+                icon: 'error',
+                timer: 3000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
+            return;
+        }
+        // Si la autenticación es exitosa, se muestra una alerta de SweetAlert2
+        Swal.fire({
+            title: '¡Bienvenido!',
+            icon: 'success',
+            timer: 3000,
+            timerProgressBar: true,
+            showConfirmButton: false
+        });
+    });
 });
+
 
 router.get('/usuarios', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');

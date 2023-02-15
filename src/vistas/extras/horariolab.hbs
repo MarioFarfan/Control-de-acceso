@@ -4,43 +4,132 @@
 
         <div class="row g-3 justify-content-center">
         <div class="col-sm-4">
-            <a href="" class="list-group-item list-group-item-action d-flex justify-content-end gap-3 py-3" aria-current="true">
+            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-end gap-3 py-3" aria-current="true" onclick="setPreviousDate()">
                 <i class="bi-arrow-left-circle-fill" style="font-size: 2rem; color: #212bbe;"></i>
             </a>
         </div>
         <div class="mb-3 col-sm-4 ">
             <label for="fecha" class="form-label">Fecha: </label>
-            <input type="date" class="form-control" id="fecha" name="fecha" value="">
+            <input type="date" class="form-control" id="fecha" name="fecha">
             <div id="fechaHelp" class="form-text">Ingrese la fecha de la que desee consultar.</div>
         </div>
+
         <div class="col-sm-4">
-            <a href="" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+            <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" onclick="setNextDate()">
                 <i class="bi-arrow-right-circle-fill" style="font-size: 2rem; color: #212bbe;"></i>
             </a>
         </div>
+        
     </div>
+        <script>
+            function getCurrentDate() {
+              const date = new Date();
+              const year = date.getFullYear();
+              const month = String(date.getMonth() + 1).padStart(2, '0'); // añade un 0 a la izquierda si el mes tiene un solo dígito
+              const day = String(date.getDate()).padStart(2, '0'); // añade un 0 a la izquierda si el día tiene un solo dígito
+              return `${year}-${month}-${day}`;
+            }
+
+            document.addEventListener("DOMContentLoaded", function(event) { 
+                document.getElementById("fecha").value = getCurrentDate();
+            });
+
+            function setPreviousDate() {
+  const currentDate = new Date(document.getElementById("fecha").value);
+  const previousDate = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000); // Resta un día en milisegundos
+  const year = previousDate.getFullYear();
+  const month = String(previousDate.getMonth() + 1).padStart(2, '0');
+  const day = String(previousDate.getDate()).padStart(1, '0');
+  const previousDateString = `${year}-${month}-${day}`;
+  document.getElementById("fecha").value = previousDateString;
+}
+
+            function setNextDate() {
+              const currentDate = new Date(document.getElementById("fecha").value);
+              const nextDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000); // Suma un día en milisegundos
+              const year = nextDate.getFullYear();
+              const month = String(nextDate.getMonth() + 1).padStart(2, '0');
+              const day = String(nextDate.getDate()).padStart(2, '0');
+              const nextDateString = `${year}-${month}-${day}`;
+              document.getElementById("fecha").value = nextDateString;
+            }
+        </script>
 
     <div>
         <table class="table">
             <thead class="table-dark">
                 <tr>
-                    <th scope="col" class="text-center">Hora</th>
-                    <th scope="col" class="text-center">Usuarios 1</th>
-                    <th scope="col" class="text-center">Usuarios 2</th>
-                    <th scope="col" class="text-center">Usuarios 3</th>
-                    <th scope="col" class="text-center">Usuarios 4</th>
-                    <th scope="col" class="text-center">Lab. Redes</th>
-                    <th scope="col" class="text-center">Lab. BD</th>                                                
+                    <th scope="col" class="text-center">Area</th>
+                    <th scope="col" class="text-center">7:00</th>
+                    <th scope="col" class="text-center">8:00</th>
+                    <th scope="col" class="text-center">9:00</th>
+                    <th scope="col" class="text-center">10:00</th>
+                    <th scope="col" class="text-center">11:00</th>
+                    <th scope="col" class="text-center">13:00</th>
+                    <th scope="col" class="text-center">14:00</th>
+                    <th scope="col" class="text-center">15:00</th>
+                    <th scope="col" class="text-center">16:00</th>
+                    <th scope="col" class="text-center">17:00</th>
                 </tr>
             </thead>
             <tbody>
-                    <tr>
-                        <td class="text-center" scope="row"></td>
-                        
-                    </tr>
+                <tr>
+                    <td class="text-center" scope="row">Usuarios 1</td>
+                    {{#each area1}}
+                    <td class="text-center"><div class="card">
+                      <div class="card-body">
+                        <h6 class="card-title">{{this.nombre}}</h6>
+                        <p class="card-text">{{this.idgrupo}}</p>
+                      </div>
+                    </div></td>
+                    {{/each}}
 
-                 
-                
+                    {{#each area2}}
+                    <td class="text-center"><div class="card">
+                      <div class="card-body">
+                        <h6 class="card-title">{{this.nombre}}</h6>
+                        <p class="card-text">{{this.idgrupo}}</p>
+                      </div>
+                    </div></td>
+                    {{/each}}
+
+                    {{#each area3}}
+                    <td class="text-center"><div class="card">
+                      <div class="card-body">
+                        <h6 class="card-title">{{this.nombre}}</h6>
+                        <p class="card-text">{{this.idgrupo}}</p>
+                      </div>
+                    </div></td>
+                    {{/each}}
+
+                    {{#each area4}}
+                    <td class="text-center"><div class="card">
+                      <div class="card-body">
+                        <h6 class="card-title">{{this.nombre}}</h6>
+                        <p class="card-text">{{this.idgrupo}}</p>
+                      </div>
+                    </div></td>
+                    {{/each}}
+
+                    {{#each area5}}
+                    <td class="text-center"><div class="card">
+                      <div class="card-body">
+                        <h6 class="card-title">{{this.nombre}}</h6>
+                        <p class="card-text">{{this.idgrupo}}</p>
+                      </div>
+                    </div></td>
+                    {{/each}}
+
+                    {{#each area6}}
+                    <td class="text-center"><div class="card">
+                      <div class="card-body">
+                        <h6 class="card-title">{{this.nombre}}</h6>
+                        <p class="card-text">{{this.idgrupo}}</p>
+                      </div>
+                    </div></td>
+                    {{/each}}
+
+                </tr>
             </tbody>
         </table> 
     </div> 

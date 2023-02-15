@@ -158,18 +158,9 @@ router.get('/nueva_practica', isLoggedIn,  async (req, res) => {
 
 router.post('/nueva_practica', isLoggedIn, async (req, res) => {
     const { conexion } = require('../lib/passport');
-    const { nombre, idgrupo, fecha, duracion, idarea, id_software } = req.body;
-    let arr = fecha.split('T');
-    const newPractica = {
-        nombre,
-        idgrupo,
-        fecha: arr[0],
-        horainicio: arr[1],
-        duracion,
-        idarea,
-        id_software
-    }
-    const consulta = await conexion.query('select * from laboratorio.practica where idarea = $1 and horainicio = $2 and fecha = $3', [idarea, newPractica.horainicio, newPractica.fecha]);
+    const { nombre, idgrupo, fecha, hora, duracion, idarea, id_software } = req.body;
+
+    const consulta = await conexion.query('select * from laboratorio.practica where idarea = $1 and horainicio = $2 and fecha = $3', [idarea, hora, fecha]);
     const cruce = consulta.rows;
     console.log(cruce);
     if (cruce.length > 0) {
@@ -177,7 +168,7 @@ router.post('/nueva_practica', isLoggedIn, async (req, res) => {
         res.redirect('/practicas/nueva_practica');
     } else {
         try{
-            await conexion.query('INSERT INTO LABORATORIO.practica (nombre, idgrupo, fecha, horainicio, duracion, idarea, id_software) VALUES ($1, $2, $3, $4, $5, $6, $7)', [nombre, idgrupo, arr[0], arr[1], duracion, idarea, id_software]);
+            await conexion.query('INSERT INTO LABORATORIO.practica (nombre, idgrupo, fecha, horainicio, duracion, idarea, id_software) VALUES ($1, $2, $3, $4, $5, $6, $7)', [nombre, idgrupo, fecha, hora, duracion, idarea, id_software]);
             req.flash('exito', 'Registro agregado con éxito');
         } catch(error) {
             req.flash('danger', 'Error: ' + error.message);

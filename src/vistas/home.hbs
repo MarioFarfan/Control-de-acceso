@@ -1,10 +1,24 @@
 <body class="bg-dark d-flex justify-content-center align-items-center vh-100">
+  <script>
+    $(document).ready(function() {
+      // Utilizar pushState para agregar una nueva entrada en el historial del navegador
+      var state = { page_id: 1, user_id: 1 };
+      var title = "Home";
+      var url = "/home";
+      history.pushState(state, title, url);
+
+      // Bloquear la función de retroceso del navegador
+      window.onpopstate = function(event) {
+        history.pushState(state, title, url);
+      };
+    });
+  </script>
   <div class="album py-5 bg-dark" >
     <div class="container">
       <hr><hr>
         <h6 class="text-center fw-bold mb-2 text-uppercase text-light">Instituto Tecnológico de Oaxaca</h6>
         <h3 class="text-center fw-bold mb-2 text-uppercase text-light">Laboratorio de Cómputo</h3>
-        <h5 class="text-center fw-bold mb-2 text-uppercase text-light">Bienvenido {{user.user}}</h5>
+        <h5 class="text-center fw-bold mb-2 text-uppercase text-light">Bienvenido {{req.session.user.user}}</h5>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div class="col">
           <div class="card shadow-sm"  >

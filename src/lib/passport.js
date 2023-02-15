@@ -5,6 +5,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const helpers = require('../lib/helper');
 const { dir } = require('console');
+const Swal = require('sweetalert2');
 
 passport.use('local.login', new LocalStrategy({
     usernameField: 'username',
@@ -23,7 +24,7 @@ passport.use('local.login', new LocalStrategy({
         req.session.user = user;
         module.exports = { conexion };
         console.log('Conexión exitosa');
-        done(null, user, req.flash('exito', 'Bienveniodo ' + req.session.user.user));
+        done(null, user);
         console.log('Usuario: ' + req.session.user.user);
         console.dir(req.session.user);
       } else {

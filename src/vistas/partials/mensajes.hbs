@@ -43,4 +43,28 @@
       </div>
     {{/if}}
 
+    {{#if messages.error}}
+      <script>
+        Swal.fire({
+          title: 'Error',
+          text: '{{messages.error}}',
+          icon: 'error',
+          timer: 3000,
+          timerProgressBar: true,
+          showConfirmButton: false
+        });
+      </script>
+    {{/if}}
     
+    {{#if messages.exito}}
+      <script>
+        Swal.fire({
+          title: 'Éxito',
+          text: '{{messages.exito}}',
+          icon: 'success',
+          timer: 3000,
+          timerProgressBar: true,
+          showConfirmButton: false
+        });
+      </script>
+    {{/if}}
